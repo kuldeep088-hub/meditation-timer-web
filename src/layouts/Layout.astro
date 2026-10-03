@@ -75,20 +75,27 @@ const structuredData = {
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
-    <!-- Dark Mode Init Script (Prevents flash) -->
+    <!-- Theme Init Script (Default Light Theme) -->
     <script is:inline>
       try {
         const localSettings = localStorage.getItem('mto_settings_v1');
-        const isDark = localSettings ? JSON.parse(localSettings).darkMode : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        // Default strictly to Light Theme (isDark = false)
+        const isDark = localSettings ? JSON.parse(localSettings).darkMode === true : false;
         if (isDark) {
           document.documentElement.classList.add('dark');
           const meta = document.getElementById('theme-color-meta');
           if (meta) meta.setAttribute('content', '#121214');
+        } else {
+          document.documentElement.classList.remove('dark');
+          const meta = document.getElementById('theme-color-meta');
+          if (meta) meta.setAttribute('content', '#f5f5f7');
         }
-      } catch (e) {}
+      } catch (e) {
+        document.documentElement.classList.remove('dark');
+      }
     </script>
   </head>
-  <body class="min-h-screen flex flex-col selection:bg-blue-500/20 selection:text-blue-900 dark:selection:text-blue-200">
+  <body class="min-h-screen flex flex-col bg-[#f5f5f7] dark:bg-[#121214] text-[#1d1d1f] dark:text-[#f5f5f7] selection:bg-blue-500/20 selection:text-blue-900 dark:selection:text-blue-200 transition-colors duration-300">
     <slot />
   </body>
 </html>
