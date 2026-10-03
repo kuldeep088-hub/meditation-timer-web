@@ -43,6 +43,10 @@ class MeditationAudioEngine {
     const now = ctx.currentTime;
     const vol = this.masterBellVolume;
 
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('meditation-bell-played', { detail: { type } }));
+    }
+
     const masterGain = ctx.createGain();
     masterGain.gain.setValueAtTime(vol, now);
     masterGain.connect(ctx.destination);

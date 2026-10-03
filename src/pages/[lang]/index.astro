@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import TimerApp from '../../components/TimerApp.astro';
 import QuickTimerLinks from '../../components/QuickTimerLinks.astro';
+import AiOverviewGuide from '../../components/AiOverviewGuide.astro';
 import FAQ from '../../components/FAQ.astro';
 import Footer from '../../components/Footer.astro';
 import { translations, type SupportedLocale } from '../../i18n/translations';
@@ -37,6 +38,7 @@ const t = translations[lang] || translations.en;
       subheading={t.metaDescription}
     />
     <QuickTimerLinks lang={lang} />
+    <AiOverviewGuide lang={lang} />
     <FAQ lang={lang} />
   </main>
   <Footer />
