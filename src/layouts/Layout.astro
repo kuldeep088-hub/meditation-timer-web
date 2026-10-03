@@ -106,11 +106,10 @@ const structuredData = {
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
-    <!-- Theme Init Script (Default Pure White Theme) -->
+    <!-- Theme & Background Init Script (competitor atmospheric immersion + pure canvas support) -->
     <script is:inline>
       try {
         const localSettings = localStorage.getItem('mto_settings_v1');
-        // Default strictly to Light Theme (isDark = false)
         const isDark = localSettings ? JSON.parse(localSettings).darkMode === true : false;
         if (isDark) {
           document.documentElement.classList.add('dark');
@@ -121,12 +120,49 @@ const structuredData = {
           const meta = document.getElementById('theme-color-meta');
           if (meta) meta.setAttribute('content', '#ffffff');
         }
+
+        const savedBg = localStorage.getItem('currentBackgroundImage');
+        if (savedBg === 'none') {
+          document.documentElement.classList.remove('has-ambient-wallpaper');
+        } else {
+          document.documentElement.classList.add('has-ambient-wallpaper');
+        }
       } catch (e) {
-        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('has-ambient-wallpaper');
       }
     </script>
   </head>
-  <body class="min-h-screen flex flex-col bg-white dark:bg-[#121214] text-[#1d1d1f] dark:text-[#f5f5f7] selection:bg-blue-500/20 selection:text-blue-900 dark:selection:text-blue-200 transition-colors duration-300">
-    <slot />
+  <body class="relative min-h-screen flex flex-col bg-white dark:bg-[#121214] text-[#1d1d1f] dark:text-[#f5f5f7] selection:bg-blue-500/20 selection:text-blue-900 dark:selection:text-blue-200 transition-colors duration-300">
+    
+    <!-- Atmospheric Fullscreen Background Layer (as in meditationtimer.online) -->
+    <div id="ambient-bg-layer" class="fixed inset-0 z-0 pointer-events-none overflow-hidden transition-opacity duration-700">
+      <img
+        id="active-bg-image"
+        class="w-full h-full object-cover transition-all duration-700 filter blur-[1.5px] scale-105"
+        alt="Serene Background Scenery"
+        src="https://images.unsplash.com/photo-1518248728743-f22e843d1f54?crop=entropy&cs=tinysrgb&fit=max&fm=webp&q=80&w=1920"
+        fetchpriority="high"
+      />
+      <div id="bg-overlay" class="absolute inset-0 bg-black/45 dark:bg-black/65 transition-colors duration-500"></div>
+    </div>
+
+    <!-- Page Content Container -->
+    <div class="relative z-10 flex flex-col min-h-screen">
+      <slot />
+    </div>
+
+    <script is:inline>
+      // Apply saved background image on DOM load
+      try {
+        const savedBg = localStorage.getItem('currentBackgroundImage');
+        const bgLayer = document.getElementById('ambient-bg-layer');
+        const bgImg = document.getElementById('active-bg-image');
+        if (savedBg === 'none') {
+          if (bgLayer) bgLayer.style.display = 'none';
+        } else if (savedBg && bgImg) {
+          bgImg.src = savedBg;
+        }
+      } catch (e) {}
+    </script>
   </body>
 </html>

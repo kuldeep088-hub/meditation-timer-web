@@ -1,8 +1,9 @@
 ---
-// TimerApp.astro - Core interactive Apple-inspired meditation timer
+// TimerApp.astro - Competitor-inspired interactive meditation timer with 3 tabs, animations & scenic backgrounds
 import SoundMixerModal from './SoundMixerModal.astro';
 import StatsDrawer from './StatsDrawer.astro';
 import CompletionView from './CompletionView.astro';
+import BackgroundModal from './BackgroundModal.astro';
 
 interface Props {
   initialDurationSeconds?: number;
@@ -25,204 +26,429 @@ const {
 } = Astro.props;
 ---
 
-<div id="timer-root" class="relative flex-1 flex flex-col items-center justify-center px-4 py-8 sm:py-12 transition-all duration-500 overflow-hidden" data-duration={initialDurationSeconds} data-warmup={initialWarmupSeconds} data-interval={initialIntervalSeconds} data-bell={initialBell} data-ambient={initialAmbient}>
+<div id="timer-root" class="relative flex-1 flex flex-col items-center justify-center px-4 py-6 sm:py-10 transition-all duration-500 overflow-hidden w-full" data-duration={initialDurationSeconds} data-warmup={initialWarmupSeconds} data-interval={initialIntervalSeconds} data-bell={initialBell} data-ambient={initialAmbient}>
   
   <!-- Intention / Presenter Note Banner -->
-  <div id="presenter-banner" class="opacity-0 -translate-y-2 transition-all duration-500 max-w-lg mx-auto mb-6 px-4 py-1.5 rounded-full bg-zinc-50/90 dark:bg-white/[0.06] border border-zinc-200/90 dark:border-white/[0.06] shadow-2xs text-center">
-    <p id="presenter-text" class="text-xs sm:text-sm font-medium text-zinc-700 dark:text-zinc-300 tracking-wide"></p>
+  <div id="presenter-banner" class="opacity-0 -translate-y-2 transition-all duration-500 max-w-lg mx-auto mb-4 px-4 py-1.5 rounded-full bg-white/80 dark:bg-black/60 backdrop-blur-md border border-black/10 dark:border-white/10 shadow-xs text-center">
+    <p id="presenter-text" class="text-xs sm:text-sm font-medium text-zinc-800 dark:text-zinc-200 tracking-wide"></p>
   </div>
 
-  <!-- Main Timer Stage -->
-  <div class="relative w-full max-w-md mx-auto flex flex-col items-center">
+  <!-- Main Glassmorphic Timer Container (matching meditationtimer.online) -->
+  <div id="main-timer-card" class="timer-glass w-full max-w-xl mx-auto rounded-3xl sm:rounded-[32px] shadow-2xl p-5 sm:p-8 flex flex-col items-center justify-between min-h-[500px] transition-all duration-300 relative overflow-hidden">
     
-    <!-- Breath Aura Ring (Surrounding the clock) -->
-    <div id="breath-ring-wrapper" class="relative flex items-center justify-center w-72 h-72 sm:w-80 sm:h-80 my-2 select-none">
+    <!-- Top Tabs Container (Count Down, Duration, Interval) -->
+    <div id="timer-tabs-bar" class="w-full mb-4 border-b border-black/[0.08] dark:border-white/[0.1] transition-all duration-300">
+      <ul class="flex items-center justify-around list-none p-0 m-0">
+        <!-- Tab 1: Count Down -->
+        <li class="flex-1">
+          <button
+            type="button"
+            data-tab="countdown"
+            class="tab-btn w-full py-3 flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold text-zinc-500 hover:text-cyan-500 dark:text-zinc-400 dark:hover:text-cyan-400 border-b-2 border-transparent transition-all"
+          >
+            <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 22h14"/>
+              <path d="M5 2h14"/>
+              <path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/>
+              <path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>
+            </svg>
+            <span>Count Down</span>
+          </button>
+        </li>
+
+        <!-- Tab 2: Duration (Active by Default) -->
+        <li class="flex-1">
+          <button
+            type="button"
+            data-tab="duration"
+            class="tab-btn active w-full py-3 flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold text-cyan-600 dark:text-cyan-400 border-b-2 border-cyan-500 transition-all"
+          >
+            <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <span>Duration</span>
+          </button>
+        </li>
+
+        <!-- Tab 3: Interval -->
+        <li class="flex-1">
+          <button
+            type="button"
+            data-tab="interval"
+            class="tab-btn w-full py-3 flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold text-zinc-500 hover:text-cyan-500 dark:text-zinc-400 dark:hover:text-cyan-400 border-b-2 border-transparent transition-all"
+          >
+            <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            <span>Interval</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Active Timer Stage / Content Container -->
+    <div id="content-container" class="w-full flex-1 flex flex-col items-center justify-center text-center my-2">
       
-      <!-- Pulsing Zen Breath Aura -->
-      <div id="breath-aura" class="absolute inset-0 rounded-full bg-blue-500/[0.07] dark:bg-blue-400/[0.08] blur-xl transition-all duration-700 pointer-events-none scale-90"></div>
-
-      <!-- Outer Track Ring -->
-      <svg class="absolute inset-0 w-full h-full -rotate-90 pointer-events-none" viewBox="0 0 100 100">
-        <!-- Background Track -->
-        <circle
-          cx="50"
-          cy="50"
-          r="46"
-          fill="none"
-          stroke="currentColor"
-          class="text-zinc-200 dark:text-white/[0.08]"
-          stroke-width="2"
-        />
-        <!-- Progress Bar Indicator -->
-        <circle
-          id="timer-progress-ring"
-          cx="50"
-          cy="50"
-          r="46"
-          fill="none"
-          stroke="url(#timerGradient)"
-          stroke-width="2.5"
-          stroke-linecap="round"
-          stroke-dasharray="289.026"
-          stroke-dashoffset="0"
-          class="transition-all duration-300"
-        />
-        <defs>
-          <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#0066cc" />
-            <stop offset="100%" stop-color="#2997ff" />
-          </linearGradient>
-        </defs>
-      </svg>
-
-      <!-- Center Countdown Readout -->
-      <div class="relative z-10 flex flex-col items-center justify-center text-center">
-        <!-- Status indicator (Warm-up / Meditating / Paused) -->
-        <div id="timer-status-badge" class="text-xs uppercase tracking-wider font-semibold text-zinc-500 dark:text-zinc-400 mb-1.5 transition-colors">
-          Ready
+      <!-- PANE 1: COUNTDOWN TAB -->
+      <div id="tab-pane-countdown" class="tab-pane hidden w-full flex-col items-center space-y-4">
+        <!-- Switch Toggle -->
+        <div class="flex items-center justify-center gap-3">
+          <label id="countdown-switch-label" for="countdownSwitch" class="text-xs font-semibold text-zinc-700 dark:text-zinc-300 select-none">
+            Countdown On
+          </label>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="countdownSwitch" class="sr-only peer" checked />
+            <div class="w-11 h-6 bg-zinc-300 peer-focus:outline-hidden rounded-full peer dark:bg-zinc-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-zinc-600 peer-checked:bg-cyan-500"></div>
+          </label>
         </div>
 
-        <!-- Big Tabular Digits -->
-        <div
-          id="time-display"
-          class="text-6xl sm:text-7xl font-light tracking-tight text-zinc-900 dark:text-white tabular-nums select-none transition-colors"
-          aria-live="polite"
-        >
-          10:00
-        </div>
+        <div id="countdown-configurable-content" class="w-full flex flex-col items-center space-y-3 transition-opacity duration-200">
+          <p class="text-xs text-zinc-500 dark:text-zinc-400">Begin meditation after:</p>
+          
+          <!-- Large Readout -->
+          <div id="countdownReadout" class="text-6xl sm:text-7xl font-bold tracking-tight text-zinc-900 dark:text-white tabular-nums drop-shadow-xs">
+            10
+          </div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-cyan-600 dark:text-cyan-400">Seconds</span>
 
-        <!-- Warm-up subtext indicator -->
-        <div id="warmup-indicator" class="hidden text-xs text-blue-600 dark:text-blue-400 font-medium mt-1">
-          Settling posture...
+          <!-- Animated Guide Readout -->
+          <div class="flex items-center justify-center gap-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400 pt-1">
+            <span class="animate-arrow-left text-cyan-500 font-bold">←</span>
+            <span>Move the slider to set the count down</span>
+            <span class="animate-arrow-right text-cyan-500 font-bold">→</span>
+          </div>
+
+          <!-- Countdown Range Slider -->
+          <div class="w-full max-w-sm px-4 pt-2">
+            <input
+              id="countdown-slider"
+              type="range"
+              min="0"
+              max="60"
+              step="5"
+              value="10"
+              class="meditation-slider countdown --pulse"
+              aria-label="Countdown slider"
+            />
+          </div>
+
+          <!-- Stepper Buttons -->
+          <div class="flex items-center gap-3 pt-2">
+            <button
+              id="countdown-step-down"
+              type="button"
+              class="w-8 h-8 rounded-full bg-black/[0.05] hover:bg-black/[0.1] dark:bg-white/[0.1] dark:hover:bg-white/[0.2] flex items-center justify-center font-bold text-sm transition-colors"
+              aria-label="Decrease countdown"
+            >
+              −
+            </button>
+            <span class="text-xs text-zinc-500">Adjust seconds</span>
+            <button
+              id="countdown-step-up"
+              type="button"
+              class="w-8 h-8 rounded-full bg-black/[0.05] hover:bg-black/[0.1] dark:bg-white/[0.1] dark:hover:bg-white/[0.2] flex items-center justify-center font-bold text-sm transition-colors"
+              aria-label="Increase countdown"
+            >
+              +
+            </button>
+          </div>
         </div>
       </div>
+
+      <!-- PANE 2: DURATION TAB (Default) -->
+      <div id="tab-pane-duration" class="tab-pane w-full flex flex-col items-center space-y-3">
+        
+        <!-- Breath Aura & Progress Ring Wrapper -->
+        <div id="breath-ring-wrapper" class="relative flex items-center justify-center w-64 h-64 sm:w-72 sm:h-72 my-1 select-none">
+          
+          <!-- Pulsing Zen Breath Aura -->
+          <div id="breath-aura" class="absolute inset-0 rounded-full bg-cyan-500/[0.1] dark:bg-cyan-400/[0.12] blur-xl transition-all duration-700 pointer-events-none scale-90"></div>
+
+          <!-- Outer Track Ring -->
+          <svg class="absolute inset-0 w-full h-full -rotate-90 pointer-events-none" viewBox="0 0 100 100">
+            <!-- Background Track -->
+            <circle
+              cx="50"
+              cy="50"
+              r="46"
+              fill="none"
+              stroke="currentColor"
+              class="text-black/[0.06] dark:text-white/[0.08]"
+              stroke-width="2"
+            />
+            <!-- Progress Bar Indicator -->
+            <circle
+              id="timer-progress-ring"
+              cx="50"
+              cy="50"
+              r="46"
+              fill="none"
+              stroke="url(#timerGradient)"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-dasharray="289.026"
+              stroke-dashoffset="0"
+              class="transition-all duration-300"
+            />
+            <defs>
+              <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#00b0ad" />
+                <stop offset="100%" stop-color="#46fffc" />
+              </linearGradient>
+            </defs>
+          </svg>
+
+          <!-- Center Time Readout -->
+          <div class="relative z-10 flex flex-col items-center justify-center text-center">
+            <div id="timer-status-badge" class="text-xs uppercase tracking-wider font-semibold text-zinc-500 dark:text-zinc-400 mb-1">
+              Ready
+            </div>
+
+            <!-- Giant Digits (matching competitor #timeReadout) -->
+            <div
+              id="timeReadout"
+              class="text-5xl sm:text-6xl md:text-7xl font-light tracking-tight text-zinc-900 dark:text-white tabular-nums select-none drop-shadow-xs"
+              aria-live="polite"
+            >
+              10:00
+            </div>
+
+            <span id="durationUnitReadout" class="text-xs font-semibold uppercase tracking-wider text-cyan-600 dark:text-cyan-400 mt-1">
+              Minutes
+            </span>
+
+            <div id="warmup-indicator" class="hidden text-xs text-amber-500 dark:text-amber-400 font-semibold mt-1">
+              Settling posture...
+            </div>
+          </div>
+        </div>
+
+        <!-- Hideable Setup Controls (Hidden during running session) -->
+        <div id="duration-setup-controls" class="w-full flex flex-col items-center space-y-2.5 transition-all duration-300">
+          
+          <!-- Animated Guide Readout -->
+          <div class="flex items-center justify-center gap-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+            <span class="animate-arrow-left text-cyan-500 font-bold">←</span>
+            <span>Move the slider to set the duration</span>
+            <span class="animate-arrow-right text-cyan-500 font-bold">→</span>
+          </div>
+
+          <!-- Duration Range Slider -->
+          <div class="w-full max-w-sm px-4">
+            <input
+              id="duration-slider"
+              type="range"
+              min="1"
+              max="90"
+              step="1"
+              value="10"
+              class="meditation-slider duration --pulse"
+              aria-label="Duration slider"
+            />
+          </div>
+
+          <!-- Stepper Buttons (+ / - Minute) -->
+          <div class="flex items-center gap-3">
+            <button
+              id="step-down-btn"
+              type="button"
+              class="w-8 h-8 rounded-full bg-black/[0.05] hover:bg-black/[0.1] dark:bg-white/[0.1] dark:hover:bg-white/[0.2] flex items-center justify-center font-bold text-sm transition-colors"
+              title="Decrease 1 Minute"
+              aria-label="Decrease 1 Minute"
+            >
+              −
+            </button>
+            <span class="text-xs text-zinc-500">Adjust minutes</span>
+            <button
+              id="step-up-btn"
+              type="button"
+              class="w-8 h-8 rounded-full bg-black/[0.05] hover:bg-black/[0.1] dark:bg-white/[0.1] dark:hover:bg-white/[0.2] flex items-center justify-center font-bold text-sm transition-colors"
+              title="Increase 1 Minute"
+              aria-label="Increase 1 Minute"
+            >
+              +
+            </button>
+          </div>
+
+          <!-- Quick Preset Pills -->
+          <div class="flex flex-wrap items-center justify-center gap-1.5 pt-2 max-w-md">
+            <button type="button" data-preset="60" class="preset-pill px-2.5 py-1 rounded-full text-xs font-medium border border-black/[0.08] dark:border-white/[0.1] bg-white/70 dark:bg-zinc-800/80 hover:border-cyan-500 transition-all">
+              1m
+            </button>
+            <button type="button" data-preset="180" class="preset-pill px-2.5 py-1 rounded-full text-xs font-medium border border-black/[0.08] dark:border-white/[0.1] bg-white/70 dark:bg-zinc-800/80 hover:border-cyan-500 transition-all">
+              3m
+            </button>
+            <button type="button" data-preset="300" class="preset-pill px-2.5 py-1 rounded-full text-xs font-medium border border-black/[0.08] dark:border-white/[0.1] bg-white/70 dark:bg-zinc-800/80 hover:border-cyan-500 transition-all">
+              5m
+            </button>
+            <button type="button" data-preset="600" class="preset-pill active-preset px-2.5 py-1 rounded-full text-xs font-semibold border border-cyan-500 bg-cyan-500 text-white shadow-xs transition-all">
+              10m
+            </button>
+            <button type="button" data-preset="900" class="preset-pill px-2.5 py-1 rounded-full text-xs font-medium border border-black/[0.08] dark:border-white/[0.1] bg-white/70 dark:bg-zinc-800/80 hover:border-cyan-500 transition-all">
+              15m
+            </button>
+            <button type="button" data-preset="1200" class="preset-pill px-2.5 py-1 rounded-full text-xs font-medium border border-black/[0.08] dark:border-white/[0.1] bg-white/70 dark:bg-zinc-800/80 hover:border-cyan-500 transition-all">
+              20m
+            </button>
+            <button type="button" data-preset="1800" class="preset-pill px-2.5 py-1 rounded-full text-xs font-medium border border-black/[0.08] dark:border-white/[0.1] bg-white/70 dark:bg-zinc-800/80 hover:border-cyan-500 transition-all">
+              30m
+            </button>
+            <button type="button" data-preset="2700" class="preset-pill px-2.5 py-1 rounded-full text-xs font-medium border border-black/[0.08] dark:border-white/[0.1] bg-white/70 dark:bg-zinc-800/80 hover:border-cyan-500 transition-all">
+              45m
+            </button>
+            <button type="button" data-preset="3600" class="preset-pill px-2.5 py-1 rounded-full text-xs font-medium border border-black/[0.08] dark:border-white/[0.1] bg-white/70 dark:bg-zinc-800/80 hover:border-cyan-500 transition-all">
+              60m
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PANE 3: INTERVAL TAB -->
+      <div id="tab-pane-interval" class="tab-pane hidden w-full flex-col items-center space-y-4">
+        <!-- Switch Toggle -->
+        <div class="flex items-center justify-center gap-3">
+          <label id="interval-switch-label" for="intervalSwitch" class="text-xs font-semibold text-zinc-700 dark:text-zinc-300 select-none">
+            Interval Bell Off
+          </label>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="intervalSwitch" class="sr-only peer" />
+            <div class="w-11 h-6 bg-zinc-300 peer-focus:outline-hidden rounded-full peer dark:bg-zinc-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-zinc-600 peer-checked:bg-cyan-500"></div>
+          </label>
+        </div>
+
+        <div id="interval-configurable-content" class="w-full flex flex-col items-center space-y-3 opacity-40 pointer-events-none transition-opacity duration-200">
+          <p class="text-xs text-zinc-500 dark:text-zinc-400">Ring every:</p>
+          
+          <!-- Large Readout -->
+          <div id="intervalReadout" class="text-6xl sm:text-7xl font-bold tracking-tight text-zinc-900 dark:text-white tabular-nums drop-shadow-xs">
+            0
+          </div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-cyan-600 dark:text-cyan-400">Minutes</span>
+
+          <!-- Interval Stepper Controls -->
+          <div class="grid grid-cols-2 gap-4 w-full max-w-xs pt-2">
+            <div class="flex flex-col items-center space-y-1">
+              <span class="text-[11px] text-zinc-500">Minutes</span>
+              <div class="flex items-center gap-2">
+                <button
+                  id="interval-min-down"
+                  type="button"
+                  class="w-8 h-8 rounded-full bg-black/[0.05] hover:bg-black/[0.1] dark:bg-white/[0.1] dark:hover:bg-white/[0.2] flex items-center justify-center font-bold text-sm"
+                >
+                  −
+                </button>
+                <button
+                  id="interval-min-up"
+                  type="button"
+                  class="w-8 h-8 rounded-full bg-black/[0.05] hover:bg-black/[0.1] dark:bg-white/[0.1] dark:hover:bg-white/[0.2] flex items-center justify-center font-bold text-sm"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            <div class="flex flex-col items-center space-y-1">
+              <span class="text-[11px] text-zinc-500">Seconds</span>
+              <div class="flex items-center gap-2">
+                <button
+                  id="interval-sec-down"
+                  type="button"
+                  class="w-8 h-8 rounded-full bg-black/[0.05] hover:bg-black/[0.1] dark:bg-white/[0.1] dark:hover:bg-white/[0.2] flex items-center justify-center font-bold text-sm"
+                >
+                  −
+                </button>
+                <button
+                  id="interval-sec-up"
+                  type="button"
+                  class="w-8 h-8 rounded-full bg-black/[0.05] hover:bg-black/[0.1] dark:bg-white/[0.1] dark:hover:bg-white/[0.2] flex items-center justify-center font-bold text-sm"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
-    <!-- Stepper Adjusters (Visible when Idle) -->
-    <div id="stepper-controls" class="flex items-center gap-3 mt-2 mb-6 transition-opacity duration-300">
+    <!-- Timer Control Container (RESET & BEGIN buttons) -->
+    <div id="timer-control-container" class="w-full flex items-center justify-center gap-3 pt-4 border-t border-black/[0.06] dark:border-white/[0.08]">
+      <!-- Reset Button -->
       <button
-        id="step-down-btn"
+        id="resetButton"
         type="button"
-        class="w-8 h-8 rounded-full bg-zinc-100/80 hover:bg-zinc-200/70 border border-zinc-200/80 shadow-2xs dark:bg-white/[0.06] dark:border-white/[0.08] dark:hover:bg-white/[0.12] text-zinc-800 dark:text-zinc-200 flex items-center justify-center font-bold text-base transition-all"
-        title="Decrease 1 Minute"
-        aria-label="Decrease 1 Minute"
+        class="hidden py-3 px-6 rounded-full border border-black/15 dark:border-white/20 hover:bg-black/5 dark:hover:bg-white/10 active:scale-[0.98] text-xs sm:text-sm font-bold tracking-wider text-zinc-800 dark:text-zinc-200 uppercase transition-all flex items-center gap-2"
+        aria-label="Reset meditation"
       >
-        −
-      </button>
-
-      <span id="duration-label" class="text-xs font-semibold text-zinc-700 dark:text-zinc-300 w-24 text-center select-none">
-        10 Minutes
-      </span>
-
-      <button
-        id="step-up-btn"
-        type="button"
-        class="w-8 h-8 rounded-full bg-zinc-100/80 hover:bg-zinc-200/70 border border-zinc-200/80 shadow-2xs dark:bg-white/[0.06] dark:border-white/[0.08] dark:hover:bg-white/[0.12] text-zinc-800 dark:text-zinc-200 flex items-center justify-center font-bold text-base transition-all"
-        title="Increase 1 Minute"
-        aria-label="Increase 1 Minute"
-      >
-        +
-      </button>
-    </div>
-
-    <!-- Primary Action Controls -->
-    <div id="timer-actions" class="flex items-center gap-3 w-full max-w-xs transition-opacity duration-300">
-      <!-- Main Play/Pause Button -->
-      <button
-        id="main-action-btn"
-        type="button"
-        class="flex-1 py-3.5 px-6 rounded-full bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white font-medium text-sm sm:text-base flex items-center justify-center gap-2 shadow-sm hover:shadow-md transition-all duration-200"
-      >
-        <svg id="play-icon" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-          <polygon points="5 3 19 12 5 21 5 3" />
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+          <path d="M3 3v5h5"/>
         </svg>
-        <svg id="pause-icon" class="w-4 h-4 hidden" viewBox="0 0 24 24" fill="currentColor">
-          <rect x="6" y="4" width="4" height="16" rx="1" />
-          <rect x="14" y="4" width="4" height="16" rx="1" />
+        <span>Reset</span>
+      </button>
+
+      <!-- Begin / Pause / Resume Button -->
+      <button
+        id="startButton"
+        type="button"
+        class="animate-begin-pulse py-3.5 px-8 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 active:scale-[0.98] text-white text-xs sm:text-sm font-bold tracking-wider uppercase transition-all shadow-lg flex items-center gap-2"
+        aria-label="Begin meditation"
+      >
+        <svg id="start-btn-icon" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+          <polygon points="5 3 19 12 5 21 5 3"/>
         </svg>
-        <span id="main-btn-label">Begin</span>
-      </button>
-
-      <!-- Reset / Finish Early Button -->
-      <button
-        id="reset-btn"
-        type="button"
-        class="py-3.5 px-5 rounded-full bg-zinc-100/80 hover:bg-zinc-200/70 border border-zinc-200/80 shadow-2xs dark:bg-white/[0.08] dark:border-transparent dark:hover:bg-white/[0.14] active:scale-[0.98] text-zinc-700 dark:text-zinc-300 font-medium text-sm transition-all duration-200"
-        title="Reset Timer (Esc)"
-      >
-        Reset
+        <span id="start-btn-label">Begin</span>
       </button>
     </div>
 
-    <!-- Preset Selection Pills (Visible when Idle) -->
-    <div id="preset-pills-bar" class="w-full mt-7 transition-opacity duration-300">
-      <div class="text-center text-[11px] uppercase tracking-wider text-zinc-400 font-semibold mb-2.5">
-        Session Duration
-      </div>
-      <div class="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
-        <button type="button" data-preset="300" class="preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-zinc-200/90 dark:border-white/[0.1] bg-zinc-50 hover:bg-zinc-100/90 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 hover:border-blue-500 hover:text-blue-600 shadow-2xs transition-all">
-          5m
-        </button>
-        <button type="button" data-preset="600" class="preset-pill active-preset px-3 py-1.5 rounded-full text-xs font-medium border border-blue-600 bg-blue-600 text-white shadow-xs transition-all">
-          10m
-        </button>
-        <button type="button" data-preset="900" class="preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-zinc-200/90 dark:border-white/[0.1] bg-zinc-50 hover:bg-zinc-100/90 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 hover:border-blue-500 hover:text-blue-600 shadow-2xs transition-all">
-          15m
-        </button>
-        <button type="button" data-preset="1200" class="preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-zinc-200/90 dark:border-white/[0.1] bg-zinc-50 hover:bg-zinc-100/90 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 hover:border-blue-500 hover:text-blue-600 shadow-2xs transition-all">
-          20m
-        </button>
-        <button type="button" data-preset="1800" class="preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-zinc-200/90 dark:border-white/[0.1] bg-zinc-50 hover:bg-zinc-100/90 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 hover:border-blue-500 hover:text-blue-600 shadow-2xs transition-all">
-          30m
-        </button>
-        <button type="button" data-preset="2700" class="preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-zinc-200/90 dark:border-white/[0.1] bg-zinc-50 hover:bg-zinc-100/90 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 hover:border-blue-500 hover:text-blue-600 shadow-2xs transition-all">
-          45m
-        </button>
-        <button type="button" data-preset="3600" class="preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-zinc-200/90 dark:border-white/[0.1] bg-zinc-50 hover:bg-zinc-100/90 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 hover:border-blue-500 hover:text-blue-600 shadow-2xs transition-all">
-          60m
-        </button>
-      </div>
-    </div>
+  </div>
 
-    <!-- Quick Audio & Interval Status Chips -->
-    <div id="quick-config-bar" class="flex flex-wrap items-center justify-center gap-2 mt-5 text-[11px] transition-opacity duration-300">
-      <button
-        id="quick-bell-chip"
-        type="button"
-        class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-100/80 hover:bg-zinc-200/70 border border-zinc-200/80 shadow-2xs dark:bg-white/[0.06] dark:border-white/[0.08] dark:hover:bg-white/[0.1] text-zinc-700 dark:text-zinc-300 transition-all"
-      >
-        <span>🔔</span>
-        <span id="quick-bell-label">Tibetan Bowl</span>
-      </button>
+  <!-- Quick Floating Control Chips (Audio, Ambient & Scenic Background) -->
+  <div id="quick-config-bar" class="flex flex-wrap items-center justify-center gap-2 mt-6 text-xs transition-opacity duration-300">
+    <!-- Bell Sound Chip -->
+    <button
+      id="quick-bell-chip"
+      type="button"
+      class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/80 dark:bg-black/60 backdrop-blur-md hover:bg-white dark:hover:bg-black/80 border border-black/10 dark:border-white/10 text-zinc-800 dark:text-zinc-200 transition-all shadow-2xs"
+    >
+      <span>🔔</span>
+      <span id="quick-bell-label">Tibetan Bowl</span>
+    </button>
 
-      <button
-        id="quick-ambient-chip"
-        type="button"
-        class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-100/80 hover:bg-zinc-200/70 border border-zinc-200/80 shadow-2xs dark:bg-white/[0.06] dark:border-white/[0.08] dark:hover:bg-white/[0.1] text-zinc-700 dark:text-zinc-300 transition-all"
-      >
-        <span>🍃</span>
-        <span id="quick-ambient-label">Silence</span>
-      </button>
+    <!-- Ambient Soundscape Chip -->
+    <button
+      id="quick-ambient-chip"
+      type="button"
+      class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/80 dark:bg-black/60 backdrop-blur-md hover:bg-white dark:hover:bg-black/80 border border-black/10 dark:border-white/10 text-zinc-800 dark:text-zinc-200 transition-all shadow-2xs"
+    >
+      <span>🍃</span>
+      <span id="quick-ambient-label">Silence</span>
+    </button>
 
-      <button
-        id="quick-warmup-chip"
-        type="button"
-        class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-100/80 hover:bg-zinc-200/70 border border-zinc-200/80 shadow-2xs dark:bg-white/[0.06] dark:border-white/[0.08] dark:hover:bg-white/[0.1] text-zinc-700 dark:text-zinc-300 transition-all"
-      >
-        <span>⏱️</span>
-        <span id="quick-warmup-label">Warm-up: 10s</span>
-      </button>
-    </div>
-
+    <!-- Scenic Background Switcher Chip -->
+    <button
+      id="quick-bg-chip"
+      type="button"
+      class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/80 dark:bg-black/60 backdrop-blur-md hover:bg-white dark:hover:bg-black/80 border border-black/10 dark:border-white/10 text-zinc-800 dark:text-zinc-200 transition-all shadow-2xs"
+      title="Change Wallpaper or Upload Photo"
+    >
+      <span>🌄</span>
+      <span>Background</span>
+    </button>
   </div>
 
   <!-- Modals -->
   <SoundMixerModal />
   <StatsDrawer />
   <CompletionView />
+  <BackgroundModal />
 </div>
 
-<!-- Core Interactive Client Script -->
+<!-- Interactive Client Script -->
 <script>
   import { MeditationTimer, type TimerState } from '../scripts/timerEngine';
   import { audioEngine, type BellType, type AmbientType } from '../scripts/audioEngine';
@@ -233,329 +459,393 @@ const {
     const root = document.getElementById('timer-root');
     if (!root) return;
 
-    // Load initial settings
+    // Load saved settings & query parameters
     const stored = getSettings();
     const urlParams = new URLSearchParams(window.location.search);
     
-    // Check URL parameters (e.g. ?d=600, ?prep=10, ?bell=bowl, ?ambient=rain)
     let durationSec = urlParams.has('d') 
       ? parseInt(urlParams.get('d')!, 10) 
-      : (parseInt(root.dataset.duration || '600', 10) || stored.durationSeconds);
+      : (parseInt(root.dataset.duration || '600', 10) || stored.durationSeconds || 600);
       
     let warmupSec = urlParams.has('prep') 
       ? parseInt(urlParams.get('prep')!, 10) 
-      : (parseInt(root.dataset.warmup || '10', 10) || stored.warmupSeconds);
+      : (parseInt(root.dataset.warmup || '10', 10) || stored.warmupSeconds || 10);
       
     let intervalSec = urlParams.has('int') 
       ? parseInt(urlParams.get('int')!, 10) 
-      : (stored.intervalMinutes * 60);
-
-    let bellType: BellType = (urlParams.get('bell') as BellType) || (root.dataset.bell as BellType) || stored.bellType;
-    let ambientType: AmbientType = (urlParams.get('ambient') as AmbientType) || (root.dataset.ambient as AmbientType) || stored.ambientType;
-
-    // Audio volumes
-    audioEngine.setBellVolume(stored.bellVolume);
-    audioEngine.setAmbientVolume(stored.ambientVolume);
+      : (parseInt(root.dataset.interval || '0', 10) || (stored.intervalMinutes ? stored.intervalMinutes * 60 : 0));
+      
+    let bellType: BellType = (urlParams.get('bell') as BellType) || (root.dataset.bell as BellType) || stored.bellType || 'bowl';
+    let ambientType: AmbientType = (urlParams.get('ambient') as AmbientType) || (root.dataset.ambient as AmbientType) || stored.ambientType || 'none';
 
     // UI Elements
-    const timeDisplay = document.getElementById('time-display')!;
-    const durationLabel = document.getElementById('duration-label')!;
-    const statusBadge = document.getElementById('timer-status-badge')!;
-    const warmupIndicator = document.getElementById('warmup-indicator')!;
-    const mainActionBtn = document.getElementById('main-action-btn')!;
-    const mainBtnLabel = document.getElementById('main-btn-label')!;
-    const playIcon = document.getElementById('play-icon')!;
-    const pauseIcon = document.getElementById('pause-icon')!;
-    const resetBtn = document.getElementById('reset-btn')!;
-    const progressRing = document.getElementById('timer-progress-ring') as SVGCircleElement | null;
-    const breathAura = document.getElementById('breath-aura')!;
-    const presenterBanner = document.getElementById('presenter-banner')!;
-    const presenterText = document.getElementById('presenter-text')!;
-
-    // Quick chips
-    const quickBellLabel = document.getElementById('quick-bell-label')!;
-    const quickAmbientLabel = document.getElementById('quick-ambient-label')!;
-    const quickWarmupLabel = document.getElementById('quick-warmup-label')!;
-
-    // Idle elements for Zen Mode auto-hide
-    const stepperControls = document.getElementById('stepper-controls')!;
-    const presetPillsBar = document.getElementById('preset-pills-bar')!;
+    const timeReadout = document.getElementById('timeReadout')!;
+    const countdownReadout = document.getElementById('countdownReadout')!;
+    const intervalReadout = document.getElementById('intervalReadout')!;
+    const durationSlider = document.getElementById('duration-slider') as HTMLInputElement;
+    const countdownSlider = document.getElementById('countdown-slider') as HTMLInputElement;
+    const countdownSwitch = document.getElementById('countdownSwitch') as HTMLInputElement;
+    const intervalSwitch = document.getElementById('intervalSwitch') as HTMLInputElement;
+    const countdownSwitchLabel = document.getElementById('countdown-switch-label')!;
+    const intervalSwitchLabel = document.getElementById('interval-switch-label')!;
+    const countdownConfigContent = document.getElementById('countdown-configurable-content')!;
+    const intervalConfigContent = document.getElementById('interval-configurable-content')!;
+    const timerTabsBar = document.getElementById('timer-tabs-bar')!;
+    const durationSetupControls = document.getElementById('duration-setup-controls')!;
     const quickConfigBar = document.getElementById('quick-config-bar')!;
-    const timerActions = document.getElementById('timer-actions')!;
-    const headerEl = document.querySelector('header') as HTMLElement | null;
+    const startButton = document.getElementById('startButton')!;
+    const startBtnLabel = document.getElementById('start-btn-label')!;
+    const startBtnIcon = document.getElementById('start-btn-icon')!;
+    const resetButton = document.getElementById('resetButton')!;
+    const timerStatusBadge = document.getElementById('timer-status-badge')!;
+    const warmupIndicator = document.getElementById('warmup-indicator')!;
+    const breathAura = document.getElementById('breath-aura')!;
+    const progressRing = document.getElementById('timer-progress-ring')!;
 
-    // Modals
+    // Modal elements
     const settingsModal = document.getElementById('settings-modal')!;
-    const openSettingsBtn = document.getElementById('open-settings-btn')!;
-    const closeSettingsBtn = document.getElementById('close-settings-btn')!;
-    const saveSettingsBtn = document.getElementById('save-settings-btn')!;
-    const settingsBackdrop = document.getElementById('settings-backdrop')!;
+    const closeSettingsBtn = document.getElementById('close-settings-btn');
+    const settingsBackdrop = document.getElementById('settings-backdrop');
+    const saveSettingsBtn = document.getElementById('save-settings-btn');
+    const openSettingsBtn = document.getElementById('open-settings-btn');
 
     const statsModal = document.getElementById('stats-modal')!;
-    const streakBadgeBtn = document.getElementById('streak-badge-btn')!;
-    const closeStatsBtn = document.getElementById('close-stats-btn')!;
-    const dismissStatsBtn = document.getElementById('dismiss-stats-btn')!;
-    const statsBackdrop = document.getElementById('stats-backdrop')!;
-    const headerStreakCount = document.getElementById('header-streak-count')!;
+    const streakBadgeBtn = document.getElementById('streak-badge-btn');
+    const closeStatsBtn = document.getElementById('close-stats-btn');
+    const dismissStatsBtn = document.getElementById('dismiss-stats-btn');
+    const statsBackdrop = document.getElementById('stats-backdrop');
+
+    const bgModal = document.getElementById('bg-modal')!;
+    const openBgModalBtn = document.getElementById('open-bg-modal-btn');
+    const quickBgChip = document.getElementById('quick-bg-chip');
+    const closeBgModalBtn = document.getElementById('close-bg-modal-btn');
+    const saveBgModalBtn = document.getElementById('save-bg-modal-btn');
+    const bgModalBackdrop = document.getElementById('bg-modal-backdrop');
+    const bgUploadFile = document.getElementById('bg-upload-file') as HTMLInputElement;
+    const randomizeBgBtn = document.getElementById('randomize-bg-btn');
 
     const completionScreen = document.getElementById('completion-screen')!;
-    const meditateAgainBtn = document.getElementById('meditate-again-btn')!;
-    const viewStatsFromCompletionBtn = document.getElementById('view-stats-from-completion-btn')!;
-    const completionDurationText = document.getElementById('completion-duration-text')!;
-    const completionStreakText = document.getElementById('completion-streak-text')!;
+    const meditateAgainBtn = document.getElementById('meditate-again-btn');
+    const viewStatsFromCompletionBtn = document.getElementById('view-stats-from-completion');
 
-    // Format helper: seconds to mm:ss or hh:mm:ss
+    // Time Formatters
     function formatTime(totalSec: number): string {
-      const hrs = Math.floor(totalSec / 3600);
-      const mins = Math.floor((totalSec % 3600) / 60);
+      const mins = Math.floor(totalSec / 60);
       const secs = totalSec % 60;
-      if (hrs > 0) {
-        return `${hrs}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-      }
       return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
     }
 
-    function updateDurationLabel() {
-      const mins = Math.round(durationSec / 60);
-      durationLabel.textContent = mins === 1 ? '1 Minute' : `${mins} Minutes`;
+    function updateProgressRing(remaining: number, total: number) {
+      if (!progressRing || total <= 0) return;
+      const circumference = 2 * Math.PI * 46; // 289.026
+      const fraction = remaining / total;
+      const offset = circumference * (1 - fraction);
+      progressRing.setAttribute('stroke-dashoffset', String(offset));
+    }
+
+    function setBreathAnimation(active: boolean) {
+      if (active && stored.breathGuideEnabled) {
+        breathAura?.classList.add('animate-zen-breath');
+      } else {
+        breathAura?.classList.remove('animate-zen-breath');
+      }
     }
 
     function updateQuickChips() {
-      const bellNames: Record<BellType, string> = {
+      const bellLabels: Record<string, string> = {
         bowl: 'Tibetan Bowl',
-        zen: 'Kyoto Zen',
+        zen: 'Kyoto Zen Bell',
         gong: 'Deep Gong',
         tingsha: 'Ting-Sha'
       };
-      quickBellLabel.textContent = bellNames[bellType] || 'Tibetan Bowl';
-
-      const ambientNames: Record<AmbientType, string> = {
+      const ambientLabels: Record<string, string> = {
         none: 'Silence',
-        rain: 'Rain',
-        stream: 'Stream',
-        ocean: 'Ocean',
+        rain: 'Gentle Rain',
+        stream: 'Forest Stream',
+        ocean: 'Ocean Tide',
         brown: 'Brown Noise',
         white: 'Zen Breeze'
       };
-      quickAmbientLabel.textContent = ambientNames[ambientType] || 'Silence';
-      quickWarmupLabel.textContent = warmupSec > 0 ? `Warm-up: ${warmupSec}s` : 'No Warm-up';
+      const bLabel = document.getElementById('quick-bell-label');
+      if (bLabel) bLabel.textContent = bellLabels[bellType] || 'Bell';
+      const aLabel = document.getElementById('quick-ambient-label');
+      if (aLabel) aLabel.textContent = ambientLabels[ambientType] || 'Soundscape';
     }
 
-    function updatePresenterMessage() {
-      const s = getSettings();
-      if (s.presenterMessage && s.presenterMessage.trim().length > 0) {
-        presenterText.textContent = s.presenterMessage.trim();
-        presenterBanner.classList.remove('opacity-0', '-translate-y-2');
-      } else {
-        presenterBanner.classList.add('opacity-0', '-translate-y-2');
-      }
-    }
-
-    // Refresh streak badge
     function refreshStreakBadge() {
-      const stats = getStats();
-      headerStreakCount.textContent = String(stats.currentStreak);
+      const s = getStats();
+      const countEl = document.getElementById('header-streak-count');
+      if (countEl) countEl.textContent = String(s.currentStreak);
     }
 
-    // Breathing ring animation control
-    function setBreathAnimation(active: boolean) {
-      const s = getSettings();
-      if (active && s.breathGuideEnabled) {
-        breathAura.classList.add('animate-zen-breath');
-      } else {
-        breathAura.classList.remove('animate-zen-breath');
-      }
-    }
-
-    // Zen Mode Auto-fade logic
-    let zenFadeTimeout: number | null = null;
-    let isZenActive = false;
-
-    function resetZenFadeTimer() {
-      if (timer.getState() !== 'running') return;
-      
-      // Wake up controls
-      if (isZenActive) {
-        isZenActive = false;
-        stepperControls.classList.remove('opacity-0');
-        presetPillsBar.classList.remove('opacity-0');
-        quickConfigBar.classList.remove('opacity-0');
-        timerActions.classList.remove('opacity-0');
-        if (headerEl) headerEl.classList.remove('opacity-0');
-      }
-
-      if (zenFadeTimeout) clearTimeout(zenFadeTimeout);
-
-      zenFadeTimeout = window.setTimeout(() => {
-        if (timer.getState() === 'running') {
-          isZenActive = true;
-          stepperControls.classList.add('opacity-0');
-          presetPillsBar.classList.add('opacity-0');
-          quickConfigBar.classList.add('opacity-0');
-          timerActions.classList.add('opacity-0');
-          if (headerEl) headerEl.classList.add('opacity-0');
-        }
-      }, 3500);
-    }
-
-    // User interaction wakes up Zen mode
-    ['mousemove', 'touchstart', 'keydown'].forEach(evt => {
-      window.addEventListener(evt, resetZenFadeTimer, { passive: true });
-    });
-
-    // Initialize Meditation Timer Engine
+    // Initialize Timer Engine
     const timer = new MeditationTimer({
       durationSeconds: durationSec,
       warmupSeconds: warmupSec,
       intervalSeconds: intervalSec,
-      bellType,
-      ambientType,
-      onTick: (state: TimerState, remaining: number, total: number) => {
-        timeDisplay.textContent = formatTime(remaining);
-
-        // Update progress circular stroke
-        if (progressRing && total > 0) {
-          const circumference = 289.026;
-          const progress = remaining / total;
-          const offset = circumference * (1 - progress);
-          progressRing.style.strokeDashoffset = String(offset);
+      bellType: bellType,
+      ambientType: ambientType,
+      onTick: (state, remaining, total) => {
+        if (state === 'warmup') {
+          timerStatusBadge.textContent = 'Prepare';
+          warmupIndicator.classList.remove('hidden');
+          warmupIndicator.textContent = `Settling posture... ${remaining}s`;
+          timeReadout.textContent = formatTime(remaining);
+          document.title = `(${remaining}s) Get Ready | Meditation Timer Online`;
+        } else if (state === 'running') {
+          timerStatusBadge.textContent = 'Meditating';
+          warmupIndicator.classList.add('hidden');
+          timeReadout.textContent = formatTime(remaining);
+          document.title = `(${formatTime(remaining)}) Meditating | Meditation Timer Online`;
         }
+        updateProgressRing(remaining, total);
       },
       onStateChange: (state: TimerState) => {
-        if (state === 'warmup') {
-          statusBadge.textContent = 'Warm-Up';
-          statusBadge.className = 'text-xs uppercase tracking-wider font-semibold text-blue-600 dark:text-blue-400 mb-1.5';
-          warmupIndicator.classList.remove('hidden');
-          playIcon.classList.add('hidden');
-          pauseIcon.classList.remove('hidden');
-          mainBtnLabel.textContent = 'Pause';
-          mainActionBtn.className = 'flex-1 py-3.5 px-6 rounded-full bg-zinc-800 hover:bg-zinc-900 active:scale-[0.98] text-white font-medium text-sm sm:text-base flex items-center justify-center gap-2 shadow-md transition-all duration-200';
-          stepperControls.classList.add('opacity-40', 'pointer-events-none');
-          presetPillsBar.classList.add('opacity-40', 'pointer-events-none');
+        if (state === 'idle') {
+          timerStatusBadge.textContent = 'Ready';
+          timeReadout.textContent = formatTime(durationSec);
+          warmupIndicator.classList.add('hidden');
+          document.title = 'Meditation Timer Online | Free Web Meditation Timer';
+          
+          // Show tabs & setup controls
+          timerTabsBar.classList.remove('opacity-0', 'pointer-events-none');
+          durationSetupControls.classList.remove('opacity-0', 'pointer-events-none');
+          quickConfigBar.classList.remove('opacity-0', 'pointer-events-none');
+          resetButton.classList.add('hidden');
+
+          // Reset Start Button
+          startBtnLabel.textContent = 'Begin';
+          startBtnIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
+          startButton.classList.add('animate-begin-pulse');
+
+          updateProgressRing(durationSec, durationSec);
+          setBreathAnimation(false);
+        } else if (state === 'warmup') {
+          timerTabsBar.classList.add('opacity-0', 'pointer-events-none');
+          durationSetupControls.classList.add('opacity-0', 'pointer-events-none');
+          quickConfigBar.classList.add('opacity-0', 'pointer-events-none');
+          resetButton.classList.remove('hidden');
+
+          startBtnLabel.textContent = 'Pause';
+          startBtnIcon.innerHTML = '<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>';
+          startButton.classList.remove('animate-begin-pulse');
           setBreathAnimation(true);
         } else if (state === 'running') {
-          statusBadge.textContent = 'Meditating';
-          statusBadge.className = 'text-xs uppercase tracking-wider font-semibold text-emerald-600 dark:text-emerald-400 mb-1.5';
-          warmupIndicator.classList.add('hidden');
-          playIcon.classList.add('hidden');
-          pauseIcon.classList.remove('hidden');
-          mainBtnLabel.textContent = 'Pause';
-          mainActionBtn.className = 'flex-1 py-3.5 px-6 rounded-full bg-zinc-800 hover:bg-zinc-900 active:scale-[0.98] text-white font-medium text-sm sm:text-base flex items-center justify-center gap-2 shadow-md transition-all duration-200';
-          stepperControls.classList.add('opacity-40', 'pointer-events-none');
-          presetPillsBar.classList.add('opacity-40', 'pointer-events-none');
+          timerTabsBar.classList.add('opacity-0', 'pointer-events-none');
+          durationSetupControls.classList.add('opacity-0', 'pointer-events-none');
+          quickConfigBar.classList.add('opacity-0', 'pointer-events-none');
+          resetButton.classList.remove('hidden');
+
+          startBtnLabel.textContent = 'Pause';
+          startBtnIcon.innerHTML = '<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>';
+          startButton.classList.remove('animate-begin-pulse');
           setBreathAnimation(true);
-          resetZenFadeTimer();
         } else if (state === 'paused') {
-          statusBadge.textContent = 'Paused';
-          statusBadge.className = 'text-xs uppercase tracking-wider font-semibold text-amber-500 mb-1.5';
-          warmupIndicator.classList.add('hidden');
-          playIcon.classList.remove('hidden');
-          pauseIcon.classList.add('hidden');
-          mainBtnLabel.textContent = 'Resume';
-          mainActionBtn.className = 'flex-1 py-3.5 px-6 rounded-full bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white font-medium text-sm sm:text-base flex items-center justify-center gap-2 shadow-md transition-all duration-200';
-          // Bring back controls immediately
-          isZenActive = false;
-          stepperControls.classList.remove('opacity-0');
-          presetPillsBar.classList.remove('opacity-0');
-          quickConfigBar.classList.remove('opacity-0');
-          timerActions.classList.remove('opacity-0');
-          if (headerEl) headerEl.classList.remove('opacity-0');
+          timerStatusBadge.textContent = 'Paused';
+          startBtnLabel.textContent = 'Resume';
+          startBtnIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
+          startButton.classList.add('animate-begin-pulse');
           setBreathAnimation(false);
-        } else if (state === 'idle') {
-          statusBadge.textContent = 'Ready';
-          statusBadge.className = 'text-xs uppercase tracking-wider font-semibold text-zinc-400 dark:text-zinc-500 mb-1.5';
-          warmupIndicator.classList.add('hidden');
-          playIcon.classList.remove('hidden');
-          pauseIcon.classList.add('hidden');
-          mainBtnLabel.textContent = 'Begin';
-          mainActionBtn.className = 'flex-1 py-3.5 px-6 rounded-full bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white font-medium text-sm sm:text-base flex items-center justify-center gap-2 shadow-md transition-all duration-200';
-          stepperControls.classList.remove('opacity-40', 'pointer-events-none', 'opacity-0');
-          presetPillsBar.classList.remove('opacity-40', 'pointer-events-none', 'opacity-0');
-          quickConfigBar.classList.remove('opacity-0');
-          timerActions.classList.remove('opacity-0');
-          if (headerEl) headerEl.classList.remove('opacity-0');
-          setBreathAnimation(false);
-          if (progressRing) progressRing.style.strokeDashoffset = '0';
         }
       },
-      onComplete: (completedSec: number) => {
-        setBreathAnimation(false);
+      onComplete: (totalSec) => {
         refreshStreakBadge();
-        const stats = getStats();
+        const mins = Math.max(1, Math.round(totalSec / 60));
+        const durText = document.getElementById('completion-duration-text');
+        if (durText) durText.textContent = `${mins} min${mins === 1 ? '' : 's'}`;
+        const streakText = document.getElementById('completion-streak-text');
+        if (streakText) streakText.textContent = `🔥 ${getStats().currentStreak} Day${getStats().currentStreak === 1 ? '' : 's'}`;
 
-        // Populate completion screen
-        const completedMins = Math.max(1, Math.round(completedSec / 60));
-        completionDurationText.textContent = `${completedMins} min${completedMins > 1 ? 's' : ''}`;
-        completionStreakText.textContent = `🔥 ${stats.currentStreak} Day${stats.currentStreak > 1 ? 's' : ''}`;
-
-        // Gentle celebratory confetti
+        // Confetti burst
         try {
           confetti({
-            particleCount: 40,
+            particleCount: 50,
             spread: 60,
-            origin: { y: 0.6 },
-            colors: ['#0066cc', '#2997ff', '#34c759', '#ffd60a'],
-            disableForReducedMotion: true,
+            origin: { y: 0.6 }
           });
         } catch {}
 
-        // Open completion modal
         completionScreen.classList.remove('opacity-0', 'pointer-events-none');
         completionScreen.querySelector('.transform')?.classList.remove('scale-95');
       }
     });
 
-    // Initial setup
-    timeDisplay.textContent = formatTime(durationSec);
-    updateDurationLabel();
+    // Sync Sliders & Inputs
+    durationSlider.value = String(Math.round(durationSec / 60));
+    timeReadout.textContent = formatTime(durationSec);
+    countdownSlider.value = String(warmupSec);
+    countdownReadout.textContent = String(warmupSec);
+    intervalReadout.textContent = String(Math.round(intervalSec / 60));
+
+    countdownSwitch.checked = warmupSec > 0;
+    countdownSwitchLabel.textContent = warmupSec > 0 ? 'Countdown On' : 'Countdown Off';
+    if (warmupSec === 0) {
+      countdownConfigContent.classList.add('opacity-40', 'pointer-events-none');
+    }
+
+    intervalSwitch.checked = intervalSec > 0;
+    intervalSwitchLabel.textContent = intervalSec > 0 ? 'Interval Bell On' : 'Interval Bell Off';
+    if (intervalSec === 0) {
+      intervalConfigContent.classList.add('opacity-40', 'pointer-events-none');
+    }
+
     updateQuickChips();
-    updatePresenterMessage();
     refreshStreakBadge();
 
-    // Main Start / Pause Action
-    mainActionBtn.addEventListener('click', () => {
-      const state = timer.getState();
-      if (state === 'idle' || state === 'paused') {
-        timer.start();
+    // Tab Switching Mechanics
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetTab = (btn as HTMLElement).dataset.tab;
+        if (!targetTab) return;
+
+        tabButtons.forEach(b => {
+          b.classList.remove('active', 'border-cyan-500', 'text-cyan-600', 'dark:text-cyan-400');
+          b.classList.add('border-transparent', 'text-zinc-500', 'dark:text-zinc-400');
+        });
+
+        btn.classList.add('active', 'border-cyan-500', 'text-cyan-600', 'dark:text-cyan-400');
+        btn.classList.remove('border-transparent', 'text-zinc-500', 'dark:text-zinc-400');
+
+        tabPanes.forEach(pane => {
+          pane.classList.add('hidden');
+          pane.classList.remove('flex');
+        });
+
+        const activePane = document.getElementById(`tab-pane-${targetTab}`);
+        if (activePane) {
+          activePane.classList.remove('hidden');
+          activePane.classList.add('flex');
+        }
+      });
+    });
+
+    // Slider Listeners with --pulse removal (as in competitor)
+    durationSlider.addEventListener('input', (e) => {
+      durationSlider.classList.remove('--pulse');
+      const mins = parseInt((e.target as HTMLInputElement).value, 10);
+      durationSec = mins * 60;
+      timeReadout.textContent = formatTime(durationSec);
+      timer.updateConfig({ durationSeconds: durationSec });
+      highlightActivePreset(durationSec);
+      saveSettings({ durationSeconds: durationSec });
+    });
+
+    countdownSlider.addEventListener('input', (e) => {
+      countdownSlider.classList.remove('--pulse');
+      const secs = parseInt((e.target as HTMLInputElement).value, 10);
+      warmupSec = secs;
+      countdownReadout.textContent = String(secs);
+      timer.updateConfig({ warmupSeconds: warmupSec });
+      saveSettings({ warmupSeconds: warmupSec });
+    });
+
+    // Switches
+    countdownSwitch.addEventListener('change', (e) => {
+      const enabled = (e.target as HTMLInputElement).checked;
+      countdownSwitchLabel.textContent = enabled ? 'Countdown On' : 'Countdown Off';
+      if (enabled) {
+        countdownConfigContent.classList.remove('opacity-40', 'pointer-events-none');
+        warmupSec = parseInt(countdownSlider.value, 10) || 10;
       } else {
-        timer.pause();
+        countdownConfigContent.classList.add('opacity-40', 'pointer-events-none');
+        warmupSec = 0;
       }
+      timer.updateConfig({ warmupSeconds: warmupSec });
+      saveSettings({ warmupSeconds: warmupSec });
     });
 
-    // Reset button
-    resetBtn.addEventListener('click', () => {
-      timer.reset();
+    intervalSwitch.addEventListener('change', (e) => {
+      const enabled = (e.target as HTMLInputElement).checked;
+      intervalSwitchLabel.textContent = enabled ? 'Interval Bell On' : 'Interval Bell Off';
+      if (enabled) {
+        intervalConfigContent.classList.remove('opacity-40', 'pointer-events-none');
+        intervalSec = 300; // 5 mins default
+        intervalReadout.textContent = '5';
+      } else {
+        intervalConfigContent.classList.add('opacity-40', 'pointer-events-none');
+        intervalSec = 0;
+        intervalReadout.textContent = '0';
+      }
+      timer.updateConfig({ intervalSeconds: intervalSec });
+      saveSettings({ intervalMinutes: Math.round(intervalSec / 60) });
     });
 
-    // Step +/- Minutes
+    // Duration Steppers
     document.getElementById('step-up-btn')?.addEventListener('click', () => {
       if (timer.getState() !== 'idle') return;
-      durationSec = Math.min(10800, durationSec + 60); // Cap at 3 hours
+      durationSec = Math.min(7200, durationSec + 60);
+      durationSlider.value = String(Math.round(durationSec / 60));
+      timeReadout.textContent = formatTime(durationSec);
       timer.updateConfig({ durationSeconds: durationSec });
-      timeDisplay.textContent = formatTime(durationSec);
-      updateDurationLabel();
       highlightActivePreset(durationSec);
       saveSettings({ durationSeconds: durationSec });
     });
 
     document.getElementById('step-down-btn')?.addEventListener('click', () => {
       if (timer.getState() !== 'idle') return;
-      durationSec = Math.max(60, durationSec - 60); // Min 1 minute
+      durationSec = Math.max(60, durationSec - 60);
+      durationSlider.value = String(Math.round(durationSec / 60));
+      timeReadout.textContent = formatTime(durationSec);
       timer.updateConfig({ durationSeconds: durationSec });
-      timeDisplay.textContent = formatTime(durationSec);
-      updateDurationLabel();
       highlightActivePreset(durationSec);
       saveSettings({ durationSeconds: durationSec });
     });
 
-    // Preset duration pills click
+    // Countdown Steppers
+    document.getElementById('countdown-step-up')?.addEventListener('click', () => {
+      warmupSec = Math.min(60, warmupSec + 5);
+      countdownSlider.value = String(warmupSec);
+      countdownReadout.textContent = String(warmupSec);
+      timer.updateConfig({ warmupSeconds: warmupSec });
+      saveSettings({ warmupSeconds: warmupSec });
+    });
+
+    document.getElementById('countdown-step-down')?.addEventListener('click', () => {
+      warmupSec = Math.max(0, warmupSec - 5);
+      countdownSlider.value = String(warmupSec);
+      countdownReadout.textContent = String(warmupSec);
+      timer.updateConfig({ warmupSeconds: warmupSec });
+      saveSettings({ warmupSeconds: warmupSec });
+    });
+
+    // Interval Steppers
+    document.getElementById('interval-min-up')?.addEventListener('click', () => {
+      intervalSec = Math.min(1800, intervalSec + 60);
+      intervalReadout.textContent = String(Math.round(intervalSec / 60));
+      timer.updateConfig({ intervalSeconds: intervalSec });
+      saveSettings({ intervalMinutes: Math.round(intervalSec / 60) });
+    });
+
+    document.getElementById('interval-min-down')?.addEventListener('click', () => {
+      intervalSec = Math.max(60, intervalSec - 60);
+      intervalReadout.textContent = String(Math.round(intervalSec / 60));
+      timer.updateConfig({ intervalSeconds: intervalSec });
+      saveSettings({ intervalMinutes: Math.round(intervalSec / 60) });
+    });
+
+    document.getElementById('interval-sec-up')?.addEventListener('click', () => {
+      intervalSec = Math.min(1800, intervalSec + 15);
+      intervalReadout.textContent = formatTime(intervalSec);
+      timer.updateConfig({ intervalSeconds: intervalSec });
+    });
+
+    document.getElementById('interval-sec-down')?.addEventListener('click', () => {
+      intervalSec = Math.max(15, intervalSec - 15);
+      intervalReadout.textContent = formatTime(intervalSec);
+      timer.updateConfig({ intervalSeconds: intervalSec });
+    });
+
+    // Preset Pills
     function highlightActivePreset(sec: number) {
       document.querySelectorAll('.preset-pill').forEach(pill => {
         const pSec = parseInt((pill as HTMLElement).dataset.preset || '0', 10);
         if (pSec === sec) {
-          pill.className = 'preset-pill active-preset px-3 py-1.5 rounded-full text-xs font-medium border border-blue-600 bg-blue-600 text-white transition-colors shadow-xs';
+          pill.className = 'preset-pill active-preset px-2.5 py-1 rounded-full text-xs font-semibold border border-cyan-500 bg-cyan-500 text-white shadow-xs transition-all';
         } else {
-          pill.className = 'preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-zinc-200/90 dark:border-white/[0.1] bg-zinc-50 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-blue-500 transition-colors shadow-2xs';
+          pill.className = 'preset-pill px-2.5 py-1 rounded-full text-xs font-medium border border-black/[0.08] dark:border-white/[0.1] bg-white/70 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300 hover:border-cyan-500 transition-all';
         }
       });
     }
@@ -565,9 +855,9 @@ const {
         if (timer.getState() !== 'idle') return;
         const targetSec = parseInt((pill as HTMLElement).dataset.preset || '600', 10);
         durationSec = targetSec;
+        durationSlider.value = String(Math.round(durationSec / 60));
         timer.updateConfig({ durationSeconds: durationSec });
-        timeDisplay.textContent = formatTime(durationSec);
-        updateDurationLabel();
+        timeReadout.textContent = formatTime(durationSec);
         highlightActivePreset(durationSec);
         saveSettings({ durationSeconds: durationSec });
       });
@@ -575,25 +865,133 @@ const {
 
     highlightActivePreset(durationSec);
 
-    // Quick Chips click opens settings
-    [
-      document.getElementById('quick-bell-chip'),
-      document.getElementById('quick-ambient-chip'),
-      document.getElementById('quick-warmup-chip')
-    ].forEach(chip => {
-      chip?.addEventListener('click', () => openSettingsModal());
+    // Primary START / PAUSE Button
+    startButton.addEventListener('click', () => {
+      const state = timer.getState();
+      if (state === 'idle' || state === 'paused') {
+        timer.start();
+      } else {
+        timer.pause();
+      }
     });
 
-    // Modal Control Functions
+    // Reset Button
+    resetButton.addEventListener('click', () => {
+      timer.reset();
+    });
+
+    // Background Modal Functionality
+    function openBgModal() {
+      bgModal.classList.remove('opacity-0', 'pointer-events-none');
+      bgModal.querySelector('.transform')?.classList.remove('scale-95');
+
+      // Highlight current active wallpaper
+      const currentBg = localStorage.getItem('currentBackgroundImage') || 'https://images.unsplash.com/photo-1518248728743-f22e843d1f54?crop=entropy&cs=tinysrgb&fit=max&fm=webp&q=80&w=1920';
+      document.querySelectorAll('.bg-preset-btn').forEach(btn => {
+        const url = (btn as HTMLElement).dataset.bgUrl;
+        const check = btn.querySelector('.bg-check-mark');
+        if (url === currentBg) {
+          btn.classList.add('border-blue-500');
+          check?.classList.remove('hidden');
+        } else {
+          btn.classList.remove('border-blue-500');
+          check?.classList.add('hidden');
+        }
+      });
+    }
+
+    function closeBgModal() {
+      bgModal.classList.add('opacity-0', 'pointer-events-none');
+      bgModal.querySelector('.transform')?.classList.add('scale-95');
+    }
+
+    openBgModalBtn?.addEventListener('click', openBgModal);
+    quickBgChip?.addEventListener('click', openBgModal);
+    closeBgModalBtn?.addEventListener('click', closeBgModal);
+    saveBgModalBtn?.addEventListener('click', closeBgModal);
+    bgModalBackdrop?.addEventListener('click', closeBgModal);
+
+    // Wallpaper Preset Selection
+    document.querySelectorAll('.bg-preset-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const bgUrl = (btn as HTMLElement).dataset.bgUrl;
+        if (!bgUrl) return;
+
+        const bgLayer = document.getElementById('ambient-bg-layer');
+        const bgImg = document.getElementById('active-bg-image') as HTMLImageElement;
+
+        if (bgUrl === 'none') {
+          if (bgLayer) bgLayer.style.display = 'none';
+          document.documentElement.classList.remove('has-ambient-wallpaper');
+          localStorage.setItem('currentBackgroundImage', 'none');
+        } else {
+          if (bgLayer) bgLayer.style.display = 'block';
+          if (bgImg) bgImg.src = bgUrl;
+          document.documentElement.classList.add('has-ambient-wallpaper');
+          localStorage.setItem('currentBackgroundImage', bgUrl);
+        }
+
+        // Update UI marks
+        document.querySelectorAll('.bg-preset-btn').forEach(b => {
+          b.classList.remove('border-blue-500');
+          b.querySelector('.bg-check-mark')?.classList.add('hidden');
+        });
+        btn.classList.add('border-blue-500');
+        btn.querySelector('.bg-check-mark')?.classList.remove('hidden');
+      });
+    });
+
+    // Custom Photo Upload (as in competitor)
+    bgUploadFile?.addEventListener('change', (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file && file.size < 10 * 1024 * 1024) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const result = event.target?.result as string;
+          if (result) {
+            const bgLayer = document.getElementById('ambient-bg-layer');
+            const bgImg = document.getElementById('active-bg-image') as HTMLImageElement;
+            if (bgLayer) bgLayer.style.display = 'block';
+            if (bgImg) bgImg.src = result;
+            document.documentElement.classList.add('has-ambient-wallpaper');
+            try {
+              localStorage.setItem('currentBackgroundImage', result);
+            } catch (err) {
+              // LocalStorage quota might be exceeded for giant base64, still works in current session
+            }
+            closeBgModal();
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Random Wallpaper
+    randomizeBgBtn?.addEventListener('click', () => {
+      const wallpapers = [
+        'https://images.unsplash.com/photo-1518248728743-f22e843d1f54?crop=entropy&cs=tinysrgb&fit=max&fm=webp&q=80&w=1920',
+        'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?crop=entropy&cs=tinysrgb&fit=max&fm=webp&q=80&w=1920',
+        'https://images.unsplash.com/photo-1519945302083-c274aa26c627?crop=entropy&cs=tinysrgb&fit=max&fm=webp&q=80&w=1920',
+        'https://images.unsplash.com/photo-1509599589979-3b5a15d2816e?crop=entropy&cs=tinysrgb&fit=max&fm=webp&q=80&w=1920',
+        'https://images.unsplash.com/photo-1511497584788-876760111969?crop=entropy&cs=tinysrgb&fit=max&fm=webp&q=80&w=1920'
+      ];
+      const randomUrl = wallpapers[Math.floor(Math.random() * wallpapers.length)];
+      const bgLayer = document.getElementById('ambient-bg-layer');
+      const bgImg = document.getElementById('active-bg-image') as HTMLImageElement;
+      if (bgLayer) bgLayer.style.display = 'block';
+      if (bgImg) bgImg.src = randomUrl;
+      document.documentElement.classList.add('has-ambient-wallpaper');
+      localStorage.setItem('currentBackgroundImage', randomUrl);
+      closeBgModal();
+    });
+
+    // Audio & Settings Modal Handlers
     function openSettingsModal() {
-      // Sync form controls with current state
       const s = getSettings();
       (document.getElementById('bell-volume-slider') as HTMLInputElement).value = String(Math.round(s.bellVolume * 100));
       document.getElementById('bell-vol-label')!.textContent = `${Math.round(s.bellVolume * 100)}%`;
-
       (document.getElementById('ambient-volume-slider') as HTMLInputElement).value = String(Math.round(s.ambientVolume * 100));
       document.getElementById('ambient-vol-label')!.textContent = `${Math.round(s.ambientVolume * 100)}%`;
-
       (document.getElementById('warmup-select') as HTMLSelectElement).value = String(warmupSec);
       (document.getElementById('interval-select') as HTMLSelectElement).value = String(intervalSec);
       (document.getElementById('breath-guide-toggle') as HTMLInputElement).checked = s.breathGuideEnabled;
@@ -619,8 +1017,10 @@ const {
     closeSettingsBtn?.addEventListener('click', closeSettingsModal);
     settingsBackdrop?.addEventListener('click', closeSettingsModal);
     saveSettingsBtn?.addEventListener('click', closeSettingsModal);
+    document.getElementById('quick-bell-chip')?.addEventListener('click', openSettingsModal);
+    document.getElementById('quick-ambient-chip')?.addEventListener('click', openSettingsModal);
 
-    // Bell option selection
+    // Bell option clicks
     document.querySelectorAll('.bell-option-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const selected = (btn as HTMLElement).dataset.bell as BellType;
@@ -629,7 +1029,6 @@ const {
         saveSettings({ bellType });
         updateQuickChips();
 
-        // Update UI styling
         document.querySelectorAll('.bell-option-btn').forEach(b => {
           const check = b.querySelector('.bell-check');
           if ((b as HTMLElement).dataset.bell === selected) {
@@ -641,17 +1040,14 @@ const {
           }
         });
 
-        // Audition bell
         audioEngine.playBell(bellType);
       });
     });
 
-    // Preview Bell Button
     document.getElementById('preview-bell-btn')?.addEventListener('click', () => {
       audioEngine.playBell(bellType);
     });
 
-    // Bell Volume Slider
     document.getElementById('bell-volume-slider')?.addEventListener('input', (e) => {
       const val = parseInt((e.target as HTMLInputElement).value, 10);
       document.getElementById('bell-vol-label')!.textContent = `${val}%`;
@@ -660,7 +1056,7 @@ const {
       saveSettings({ bellVolume: normalized });
     });
 
-    // Ambient option selection
+    // Ambient option clicks
     document.querySelectorAll('.ambient-option-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const selected = (btn as HTMLElement).dataset.ambient as AmbientType;
@@ -680,7 +1076,6 @@ const {
         const ambientVolContainer = document.getElementById('ambient-vol-container')!;
         if (ambientType !== 'none') {
           ambientVolContainer.classList.remove('opacity-50', 'pointer-events-none');
-          // If timer is currently running, switch ambient stream
           if (timer.getState() === 'running') {
             audioEngine.startAmbient(ambientType);
           }
@@ -691,7 +1086,6 @@ const {
       });
     });
 
-    // Ambient Volume Slider
     document.getElementById('ambient-volume-slider')?.addEventListener('input', (e) => {
       const val = parseInt((e.target as HTMLInputElement).value, 10);
       document.getElementById('ambient-vol-label')!.textContent = `${val}%`;
@@ -700,44 +1094,50 @@ const {
       saveSettings({ ambientVolume: normalized });
     });
 
-    // Warm-up Select
     document.getElementById('warmup-select')?.addEventListener('change', (e) => {
       warmupSec = parseInt((e.target as HTMLSelectElement).value, 10);
+      countdownSlider.value = String(warmupSec);
+      countdownReadout.textContent = String(warmupSec);
       timer.updateConfig({ warmupSeconds: warmupSec });
       saveSettings({ warmupSeconds: warmupSec });
-      updateQuickChips();
     });
 
-    // Interval Select
     document.getElementById('interval-select')?.addEventListener('change', (e) => {
       intervalSec = parseInt((e.target as HTMLSelectElement).value, 10);
+      intervalReadout.textContent = String(Math.round(intervalSec / 60));
       timer.updateConfig({ intervalSeconds: intervalSec });
       saveSettings({ intervalMinutes: Math.round(intervalSec / 60) });
     });
 
-    // Breath Guide Toggle
     document.getElementById('breath-guide-toggle')?.addEventListener('change', (e) => {
       const checked = (e.target as HTMLInputElement).checked;
       saveSettings({ breathGuideEnabled: checked });
       setBreathAnimation(timer.getState() === 'running' || timer.getState() === 'warmup');
     });
 
-    // Intention / Presenter text input
     document.getElementById('intention-input')?.addEventListener('input', (e) => {
       const msg = (e.target as HTMLInputElement).value;
       saveSettings({ presenterMessage: msg });
-      updatePresenterMessage();
+      const banner = document.getElementById('presenter-banner');
+      const text = document.getElementById('presenter-text');
+      if (banner && text) {
+        if (msg.trim()) {
+          text.textContent = msg.trim();
+          banner.classList.remove('opacity-0', '-translate-y-2');
+        } else {
+          banner.classList.add('opacity-0', '-translate-y-2');
+        }
+      }
     });
 
-    // Stats Modal Controls
-    function renderStatsModal() {
+    // Stats Modal
+    function openStatsModal() {
       const stats = getStats();
       document.getElementById('stat-current-streak')!.textContent = String(stats.currentStreak);
       document.getElementById('stat-longest-streak')!.textContent = String(stats.longestStreak);
       document.getElementById('stat-total-sessions')!.textContent = String(stats.totalSessions);
       document.getElementById('stat-total-minutes')!.textContent = String(stats.totalMinutes);
 
-      // Render 7-day dots
       const dotsContainer = document.getElementById('week-dots-container')!;
       dotsContainer.innerHTML = '';
       const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -754,22 +1154,20 @@ const {
         col.className = 'flex flex-col items-center gap-1.5';
         col.innerHTML = `
           <div class="text-[10px] text-zinc-400 font-medium">${dayLabel}</div>
-          <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs ${hasSession ? 'bg-blue-600 text-white font-semibold' : 'bg-black/[0.04] dark:bg-white/[0.06] text-zinc-400'}">
+          <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs ${hasSession ? 'bg-cyan-500 text-white font-semibold' : 'bg-black/[0.04] dark:bg-white/[0.06] text-zinc-400'}">
             ${hasSession ? '✓' : '·'}
           </div>
         `;
         dotsContainer.appendChild(col);
       }
 
-      // Render recent sessions list
       const sessionsList = document.getElementById('recent-sessions-list')!;
       document.getElementById('sessions-count-label')!.textContent = `${stats.history.length} recorded`;
-
       if (stats.history.length === 0) {
         sessionsList.innerHTML = `<div class="text-center py-6 text-zinc-400 text-xs">No completed sessions yet. Start your first practice today!</div>`;
       } else {
         sessionsList.innerHTML = stats.history.slice(0, 10).map(rec => {
-          const moodBadge = rec.mood ? `<span class="px-2 py-0.5 rounded-full text-[10px] bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-300 capitalize">${rec.mood}</span>` : '';
+          const moodBadge = rec.mood ? `<span class="px-2 py-0.5 rounded-full text-[10px] bg-cyan-50 dark:bg-cyan-950/60 text-cyan-600 dark:text-cyan-300 capitalize">${rec.mood}</span>` : '';
           return `
             <div class="flex items-center justify-between p-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 border border-black/[0.04] dark:border-white/[0.04] text-xs">
               <div>
@@ -781,10 +1179,7 @@ const {
           `;
         }).join('');
       }
-    }
 
-    function openStatsModal() {
-      renderStatsModal();
       statsModal.classList.remove('opacity-0', 'pointer-events-none');
       statsModal.querySelector('.transform')?.classList.remove('scale-95');
     }
@@ -799,28 +1194,6 @@ const {
     dismissStatsBtn?.addEventListener('click', closeStatsModal);
     statsBackdrop?.addEventListener('click', closeStatsModal);
 
-    // Export JSON
-    document.getElementById('export-data-btn')?.addEventListener('click', () => {
-      const stats = getStats();
-      const blob = new Blob([JSON.stringify(stats, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `meditation-timer-backup-${getTodayDateStr()}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
-    });
-
-    // Reset Data
-    document.getElementById('clear-data-btn')?.addEventListener('click', () => {
-      if (confirm('Are you sure you want to clear your local meditation stats and streaks?')) {
-        localStorage.removeItem('mto_stats_v1');
-        renderStatsModal();
-        refreshStreakBadge();
-      }
-    });
-
-    // Completion modal actions
     meditateAgainBtn?.addEventListener('click', () => {
       completionScreen.classList.add('opacity-0', 'pointer-events-none');
       completionScreen.querySelector('.transform')?.classList.add('scale-95');
@@ -834,17 +1207,15 @@ const {
       openStatsModal();
     });
 
-    // Reflection mood pills click
+    // Mood reflections
     document.querySelectorAll('.mood-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const mood = (btn as HTMLElement).dataset.mood;
-        // Highlight chosen mood
         document.querySelectorAll('.mood-btn').forEach(b => {
           b.className = 'mood-btn px-3 py-1.5 rounded-full text-xs font-medium border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 transition-colors';
         });
-        btn.className = 'mood-btn px-3 py-1.5 rounded-full text-xs font-medium border border-blue-600 bg-blue-600 text-white transition-colors';
+        btn.className = 'mood-btn px-3 py-1.5 rounded-full text-xs font-medium border border-cyan-500 bg-cyan-500 text-white transition-colors';
 
-        // Update the last history record with mood
         const stats = getStats();
         if (stats.history.length > 0) {
           stats.history[0].mood = mood;
@@ -853,44 +1224,11 @@ const {
       });
     });
 
-    // Fullscreen Toggle
-    const fullscreenToggleBtn = document.getElementById('fullscreen-toggle-btn')!;
-    const fullscreenEnterIcon = document.getElementById('fullscreen-enter-icon')!;
-    const fullscreenExitIcon = document.getElementById('fullscreen-exit-icon')!;
-
-    fullscreenToggleBtn?.addEventListener('click', () => {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(() => {});
-      } else {
-        if (document.exitFullscreen) document.exitFullscreen();
-      }
-    });
-
-    document.addEventListener('fullscreenchange', () => {
-      if (document.fullscreenElement) {
-        fullscreenEnterIcon.classList.add('hidden');
-        fullscreenExitIcon.classList.remove('hidden');
-      } else {
-        fullscreenEnterIcon.classList.remove('hidden');
-        fullscreenExitIcon.classList.add('hidden');
-      }
-    });
-
-    // Theme Toggle
-    document.getElementById('theme-toggle-btn')?.addEventListener('click', () => {
-      const isDark = document.documentElement.classList.toggle('dark');
-      const meta = document.getElementById('theme-color-meta');
-      if (meta) meta.setAttribute('content', isDark ? '#121214' : '#f5f5f7');
-      saveSettings({ darkMode: isDark });
-    });
-
-    // Keyboard Shortcuts
+    // Keyboard Shortcuts (Space, Esc, F)
     window.addEventListener('keydown', (e) => {
-      // Don't intercept if user is typing in an input
       if (['INPUT', 'TEXTAREA', 'SELECT'].includes((e.target as HTMLElement).tagName)) {
         return;
       }
-
       if (e.code === 'Space') {
         e.preventDefault();
         const state = timer.getState();
@@ -903,6 +1241,7 @@ const {
         e.preventDefault();
         closeSettingsModal();
         closeStatsModal();
+        closeBgModal();
         if (timer.getState() !== 'idle') {
           timer.reset();
         }
@@ -915,5 +1254,6 @@ const {
         }
       }
     });
+
   });
 </script>
