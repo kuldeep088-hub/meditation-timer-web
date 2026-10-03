@@ -1,5 +1,13 @@
 ---
 // StatsDrawer.astro - Apple Health-inspired mindful habit & streak dashboard
+import { translations, type SupportedLocale } from '../i18n/translations';
+
+interface Props {
+  lang?: SupportedLocale;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = translations[lang] || translations.en;
 ---
 
 <div id="stats-modal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6 opacity-0 pointer-events-none transition-all duration-200">
@@ -19,8 +27,8 @@
       <div class="flex items-center gap-2.5">
         <span class="text-orange-400 text-lg">🔥</span>
         <div>
-          <h2 class="text-base sm:text-lg font-semibold tracking-tight text-white">Mindfulness Stats</h2>
-          <p class="text-[11px] sm:text-xs text-white/50">100% private · Stored locally in your browser</p>
+          <h2 class="text-base sm:text-lg font-semibold tracking-tight text-white">{t.statsTitle}</h2>
+          <p class="text-[11px] sm:text-xs text-white/50">{t.statsSubtitle}</p>
         </div>
       </div>
       <button
@@ -43,30 +51,30 @@
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
         <div class="bg-white/[0.04] p-3.5 rounded-2xl border border-white/[0.06] text-center">
           <div id="stat-current-streak" class="text-2xl font-bold tracking-tight text-orange-400 tabular-nums">0</div>
-          <div class="text-[11px] font-medium text-white/50 mt-0.5">Day Streak</div>
+          <div class="text-[11px] font-medium text-white/50 mt-0.5">{t.dayStreak}</div>
         </div>
 
         <div class="bg-white/[0.04] p-3.5 rounded-2xl border border-white/[0.06] text-center">
           <div id="stat-longest-streak" class="text-2xl font-bold tracking-tight text-white tabular-nums">0</div>
-          <div class="text-[11px] font-medium text-white/50 mt-0.5">Best Streak</div>
+          <div class="text-[11px] font-medium text-white/50 mt-0.5">{t.bestStreak}</div>
         </div>
 
         <div class="bg-white/[0.04] p-3.5 rounded-2xl border border-white/[0.06] text-center">
           <div id="stat-total-sessions" class="text-2xl font-bold tracking-tight text-cyan-400 tabular-nums">0</div>
-          <div class="text-[11px] font-medium text-white/50 mt-0.5">Sessions</div>
+          <div class="text-[11px] font-medium text-white/50 mt-0.5">{t.sessions}</div>
         </div>
 
         <div class="bg-white/[0.04] p-3.5 rounded-2xl border border-white/[0.06] text-center">
           <div id="stat-total-minutes" class="text-2xl font-bold tracking-tight text-emerald-400 tabular-nums">0</div>
-          <div class="text-[11px] font-medium text-white/50 mt-0.5">Minutes</div>
+          <div class="text-[11px] font-medium text-white/50 mt-0.5">{t.minutes}</div>
         </div>
       </div>
 
       <!-- 7-Day Activity Rhythm -->
       <div class="bg-white/[0.04] p-4 rounded-2xl border border-white/[0.06]">
         <div class="text-xs font-semibold text-white/80 mb-3 flex items-center justify-between">
-          <span>This Week's Mindful Rhythm</span>
-          <span class="text-[11px] font-normal text-white/40">Last 7 Days</span>
+          <span>{t.weeklyRhythm}</span>
+          <span class="text-[11px] font-normal text-white/40">{t.last7Days}</span>
         </div>
         <div id="week-dots-container" class="grid grid-cols-7 gap-2 text-center">
           <!-- Dynamically populated via JS -->
@@ -76,7 +84,7 @@
       <!-- Recent Sessions Log -->
       <div>
         <div class="flex items-center justify-between mb-2">
-          <span class="text-xs font-semibold text-white/80">Recent Meditation Sessions</span>
+          <span class="text-xs font-semibold text-white/80">{t.recentSessions}</span>
           <span class="text-[11px] text-white/40" id="sessions-count-label">0 recorded</span>
         </div>
 
@@ -93,10 +101,10 @@
         <span class="text-[11px]">No login required · No telemetry</span>
         <div class="flex gap-3">
           <button id="export-data-btn" type="button" class="py-1.5 px-2 hover:text-cyan-400 text-white/60 underline transition-colors min-h-[36px] flex items-center">
-            Export JSON
+            {t.exportJSON}
           </button>
           <button id="clear-data-btn" type="button" class="py-1.5 px-2 hover:text-rose-400 text-white/60 underline transition-colors min-h-[36px] flex items-center">
-            Reset Data
+            {t.resetData}
           </button>
         </div>
       </div>
@@ -110,7 +118,7 @@
         type="button"
         class="px-6 py-2.5 min-h-[40px] rounded-full bg-cyan-500 hover:bg-cyan-400 active:bg-cyan-600 text-black font-semibold text-xs transition-colors shadow-lg shadow-cyan-500/20"
       >
-        Done
+        {t.done}
       </button>
     </div>
 

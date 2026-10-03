@@ -11,17 +11,20 @@ import Footer from '../components/Footer.astro';
   title="Meditation Timer Online | Free Minimalist Mindfulness Timer with Bells & Ambient Sounds"
   description="A serene, distraction-free online meditation timer. Features authentic Tibetan singing bowls, customizable warm-up, interval chimes, ambient nature sounds, screen wake lock, and zero ads."
   canonicalUrl="https://freemeditationtimeronline.com/"
+  lang="en"
+  cleanPath="/"
 >
-  <Header />
+  <Header lang="en" cleanPath="/" />
   <main class="flex-1 flex flex-col">
     <TimerApp
+      lang="en"
       initialDurationSeconds={600}
       initialWarmupSeconds={10}
       initialBell="bowl"
       initialAmbient="none"
     />
-    <QuickTimerLinks />
-    <FAQ />
+    <QuickTimerLinks lang="en" />
+    <FAQ lang="en" />
   </main>
   <Footer />
 </Layout>

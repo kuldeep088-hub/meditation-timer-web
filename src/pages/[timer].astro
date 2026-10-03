@@ -103,9 +103,11 @@ const { slug, seconds, title, heading, subheading, tip } = Astro.props;
   title={title}
   description={`${heading}: ${subheading} Free online meditation timer with authentic bells, screen wake lock, and no ads.`}
   canonicalUrl={`https://freemeditationtimeronline.com/${slug}`}
+  lang="en"
+  cleanPath={`/${slug}`}
   durationSeconds={seconds}
 >
-  <Header />
+  <Header lang="en" cleanPath={`/${slug}`} />
   <main class="flex-1 flex flex-col">
     <!-- Preset Banner -->
     <div class="w-full max-w-xl mx-auto px-4 pt-6 text-center">
@@ -119,6 +121,7 @@ const { slug, seconds, title, heading, subheading, tip } = Astro.props;
 
     <!-- Timer Application -->
     <TimerApp
+      lang="en"
       initialDurationSeconds={seconds}
       initialWarmupSeconds={10}
       initialBell="bowl"
@@ -145,8 +148,8 @@ const { slug, seconds, title, heading, subheading, tip } = Astro.props;
     </section>
 
     <!-- Quick access to other durations -->
-    <QuickTimerLinks />
-    <FAQ />
+    <QuickTimerLinks lang="en" />
+    <FAQ lang="en" />
   </main>
   <Footer />
 </Layout>

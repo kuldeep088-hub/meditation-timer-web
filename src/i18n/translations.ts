@@ -94,6 +94,18 @@ export interface LocaleContent {
   faqBadge: string;
   faqTitle: string;
   faqSubtitle: string;
+  countDownTab: string;
+  durationTab: string;
+  intervalTab: string;
+  breatheIn: string;
+  breatheOut: string;
+  adjustMinutes: string;
+  moveSliderToSet: string;
+  intervalBellOff: string;
+  endSession: string;
+  backgroundModalTitle: string;
+  customPhotoUpload: string;
+  removePhoto: string;
   faqs: Array<{ question: string; answer: string }>;
 }
 
@@ -179,6 +191,18 @@ export const translations: Record<SupportedLocale, LocaleContent> = {
     faqBadge: "Frequently Asked Questions",
     faqTitle: "Everything You Need to Know",
     faqSubtitle: "Learn how our minimalist meditation timer enhances your daily mindfulness practice.",
+    countDownTab: "Count Down",
+    durationTab: "Duration",
+    intervalTab: "Interval",
+    breatheIn: "Breathe in",
+    breatheOut: "Breathe out",
+    adjustMinutes: "Adjust minutes",
+    moveSliderToSet: "Move the slider to set the duration",
+    intervalBellOff: "Interval Bell Off",
+    endSession: "End Session",
+    backgroundModalTitle: "Atmosphere & Wallpaper",
+    customPhotoUpload: "Upload Custom Photo",
+    removePhoto: "Remove Custom Photo",
     faqs: [
       {
         question: "What is Meditation Timer Online?",
@@ -296,6 +320,18 @@ export const translations: Record<SupportedLocale, LocaleContent> = {
     faqBadge: "Preguntas Frecuentes",
     faqTitle: "Todo lo que necesitas saber",
     faqSubtitle: "Aprende cómo usar este temporizador gratuito para enriquecer tu bienestar.",
+    countDownTab: "Cuenta atrás",
+    durationTab: "Duración",
+    intervalTab: "Intervalo",
+    breatheIn: "Inhala",
+    breatheOut: "Exhala",
+    adjustMinutes: "Ajustar minutos",
+    moveSliderToSet: "Desliza para ajustar la duración",
+    intervalBellOff: "Campana de intervalo desactivada",
+    endSession: "Terminar Sesión",
+    backgroundModalTitle: "Atmósfera y Fondo",
+    customPhotoUpload: "Subir Foto Propia",
+    removePhoto: "Eliminar Foto",
     faqs: [
       {
         question: "¿Qué es este temporizador de meditación online?",
@@ -397,6 +433,18 @@ export const translations: Record<SupportedLocale, LocaleContent> = {
     faqBadge: "よくある質問 (FAQ)",
     faqTitle: "ご利用ガイド",
     faqSubtitle: "毎日の瞑想を豊かにする機能をご紹介します。",
+    countDownTab: "カウントダウン",
+    durationTab: "時間設定",
+    intervalTab: "インターバル",
+    breatheIn: "息を吸って",
+    breatheOut: "息を吐いて",
+    adjustMinutes: "分を調整",
+    moveSliderToSet: "スライダーで時間を調整",
+    intervalBellOff: "インターバル音オフ",
+    endSession: "終了する",
+    backgroundModalTitle: "背景と雰囲気",
+    customPhotoUpload: "写真をアップロード",
+    removePhoto: "写真を削除",
     faqs: [
       {
         question: "瞑想タイマーオンラインとは何ですか？",
@@ -494,6 +542,18 @@ export const translations: Record<SupportedLocale, LocaleContent> = {
     faqBadge: "Foire Aux Questions",
     faqTitle: "Questions Fréquentes",
     faqSubtitle: "Tout savoir sur l'utilisation du minuteur de méditation.",
+    countDownTab: "Compte à rebours",
+    durationTab: "Durée",
+    intervalTab: "Intervalle",
+    breatheIn: "Inspirez",
+    breatheOut: "Expirez",
+    adjustMinutes: "Ajuster les minutes",
+    moveSliderToSet: "Déplacez le curseur pour régler la durée",
+    intervalBellOff: "Cloche d'intervalle désactivée",
+    endSession: "Terminer la séance",
+    backgroundModalTitle: "Ambiance & Fond d'écran",
+    customPhotoUpload: "Télécharger une photo",
+    removePhoto: "Supprimer la photo",
     faqs: [
       {
         question: "Qu'est-ce que ce minuteur de méditation en ligne ?",
@@ -591,6 +651,18 @@ export const translations: Record<SupportedLocale, LocaleContent> = {
     faqBadge: "Häufige Fragen",
     faqTitle: "Wissenswertes zum Timer",
     faqSubtitle: "So unterstützt dich der Online-Timer bei deiner täglichen Meditationspraxis.",
+    countDownTab: "Countdown",
+    durationTab: "Dauer",
+    intervalTab: "Intervall",
+    breatheIn: "Einatmen",
+    breatheOut: "Ausatmen",
+    adjustMinutes: "Minuten anpassen",
+    moveSliderToSet: "Schieberegler bewegen, um Dauer einzustellen",
+    intervalBellOff: "Intervallglocke aus",
+    endSession: "Sitzung beenden",
+    backgroundModalTitle: "Atmosphäre & Hintergrund",
+    customPhotoUpload: "Eigenes Foto hochladen",
+    removePhoto: "Foto entfernen",
     faqs: [
       {
         question: "Was ist die Meditationsuhr Online?",
@@ -688,6 +760,18 @@ export const translations: Record<SupportedLocale, LocaleContent> = {
     faqBadge: "Perguntas Frequentes",
     faqTitle: "Tudo o que você precisa saber",
     faqSubtitle: "Saiba como o temporizador gratuito apoia sua prática diária.",
+    countDownTab: "Contagem regressiva",
+    durationTab: "Duração",
+    intervalTab: "Intervalo",
+    breatheIn: "Inspire",
+    breatheOut: "Expire",
+    adjustMinutes: "Ajustar minutos",
+    moveSliderToSet: "Mova o controle para definir a duração",
+    intervalBellOff: "Sino de intervalo desativado",
+    endSession: "Encerrar Sessão",
+    backgroundModalTitle: "Atmosfera e Fundo",
+    customPhotoUpload: "Enviar Foto Própria",
+    removePhoto: "Remover Foto",
     faqs: [
       {
         question: "O que é o Temporizador de Meditação Online?",
@@ -785,6 +869,18 @@ export const translations: Record<SupportedLocale, LocaleContent> = {
     faqBadge: "자주 묻는 질문 (FAQ)",
     faqTitle: "자주 묻는 질문",
     faqSubtitle: "명상 타이머의 모든 기능과 사용법을 안내해 드립니다.",
+    countDownTab: "카운트다운",
+    durationTab: "시간 설정",
+    intervalTab: "인터벌",
+    breatheIn: "숨을 들이쉬세요",
+    breatheOut: "숨을 내쉬세요",
+    adjustMinutes: "분 조절",
+    moveSliderToSet: "슬라이더를 움직여 시간을 설정하세요",
+    intervalBellOff: "인터벌 벨 꺼짐",
+    endSession: "세션 종료",
+    backgroundModalTitle: "분위기 및 배경화면",
+    customPhotoUpload: "사진 업로드",
+    removePhoto: "사진 삭제",
     faqs: [
       {
         question: "온라인 명상 타이머는 어떤 도구인가요?",
@@ -882,6 +978,18 @@ export const translations: Record<SupportedLocale, LocaleContent> = {
     faqBadge: "Domande Frequenti",
     faqTitle: "Tutto quello che c'è da sapere",
     faqSubtitle: "Scopri come usare il timer gratuito per la tua pratica quotidiana.",
+    countDownTab: "Conto alla rovescia",
+    durationTab: "Durata",
+    intervalTab: "Intervallo",
+    breatheIn: "Inspira",
+    breatheOut: "Espira",
+    adjustMinutes: "Regola i minuti",
+    moveSliderToSet: "Muovi il cursore per impostare la durata",
+    intervalBellOff: "Campana a intervalli disattivata",
+    endSession: "Termina Sessione",
+    backgroundModalTitle: "Atmosfera e Sfondo",
+    customPhotoUpload: "Carica Foto",
+    removePhoto: "Rimuovi Foto",
     faqs: [
       {
         question: "Cos'è il Timer Meditazione Online?",

@@ -4,6 +4,7 @@ import SoundMixerModal from './SoundMixerModal.astro';
 import StatsDrawer from './StatsDrawer.astro';
 import CompletionView from './CompletionView.astro';
 import BackgroundModal from './BackgroundModal.astro';
+import { translations, type SupportedLocale } from '../i18n/translations';
 
 interface Props {
   initialDurationSeconds?: number;
@@ -13,6 +14,7 @@ interface Props {
   initialAmbient?: string;
   heading?: string;
   subheading?: string;
+  lang?: SupportedLocale;
 }
 
 const {
@@ -22,11 +24,46 @@ const {
   initialBell = 'bowl',
   initialAmbient = 'none',
   heading = "Meditation Timer Online",
-  subheading = "A distraction-free mindfulness timer with authentic bells and ambient nature sounds."
+  subheading = "A distraction-free mindfulness timer with authentic bells and ambient nature sounds.",
+  lang = 'en'
 } = Astro.props;
+
+const t = translations[lang] || translations.en;
+
+const clientI18n = JSON.stringify({
+  ready: t.ready,
+  warmup: t.warmup,
+  meditating: t.meditating,
+  paused: t.paused,
+  begin: t.begin,
+  pause: t.pause,
+  resume: t.resume,
+  reset: t.reset,
+  settlingPosture: t.settlingPosture,
+  breatheIn: t.breatheIn,
+  breatheOut: t.breatheOut,
+  countdownOn: "Countdown On",
+  countdownOff: "Countdown Off",
+  intervalBellOn: "Interval Bell On",
+  intervalBellOff: t.intervalBellOff,
+  bells: {
+    bowl: t.tibetanBowl,
+    zen: t.kyotoZen,
+    gong: t.deepGong,
+    tingsha: t.tingsha
+  },
+  ambients: {
+    none: t.silence,
+    rain: t.rain,
+    stream: t.stream,
+    ocean: t.ocean,
+    brown: t.brownNoise,
+    white: t.breeze
+  }
+});
 ---
 
-<div id="timer-root" class="relative flex-1 flex flex-col items-center justify-center px-4 py-6 sm:py-10 transition-all duration-500 overflow-hidden w-full" data-duration={initialDurationSeconds} data-warmup={initialWarmupSeconds} data-interval={initialIntervalSeconds} data-bell={initialBell} data-ambient={initialAmbient}>
+<div id="timer-root" class="relative flex-1 flex flex-col items-center justify-center px-4 py-6 sm:py-10 transition-all duration-500 overflow-hidden w-full" data-duration={initialDurationSeconds} data-warmup={initialWarmupSeconds} data-interval={initialIntervalSeconds} data-bell={initialBell} data-ambient={initialAmbient} data-lang={lang} data-i18n={clientI18n}>
   
   <!-- Intention / Presenter Note Banner -->
   <div id="presenter-banner" class="opacity-0 -translate-y-2 transition-all duration-500 max-w-lg mx-auto mb-4 px-4 py-1.5 rounded-full bg-white/80 dark:bg-black/60 backdrop-blur-md border border-black/10 dark:border-white/10 shadow-xs text-center">
@@ -52,7 +89,7 @@ const {
               <path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/>
               <path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>
             </svg>
-            <span>Count Down</span>
+            <span>{t.countDownTab}</span>
           </button>
         </li>
 
@@ -67,7 +104,7 @@ const {
               <circle cx="12" cy="12" r="10"/>
               <polyline points="12 6 12 12 16 14"/>
             </svg>
-            <span>Duration</span>
+            <span>{t.durationTab}</span>
           </button>
         </li>
 
@@ -82,7 +119,7 @@ const {
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
               <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
             </svg>
-            <span>Interval</span>
+            <span>{t.intervalTab}</span>
           </button>
         </li>
       </ul>
@@ -203,7 +240,7 @@ const {
           <!-- Center Time Readout -->
           <div class="relative z-10 flex flex-col items-center justify-center text-center">
             <div id="timer-status-badge" class="text-xs uppercase tracking-wider font-semibold text-zinc-500 dark:text-zinc-400 mb-1">
-              Ready
+              {t.ready}
             </div>
 
             <!-- Giant Digits (matching competitor #timeReadout) -->
@@ -216,11 +253,11 @@ const {
             </div>
 
             <span id="durationUnitReadout" class="text-xs font-semibold uppercase tracking-wider text-cyan-600 dark:text-cyan-400 mt-1">
-              Minutes
+              {t.minutes}
             </span>
 
             <div id="warmup-indicator" class="hidden text-xs text-amber-500 dark:text-amber-400 font-semibold mt-1">
-              Settling posture...
+              {t.settlingPosture}
             </div>
           </div>
         </div>
@@ -231,7 +268,7 @@ const {
           <!-- Animated Guide Readout -->
           <div class="flex items-center justify-center gap-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
             <span class="animate-arrow-left text-cyan-500 font-bold">←</span>
-            <span>Move the slider to set the duration</span>
+            <span>{t.moveSliderToSet}</span>
             <span class="animate-arrow-right text-cyan-500 font-bold">→</span>
           </div>
 
@@ -260,7 +297,7 @@ const {
             >
               −
             </button>
-            <span class="text-xs text-zinc-400">Adjust minutes</span>
+            <span class="text-xs text-zinc-400">{t.adjustMinutes}</span>
             <button
               id="step-up-btn"
               type="button"
@@ -388,7 +425,7 @@ const {
           <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
           <path d="M3 3v5h5"/>
         </svg>
-        <span>Reset</span>
+        <span>{t.reset}</span>
       </button>
 
       <!-- Begin / Pause / Resume Button -->
@@ -401,7 +438,7 @@ const {
         <svg id="start-btn-icon" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
           <polygon points="5 3 19 12 5 21 5 3"/>
         </svg>
-        <span id="start-btn-label">Begin</span>
+        <span id="start-btn-label">{t.begin}</span>
       </button>
     </div>
 
@@ -416,7 +453,7 @@ const {
       class="flex items-center gap-1.5 px-3.5 py-2 min-h-[38px] rounded-full bg-black/60 backdrop-blur-md hover:bg-black/80 border border-white/10 text-zinc-200 transition-all shadow-2xs"
     >
       <span>🔔</span>
-      <span id="quick-bell-label">Tibetan Bowl</span>
+      <span id="quick-bell-label">{t.tibetanBowl}</span>
     </button>
 
     <!-- Ambient Soundscape Chip -->
@@ -426,7 +463,7 @@ const {
       class="flex items-center gap-1.5 px-3.5 py-2 min-h-[38px] rounded-full bg-black/60 backdrop-blur-md hover:bg-black/80 border border-white/10 text-zinc-200 transition-all shadow-2xs"
     >
       <span>🍃</span>
-      <span id="quick-ambient-label">Silence</span>
+      <span id="quick-ambient-label">{t.silence}</span>
     </button>
 
     <!-- Scenic Background Switcher Chip -->
@@ -437,15 +474,15 @@ const {
       title="Change Wallpaper or Upload Photo"
     >
       <span>🌄</span>
-      <span>Background</span>
+      <span>{t.backgroundModalTitle}</span>
     </button>
   </div>
 
   <!-- Modals -->
-  <SoundMixerModal />
-  <StatsDrawer />
-  <CompletionView />
-  <BackgroundModal />
+  <SoundMixerModal lang={lang} />
+  <StatsDrawer lang={lang} />
+  <CompletionView lang={lang} />
+  <BackgroundModal lang={lang} />
 </div>
 
 <!-- Interactive Client Script -->
@@ -551,20 +588,22 @@ const {
       }
     }
 
+    const i18n = JSON.parse(root.dataset.i18n || '{}');
+
     function updateQuickChips() {
       const bellLabels: Record<string, string> = {
-        bowl: 'Tibetan Bowl',
-        zen: 'Kyoto Zen Bell',
-        gong: 'Deep Gong',
-        tingsha: 'Ting-Sha'
+        bowl: i18n.bells?.bowl || 'Tibetan Bowl',
+        zen: i18n.bells?.zen || 'Kyoto Zen Bell',
+        gong: i18n.bells?.gong || 'Deep Gong',
+        tingsha: i18n.bells?.tingsha || 'Ting-Sha'
       };
       const ambientLabels: Record<string, string> = {
-        none: 'Silence',
-        rain: 'Gentle Rain',
-        stream: 'Forest Stream',
-        ocean: 'Ocean Tide',
-        brown: 'Brown Noise',
-        white: 'Zen Breeze'
+        none: i18n.ambients?.none || 'Silence',
+        rain: i18n.ambients?.rain || 'Gentle Rain',
+        stream: i18n.ambients?.stream || 'Forest Stream',
+        ocean: i18n.ambients?.ocean || 'Ocean Tide',
+        brown: i18n.ambients?.brown || 'Brown Noise',
+        white: i18n.ambients?.white || 'Zen Breeze'
       };
       const bLabel = document.getElementById('quick-bell-label');
       if (bLabel) bLabel.textContent = bellLabels[bellType] || 'Bell';
@@ -587,22 +626,22 @@ const {
       ambientType: ambientType,
       onTick: (state, remaining, total) => {
         if (state === 'warmup') {
-          timerStatusBadge.textContent = 'Prepare';
+          timerStatusBadge.textContent = i18n.warmup || 'Prepare';
           warmupIndicator.classList.remove('hidden');
-          warmupIndicator.textContent = `Settling posture... ${remaining}s`;
+          warmupIndicator.textContent = `${i18n.settlingPosture || 'Settling posture...'} ${remaining}s`;
           timeReadout.textContent = formatTime(remaining);
-          document.title = `(${remaining}s) Get Ready | Meditation Timer Online`;
+          document.title = `(${remaining}s) ${i18n.warmup || 'Prepare'} | Meditation Timer Online`;
         } else if (state === 'running') {
-          timerStatusBadge.textContent = 'Meditating';
+          timerStatusBadge.textContent = i18n.meditating || 'Meditating';
           warmupIndicator.classList.add('hidden');
           timeReadout.textContent = formatTime(remaining);
-          document.title = `(${formatTime(remaining)}) Meditating | Meditation Timer Online`;
+          document.title = `(${formatTime(remaining)}) ${i18n.meditating || 'Meditating'} | Meditation Timer Online`;
         }
         updateProgressRing(remaining, total);
       },
       onStateChange: (state: TimerState) => {
         if (state === 'idle') {
-          timerStatusBadge.textContent = 'Ready';
+          timerStatusBadge.textContent = i18n.ready || 'Ready';
           timeReadout.textContent = formatTime(durationSec);
           warmupIndicator.classList.add('hidden');
           document.title = 'Meditation Timer Online | Free Web Meditation Timer';
@@ -614,7 +653,7 @@ const {
           resetButton.classList.add('hidden');
 
           // Reset Start Button
-          startBtnLabel.textContent = 'Begin';
+          startBtnLabel.textContent = i18n.begin || 'Begin';
           startBtnIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
           startButton.classList.add('animate-begin-pulse');
 
@@ -626,7 +665,7 @@ const {
           quickConfigBar.classList.add('opacity-0', 'pointer-events-none');
           resetButton.classList.remove('hidden');
 
-          startBtnLabel.textContent = 'Pause';
+          startBtnLabel.textContent = i18n.pause || 'Pause';
           startBtnIcon.innerHTML = '<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>';
           startButton.classList.remove('animate-begin-pulse');
           setBreathAnimation(true);
@@ -636,13 +675,13 @@ const {
           quickConfigBar.classList.add('opacity-0', 'pointer-events-none');
           resetButton.classList.remove('hidden');
 
-          startBtnLabel.textContent = 'Pause';
+          startBtnLabel.textContent = i18n.pause || 'Pause';
           startBtnIcon.innerHTML = '<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>';
           startButton.classList.remove('animate-begin-pulse');
           setBreathAnimation(true);
         } else if (state === 'paused') {
-          timerStatusBadge.textContent = 'Paused';
-          startBtnLabel.textContent = 'Resume';
+          timerStatusBadge.textContent = i18n.paused || 'Paused';
+          startBtnLabel.textContent = i18n.resume || 'Resume';
           startBtnIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
           startButton.classList.add('animate-begin-pulse');
           setBreathAnimation(false);
@@ -678,13 +717,13 @@ const {
     intervalReadout.textContent = String(Math.round(intervalSec / 60));
 
     countdownSwitch.checked = warmupSec > 0;
-    countdownSwitchLabel.textContent = warmupSec > 0 ? 'Countdown On' : 'Countdown Off';
+    countdownSwitchLabel.textContent = warmupSec > 0 ? (i18n.countdownOn || 'Countdown On') : (i18n.countdownOff || 'Countdown Off');
     if (warmupSec === 0) {
       countdownConfigContent.classList.add('opacity-40', 'pointer-events-none');
     }
 
     intervalSwitch.checked = intervalSec > 0;
-    intervalSwitchLabel.textContent = intervalSec > 0 ? 'Interval Bell On' : 'Interval Bell Off';
+    intervalSwitchLabel.textContent = intervalSec > 0 ? (i18n.intervalBellOn || 'Interval Bell On') : (i18n.intervalBellOff || 'Interval Bell Off');
     if (intervalSec === 0) {
       intervalConfigContent.classList.add('opacity-40', 'pointer-events-none');
     }
@@ -745,7 +784,7 @@ const {
     // Switches
     countdownSwitch.addEventListener('change', (e) => {
       const enabled = (e.target as HTMLInputElement).checked;
-      countdownSwitchLabel.textContent = enabled ? 'Countdown On' : 'Countdown Off';
+      countdownSwitchLabel.textContent = enabled ? (i18n.countdownOn || 'Countdown On') : (i18n.countdownOff || 'Countdown Off');
       if (enabled) {
         countdownConfigContent.classList.remove('opacity-40', 'pointer-events-none');
         warmupSec = parseInt(countdownSlider.value, 10) || 10;
@@ -759,7 +798,7 @@ const {
 
     intervalSwitch.addEventListener('change', (e) => {
       const enabled = (e.target as HTMLInputElement).checked;
-      intervalSwitchLabel.textContent = enabled ? 'Interval Bell On' : 'Interval Bell Off';
+      intervalSwitchLabel.textContent = enabled ? (i18n.intervalBellOn || 'Interval Bell On') : (i18n.intervalBellOff || 'Interval Bell Off');
       if (enabled) {
         intervalConfigContent.classList.remove('opacity-40', 'pointer-events-none');
         intervalSec = 300; // 5 mins default
