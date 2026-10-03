@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0066cc"/>
+      <stop offset="100%" stop-color="#004d99"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="#1d1d1f"/>
+  <!-- Zen Enso / Bell ring motif -->
+  <circle cx="64" cy="64" r="42" fill="none" stroke="url(#g)" stroke-width="6" stroke-linecap="round" stroke-dasharray="210 50"/>
+  <!-- Central mindful droplet/dot -->
+  <circle cx="64" cy="64" r="10" fill="#2997ff"/>
+</svg>

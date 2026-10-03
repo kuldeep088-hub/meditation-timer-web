@@ -1,0 +1,98 @@
+---
+// QuickTimerLinks.astro - Apple-style quick access timer cards & mindfulness feature grid
+const quickTimers = [
+  { slug: "1-minute-meditation-timer", label: "1 Min", desc: "Mindful Reset", seconds: 60 },
+  { slug: "3-minute-meditation-timer", label: "3 Mins", desc: "Quick Breathing", seconds: 180 },
+  { slug: "5-minute-meditation-timer", label: "5 Mins", desc: "Daily Clarity", seconds: 300 },
+  { slug: "10-minute-meditation-timer", label: "10 Mins", desc: "Classic Session", seconds: 600 },
+  { slug: "15-minute-meditation-timer", label: "15 Mins", desc: "Stress Relief", seconds: 900 },
+  { slug: "20-minute-meditation-timer", label: "20 Mins", desc: "Deep Stillness", seconds: 1200 },
+  { slug: "25-minute-meditation-timer", label: "25 Mins", desc: "Zen Focus", seconds: 1500 },
+  { slug: "30-minute-meditation-timer", label: "30 Mins", desc: "Vipassana Sit", seconds: 1800 },
+  { slug: "45-minute-meditation-timer", label: "45 Mins", desc: "Extended Sit", seconds: 2700 },
+  { slug: "1-hour-meditation-timer", label: "1 Hour", desc: "Retreat Depth", seconds: 3600 },
+];
+---
+
+<section class="w-full max-w-5xl mx-auto px-4 sm:px-6 py-12 sm:py-16 border-t border-black/[0.06] dark:border-white/[0.08]">
+  
+  <!-- Section Heading -->
+  <div class="text-center max-w-xl mx-auto mb-10">
+    <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-zinc-900 dark:text-white">
+      Quick Access Meditation Timers
+    </h2>
+    <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1.5">
+      Instant single-click setups for daily practice, micro-breaks, and extended sits.
+    </p>
+  </div>
+
+  <!-- Quick Timers Grid -->
+  <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-16">
+    {quickTimers.map((timer) => (
+      <a
+        href={`/${timer.slug}`}
+        class="group p-4 rounded-2xl bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/[0.08] hover:border-blue-500/50 hover:shadow-md transition-all text-center flex flex-col items-center justify-center"
+      >
+        <div class="text-lg sm:text-xl font-bold text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors tabular-nums">
+          {timer.label}
+        </div>
+        <div class="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">
+          {timer.desc}
+        </div>
+      </a>
+    ))}
+  </div>
+
+  <!-- Feature Comparison & Value Highlights -->
+  <div class="rounded-3xl bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/[0.08] p-6 sm:p-10 shadow-sm">
+    <div class="max-w-2xl mx-auto text-center mb-8">
+      <div class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 mb-3">
+        Pure Mindfulness · 0% Commercial Distractions
+      </div>
+      <h3 class="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-white">
+        Crafted for Deep Peace & Zero Interruption
+      </h3>
+      <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-2">
+        Unlike other web timers that lock ambient sounds behind $45 paid plans or push invasive mobile app popups, Meditation Timer Online is dedicated to providing an uncluttered, free experience.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      
+      <!-- Feature 1 -->
+      <div class="space-y-2 text-center sm:text-left">
+        <div class="w-10 h-10 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-base mx-auto sm:mx-0">
+          🔔
+        </div>
+        <h4 class="text-sm font-semibold text-zinc-900 dark:text-white">Authentic Bell Synthesizer</h4>
+        <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+          Physical modeling synthesizes natural Tibetan bowl overtones and Kyoto Zen bells with zero audio buffering, 100% offline.
+        </p>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="space-y-2 text-center sm:text-left">
+        <div class="w-10 h-10 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-base mx-auto sm:mx-0">
+          🌊
+        </div>
+        <h4 class="text-sm font-semibold text-zinc-900 dark:text-white">Free Nature Soundscapes</h4>
+        <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+          Relax with rain, flowing mountain stream, ocean tides, and calming brown noise with independent dual-channel volume mixing.
+        </p>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="space-y-2 text-center sm:text-left">
+        <div class="w-10 h-10 rounded-2xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold text-base mx-auto sm:mx-0">
+          🔒
+        </div>
+        <h4 class="text-sm font-semibold text-zinc-900 dark:text-white">100% Private Habit Tracking</h4>
+        <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+          Track streaks, consistency rhythms, and post-session reflection notes locally in your browser. No account or email required.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+</section>

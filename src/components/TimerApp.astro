@@ -1,0 +1,919 @@
+---
+// TimerApp.astro - Core interactive Apple-inspired meditation timer
+import SoundMixerModal from './SoundMixerModal.astro';
+import StatsDrawer from './StatsDrawer.astro';
+import CompletionView from './CompletionView.astro';
+
+interface Props {
+  initialDurationSeconds?: number;
+  initialWarmupSeconds?: number;
+  initialIntervalSeconds?: number;
+  initialBell?: string;
+  initialAmbient?: string;
+  heading?: string;
+  subheading?: string;
+}
+
+const {
+  initialDurationSeconds = 600,
+  initialWarmupSeconds = 10,
+  initialIntervalSeconds = 0,
+  initialBell = 'bowl',
+  initialAmbient = 'none',
+  heading = "Meditation Timer Online",
+  subheading = "A distraction-free mindfulness timer with authentic bells and ambient nature sounds."
+} = Astro.props;
+---
+
+<div id="timer-root" class="relative flex-1 flex flex-col items-center justify-center px-4 py-8 sm:py-12 transition-all duration-500 overflow-hidden" data-duration={initialDurationSeconds} data-warmup={initialWarmupSeconds} data-interval={initialIntervalSeconds} data-bell={initialBell} data-ambient={initialAmbient}>
+  
+  <!-- Intention / Presenter Note Banner -->
+  <div id="presenter-banner" class="opacity-0 -translate-y-2 transition-all duration-500 max-w-lg mx-auto mb-6 px-4 py-1.5 rounded-full bg-black/[0.03] dark:bg-white/[0.06] border border-black/[0.04] dark:border-white/[0.06] text-center">
+    <p id="presenter-text" class="text-xs sm:text-sm font-medium text-zinc-600 dark:text-zinc-300 tracking-wide"></p>
+  </div>
+
+  <!-- Main Timer Stage -->
+  <div class="relative w-full max-w-md mx-auto flex flex-col items-center">
+    
+    <!-- Breath Aura Ring (Surrounding the clock) -->
+    <div id="breath-ring-wrapper" class="relative flex items-center justify-center w-72 h-72 sm:w-80 sm:h-80 my-2 select-none">
+      
+      <!-- Pulsing Zen Breath Aura -->
+      <div id="breath-aura" class="absolute inset-0 rounded-full bg-blue-500/[0.06] dark:bg-blue-400/[0.08] blur-xl transition-all duration-700 pointer-events-none scale-90"></div>
+
+      <!-- Outer Track Ring -->
+      <svg class="absolute inset-0 w-full h-full -rotate-90 pointer-events-none" viewBox="0 0 100 100">
+        <!-- Background Track -->
+        <circle
+          cx="50"
+          cy="50"
+          r="46"
+          fill="none"
+          stroke="currentColor"
+          class="text-black/[0.05] dark:text-white/[0.08]"
+          stroke-width="2"
+        />
+        <!-- Progress Bar Indicator -->
+        <circle
+          id="timer-progress-ring"
+          cx="50"
+          cy="50"
+          r="46"
+          fill="none"
+          stroke="url(#timerGradient)"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-dasharray="289.026"
+          stroke-dashoffset="0"
+          class="transition-all duration-300"
+        />
+        <defs>
+          <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#0066cc" />
+            <stop offset="100%" stop-color="#2997ff" />
+          </linearGradient>
+        </defs>
+      </svg>
+
+      <!-- Center Countdown Readout -->
+      <div class="relative z-10 flex flex-col items-center justify-center text-center">
+        <!-- Status indicator (Warm-up / Meditating / Paused) -->
+        <div id="timer-status-badge" class="text-xs uppercase tracking-wider font-semibold text-zinc-400 dark:text-zinc-500 mb-1.5 transition-colors">
+          Ready
+        </div>
+
+        <!-- Big Tabular Digits -->
+        <div
+          id="time-display"
+          class="text-6xl sm:text-7xl font-light tracking-tight text-ink dark:text-white tabular-nums select-none transition-colors"
+          aria-live="polite"
+        >
+          10:00
+        </div>
+
+        <!-- Warm-up subtext indicator -->
+        <div id="warmup-indicator" class="hidden text-xs text-blue-600 dark:text-blue-400 font-medium mt-1">
+          Settling posture...
+        </div>
+      </div>
+    </div>
+
+    <!-- Stepper Adjusters (Visible when Idle) -->
+    <div id="stepper-controls" class="flex items-center gap-3 mt-2 mb-6 transition-opacity duration-300">
+      <button
+        id="step-down-btn"
+        type="button"
+        class="w-8 h-8 rounded-full bg-black/[0.04] hover:bg-black/[0.08] dark:bg-white/[0.06] dark:hover:bg-white/[0.12] text-zinc-700 dark:text-zinc-300 flex items-center justify-center font-bold text-base transition-colors"
+        title="Decrease 1 Minute"
+        aria-label="Decrease 1 Minute"
+      >
+        −
+      </button>
+
+      <span id="duration-label" class="text-xs font-medium text-zinc-500 dark:text-zinc-400 w-24 text-center select-none">
+        10 Minutes
+      </span>
+
+      <button
+        id="step-up-btn"
+        type="button"
+        class="w-8 h-8 rounded-full bg-black/[0.04] hover:bg-black/[0.08] dark:bg-white/[0.06] dark:hover:bg-white/[0.12] text-zinc-700 dark:text-zinc-300 flex items-center justify-center font-bold text-base transition-colors"
+        title="Increase 1 Minute"
+        aria-label="Increase 1 Minute"
+      >
+        +
+      </button>
+    </div>
+
+    <!-- Primary Action Controls -->
+    <div id="timer-actions" class="flex items-center gap-3 w-full max-w-xs transition-opacity duration-300">
+      <!-- Main Play/Pause Button -->
+      <button
+        id="main-action-btn"
+        type="button"
+        class="flex-1 py-3.5 px-6 rounded-full bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white font-medium text-sm sm:text-base flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all duration-200"
+      >
+        <svg id="play-icon" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+          <polygon points="5 3 19 12 5 21 5 3" />
+        </svg>
+        <svg id="pause-icon" class="w-4 h-4 hidden" viewBox="0 0 24 24" fill="currentColor">
+          <rect x="6" y="4" width="4" height="16" rx="1" />
+          <rect x="14" y="4" width="4" height="16" rx="1" />
+        </svg>
+        <span id="main-btn-label">Begin</span>
+      </button>
+
+      <!-- Reset / Finish Early Button -->
+      <button
+        id="reset-btn"
+        type="button"
+        class="py-3.5 px-5 rounded-full bg-black/[0.05] hover:bg-black/[0.09] dark:bg-white/[0.08] dark:hover:bg-white/[0.14] active:scale-[0.98] text-zinc-700 dark:text-zinc-300 font-medium text-sm transition-all duration-200"
+        title="Reset Timer (Esc)"
+      >
+        Reset
+      </button>
+    </div>
+
+    <!-- Preset Selection Pills (Visible when Idle) -->
+    <div id="preset-pills-bar" class="w-full mt-7 transition-opacity duration-300">
+      <div class="text-center text-[11px] uppercase tracking-wider text-zinc-400 font-semibold mb-2.5">
+        Session Duration
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
+        <button type="button" data-preset="300" class="preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-blue-500 transition-colors">
+          5m
+        </button>
+        <button type="button" data-preset="600" class="preset-pill active-preset px-3 py-1.5 rounded-full text-xs font-medium border border-blue-600 bg-blue-600 text-white transition-colors">
+          10m
+        </button>
+        <button type="button" data-preset="900" class="preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-blue-500 transition-colors">
+          15m
+        </button>
+        <button type="button" data-preset="1200" class="preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-blue-500 transition-colors">
+          20m
+        </button>
+        <button type="button" data-preset="1800" class="preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-blue-500 transition-colors">
+          30m
+        </button>
+        <button type="button" data-preset="2700" class="preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-blue-500 transition-colors">
+          45m
+        </button>
+        <button type="button" data-preset="3600" class="preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-blue-500 transition-colors">
+          60m
+        </button>
+      </div>
+    </div>
+
+    <!-- Quick Audio & Interval Status Chips -->
+    <div id="quick-config-bar" class="flex flex-wrap items-center justify-center gap-2 mt-5 text-[11px] text-zinc-500 dark:text-zinc-400 transition-opacity duration-300">
+      <button
+        id="quick-bell-chip"
+        type="button"
+        class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/[0.03] dark:bg-white/[0.06] hover:bg-black/[0.06] dark:hover:bg-white/[0.1] transition-colors"
+      >
+        <span>🔔</span>
+        <span id="quick-bell-label">Tibetan Bowl</span>
+      </button>
+
+      <button
+        id="quick-ambient-chip"
+        type="button"
+        class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/[0.03] dark:bg-white/[0.06] hover:bg-black/[0.06] dark:hover:bg-white/[0.1] transition-colors"
+      >
+        <span>🍃</span>
+        <span id="quick-ambient-label">Silence</span>
+      </button>
+
+      <button
+        id="quick-warmup-chip"
+        type="button"
+        class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/[0.03] dark:bg-white/[0.06] hover:bg-black/[0.06] dark:hover:bg-white/[0.1] transition-colors"
+      >
+        <span>⏱️</span>
+        <span id="quick-warmup-label">Warm-up: 10s</span>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Modals -->
+  <SoundMixerModal />
+  <StatsDrawer />
+  <CompletionView />
+</div>
+
+<!-- Core Interactive Client Script -->
+<script>
+  import { MeditationTimer, type TimerState } from '../scripts/timerEngine';
+  import { audioEngine, type BellType, type AmbientType } from '../scripts/audioEngine';
+  import { getSettings, saveSettings, getStats, getTodayDateStr } from '../scripts/storage';
+  import confetti from 'canvas-confetti';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const root = document.getElementById('timer-root');
+    if (!root) return;
+
+    // Load initial settings
+    const stored = getSettings();
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Check URL parameters (e.g. ?d=600, ?prep=10, ?bell=bowl, ?ambient=rain)
+    let durationSec = urlParams.has('d') 
+      ? parseInt(urlParams.get('d')!, 10) 
+      : (parseInt(root.dataset.duration || '600', 10) || stored.durationSeconds);
+      
+    let warmupSec = urlParams.has('prep') 
+      ? parseInt(urlParams.get('prep')!, 10) 
+      : (parseInt(root.dataset.warmup || '10', 10) || stored.warmupSeconds);
+      
+    let intervalSec = urlParams.has('int') 
+      ? parseInt(urlParams.get('int')!, 10) 
+      : (stored.intervalMinutes * 60);
+
+    let bellType: BellType = (urlParams.get('bell') as BellType) || (root.dataset.bell as BellType) || stored.bellType;
+    let ambientType: AmbientType = (urlParams.get('ambient') as AmbientType) || (root.dataset.ambient as AmbientType) || stored.ambientType;
+
+    // Audio volumes
+    audioEngine.setBellVolume(stored.bellVolume);
+    audioEngine.setAmbientVolume(stored.ambientVolume);
+
+    // UI Elements
+    const timeDisplay = document.getElementById('time-display')!;
+    const durationLabel = document.getElementById('duration-label')!;
+    const statusBadge = document.getElementById('timer-status-badge')!;
+    const warmupIndicator = document.getElementById('warmup-indicator')!;
+    const mainActionBtn = document.getElementById('main-action-btn')!;
+    const mainBtnLabel = document.getElementById('main-btn-label')!;
+    const playIcon = document.getElementById('play-icon')!;
+    const pauseIcon = document.getElementById('pause-icon')!;
+    const resetBtn = document.getElementById('reset-btn')!;
+    const progressRing = document.getElementById('timer-progress-ring') as SVGCircleElement | null;
+    const breathAura = document.getElementById('breath-aura')!;
+    const presenterBanner = document.getElementById('presenter-banner')!;
+    const presenterText = document.getElementById('presenter-text')!;
+
+    // Quick chips
+    const quickBellLabel = document.getElementById('quick-bell-label')!;
+    const quickAmbientLabel = document.getElementById('quick-ambient-label')!;
+    const quickWarmupLabel = document.getElementById('quick-warmup-label')!;
+
+    // Idle elements for Zen Mode auto-hide
+    const stepperControls = document.getElementById('stepper-controls')!;
+    const presetPillsBar = document.getElementById('preset-pills-bar')!;
+    const quickConfigBar = document.getElementById('quick-config-bar')!;
+    const timerActions = document.getElementById('timer-actions')!;
+    const headerEl = document.querySelector('header') as HTMLElement | null;
+
+    // Modals
+    const settingsModal = document.getElementById('settings-modal')!;
+    const openSettingsBtn = document.getElementById('open-settings-btn')!;
+    const closeSettingsBtn = document.getElementById('close-settings-btn')!;
+    const saveSettingsBtn = document.getElementById('save-settings-btn')!;
+    const settingsBackdrop = document.getElementById('settings-backdrop')!;
+
+    const statsModal = document.getElementById('stats-modal')!;
+    const streakBadgeBtn = document.getElementById('streak-badge-btn')!;
+    const closeStatsBtn = document.getElementById('close-stats-btn')!;
+    const dismissStatsBtn = document.getElementById('dismiss-stats-btn')!;
+    const statsBackdrop = document.getElementById('stats-backdrop')!;
+    const headerStreakCount = document.getElementById('header-streak-count')!;
+
+    const completionScreen = document.getElementById('completion-screen')!;
+    const meditateAgainBtn = document.getElementById('meditate-again-btn')!;
+    const viewStatsFromCompletionBtn = document.getElementById('view-stats-from-completion-btn')!;
+    const completionDurationText = document.getElementById('completion-duration-text')!;
+    const completionStreakText = document.getElementById('completion-streak-text')!;
+
+    // Format helper: seconds to mm:ss or hh:mm:ss
+    function formatTime(totalSec: number): string {
+      const hrs = Math.floor(totalSec / 3600);
+      const mins = Math.floor((totalSec % 3600) / 60);
+      const secs = totalSec % 60;
+      if (hrs > 0) {
+        return `${hrs}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      }
+      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function updateDurationLabel() {
+      const mins = Math.round(durationSec / 60);
+      durationLabel.textContent = mins === 1 ? '1 Minute' : `${mins} Minutes`;
+    }
+
+    function updateQuickChips() {
+      const bellNames: Record<BellType, string> = {
+        bowl: 'Tibetan Bowl',
+        zen: 'Kyoto Zen',
+        gong: 'Deep Gong',
+        tingsha: 'Ting-Sha'
+      };
+      quickBellLabel.textContent = bellNames[bellType] || 'Tibetan Bowl';
+
+      const ambientNames: Record<AmbientType, string> = {
+        none: 'Silence',
+        rain: 'Rain',
+        stream: 'Stream',
+        ocean: 'Ocean',
+        brown: 'Brown Noise',
+        white: 'Zen Breeze'
+      };
+      quickAmbientLabel.textContent = ambientNames[ambientType] || 'Silence';
+      quickWarmupLabel.textContent = warmupSec > 0 ? `Warm-up: ${warmupSec}s` : 'No Warm-up';
+    }
+
+    function updatePresenterMessage() {
+      const s = getSettings();
+      if (s.presenterMessage && s.presenterMessage.trim().length > 0) {
+        presenterText.textContent = s.presenterMessage.trim();
+        presenterBanner.classList.remove('opacity-0', '-translate-y-2');
+      } else {
+        presenterBanner.classList.add('opacity-0', '-translate-y-2');
+      }
+    }
+
+    // Refresh streak badge
+    function refreshStreakBadge() {
+      const stats = getStats();
+      headerStreakCount.textContent = String(stats.currentStreak);
+    }
+
+    // Breathing ring animation control
+    function setBreathAnimation(active: boolean) {
+      const s = getSettings();
+      if (active && s.breathGuideEnabled) {
+        breathAura.classList.add('animate-zen-breath');
+      } else {
+        breathAura.classList.remove('animate-zen-breath');
+      }
+    }
+
+    // Zen Mode Auto-fade logic
+    let zenFadeTimeout: number | null = null;
+    let isZenActive = false;
+
+    function resetZenFadeTimer() {
+      if (timer.getState() !== 'running') return;
+      
+      // Wake up controls
+      if (isZenActive) {
+        isZenActive = false;
+        stepperControls.classList.remove('opacity-0');
+        presetPillsBar.classList.remove('opacity-0');
+        quickConfigBar.classList.remove('opacity-0');
+        timerActions.classList.remove('opacity-0');
+        if (headerEl) headerEl.classList.remove('opacity-0');
+      }
+
+      if (zenFadeTimeout) clearTimeout(zenFadeTimeout);
+
+      zenFadeTimeout = window.setTimeout(() => {
+        if (timer.getState() === 'running') {
+          isZenActive = true;
+          stepperControls.classList.add('opacity-0');
+          presetPillsBar.classList.add('opacity-0');
+          quickConfigBar.classList.add('opacity-0');
+          timerActions.classList.add('opacity-0');
+          if (headerEl) headerEl.classList.add('opacity-0');
+        }
+      }, 3500);
+    }
+
+    // User interaction wakes up Zen mode
+    ['mousemove', 'touchstart', 'keydown'].forEach(evt => {
+      window.addEventListener(evt, resetZenFadeTimer, { passive: true });
+    });
+
+    // Initialize Meditation Timer Engine
+    const timer = new MeditationTimer({
+      durationSeconds: durationSec,
+      warmupSeconds: warmupSec,
+      intervalSeconds: intervalSec,
+      bellType,
+      ambientType,
+      onTick: (state: TimerState, remaining: number, total: number) => {
+        timeDisplay.textContent = formatTime(remaining);
+
+        // Update progress circular stroke
+        if (progressRing && total > 0) {
+          const circumference = 289.026;
+          const progress = remaining / total;
+          const offset = circumference * (1 - progress);
+          progressRing.style.strokeDashoffset = String(offset);
+        }
+      },
+      onStateChange: (state: TimerState) => {
+        if (state === 'warmup') {
+          statusBadge.textContent = 'Warm-Up';
+          statusBadge.className = 'text-xs uppercase tracking-wider font-semibold text-blue-600 dark:text-blue-400 mb-1.5';
+          warmupIndicator.classList.remove('hidden');
+          playIcon.classList.add('hidden');
+          pauseIcon.classList.remove('hidden');
+          mainBtnLabel.textContent = 'Pause';
+          mainActionBtn.className = 'flex-1 py-3.5 px-6 rounded-full bg-zinc-800 hover:bg-zinc-900 active:scale-[0.98] text-white font-medium text-sm sm:text-base flex items-center justify-center gap-2 shadow-md transition-all duration-200';
+          stepperControls.classList.add('opacity-40', 'pointer-events-none');
+          presetPillsBar.classList.add('opacity-40', 'pointer-events-none');
+          setBreathAnimation(true);
+        } else if (state === 'running') {
+          statusBadge.textContent = 'Meditating';
+          statusBadge.className = 'text-xs uppercase tracking-wider font-semibold text-emerald-600 dark:text-emerald-400 mb-1.5';
+          warmupIndicator.classList.add('hidden');
+          playIcon.classList.add('hidden');
+          pauseIcon.classList.remove('hidden');
+          mainBtnLabel.textContent = 'Pause';
+          mainActionBtn.className = 'flex-1 py-3.5 px-6 rounded-full bg-zinc-800 hover:bg-zinc-900 active:scale-[0.98] text-white font-medium text-sm sm:text-base flex items-center justify-center gap-2 shadow-md transition-all duration-200';
+          stepperControls.classList.add('opacity-40', 'pointer-events-none');
+          presetPillsBar.classList.add('opacity-40', 'pointer-events-none');
+          setBreathAnimation(true);
+          resetZenFadeTimer();
+        } else if (state === 'paused') {
+          statusBadge.textContent = 'Paused';
+          statusBadge.className = 'text-xs uppercase tracking-wider font-semibold text-amber-500 mb-1.5';
+          warmupIndicator.classList.add('hidden');
+          playIcon.classList.remove('hidden');
+          pauseIcon.classList.add('hidden');
+          mainBtnLabel.textContent = 'Resume';
+          mainActionBtn.className = 'flex-1 py-3.5 px-6 rounded-full bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white font-medium text-sm sm:text-base flex items-center justify-center gap-2 shadow-md transition-all duration-200';
+          // Bring back controls immediately
+          isZenActive = false;
+          stepperControls.classList.remove('opacity-0');
+          presetPillsBar.classList.remove('opacity-0');
+          quickConfigBar.classList.remove('opacity-0');
+          timerActions.classList.remove('opacity-0');
+          if (headerEl) headerEl.classList.remove('opacity-0');
+          setBreathAnimation(false);
+        } else if (state === 'idle') {
+          statusBadge.textContent = 'Ready';
+          statusBadge.className = 'text-xs uppercase tracking-wider font-semibold text-zinc-400 dark:text-zinc-500 mb-1.5';
+          warmupIndicator.classList.add('hidden');
+          playIcon.classList.remove('hidden');
+          pauseIcon.classList.add('hidden');
+          mainBtnLabel.textContent = 'Begin';
+          mainActionBtn.className = 'flex-1 py-3.5 px-6 rounded-full bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white font-medium text-sm sm:text-base flex items-center justify-center gap-2 shadow-md transition-all duration-200';
+          stepperControls.classList.remove('opacity-40', 'pointer-events-none', 'opacity-0');
+          presetPillsBar.classList.remove('opacity-40', 'pointer-events-none', 'opacity-0');
+          quickConfigBar.classList.remove('opacity-0');
+          timerActions.classList.remove('opacity-0');
+          if (headerEl) headerEl.classList.remove('opacity-0');
+          setBreathAnimation(false);
+          if (progressRing) progressRing.style.strokeDashoffset = '0';
+        }
+      },
+      onComplete: (completedSec: number) => {
+        setBreathAnimation(false);
+        refreshStreakBadge();
+        const stats = getStats();
+
+        // Populate completion screen
+        const completedMins = Math.max(1, Math.round(completedSec / 60));
+        completionDurationText.textContent = `${completedMins} min${completedMins > 1 ? 's' : ''}`;
+        completionStreakText.textContent = `🔥 ${stats.currentStreak} Day${stats.currentStreak > 1 ? 's' : ''}`;
+
+        // Gentle celebratory confetti
+        try {
+          confetti({
+            particleCount: 40,
+            spread: 60,
+            origin: { y: 0.6 },
+            colors: ['#0066cc', '#2997ff', '#34c759', '#ffd60a'],
+            disableForReducedMotion: true,
+          });
+        } catch {}
+
+        // Open completion modal
+        completionScreen.classList.remove('opacity-0', 'pointer-events-none');
+        completionScreen.querySelector('.transform')?.classList.remove('scale-95');
+      }
+    });
+
+    // Initial setup
+    timeDisplay.textContent = formatTime(durationSec);
+    updateDurationLabel();
+    updateQuickChips();
+    updatePresenterMessage();
+    refreshStreakBadge();
+
+    // Main Start / Pause Action
+    mainActionBtn.addEventListener('click', () => {
+      const state = timer.getState();
+      if (state === 'idle' || state === 'paused') {
+        timer.start();
+      } else {
+        timer.pause();
+      }
+    });
+
+    // Reset button
+    resetBtn.addEventListener('click', () => {
+      timer.reset();
+    });
+
+    // Step +/- Minutes
+    document.getElementById('step-up-btn')?.addEventListener('click', () => {
+      if (timer.getState() !== 'idle') return;
+      durationSec = Math.min(10800, durationSec + 60); // Cap at 3 hours
+      timer.updateConfig({ durationSeconds: durationSec });
+      timeDisplay.textContent = formatTime(durationSec);
+      updateDurationLabel();
+      highlightActivePreset(durationSec);
+      saveSettings({ durationSeconds: durationSec });
+    });
+
+    document.getElementById('step-down-btn')?.addEventListener('click', () => {
+      if (timer.getState() !== 'idle') return;
+      durationSec = Math.max(60, durationSec - 60); // Min 1 minute
+      timer.updateConfig({ durationSeconds: durationSec });
+      timeDisplay.textContent = formatTime(durationSec);
+      updateDurationLabel();
+      highlightActivePreset(durationSec);
+      saveSettings({ durationSeconds: durationSec });
+    });
+
+    // Preset duration pills click
+    function highlightActivePreset(sec: number) {
+      document.querySelectorAll('.preset-pill').forEach(pill => {
+        const pSec = parseInt((pill as HTMLElement).dataset.preset || '0', 10);
+        if (pSec === sec) {
+          pill.className = 'preset-pill active-preset px-3 py-1.5 rounded-full text-xs font-medium border border-blue-600 bg-blue-600 text-white transition-colors';
+        } else {
+          pill.className = 'preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-blue-500 transition-colors';
+        }
+      });
+    }
+
+    document.querySelectorAll('.preset-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        if (timer.getState() !== 'idle') return;
+        const targetSec = parseInt((pill as HTMLElement).dataset.preset || '600', 10);
+        durationSec = targetSec;
+        timer.updateConfig({ durationSeconds: durationSec });
+        timeDisplay.textContent = formatTime(durationSec);
+        updateDurationLabel();
+        highlightActivePreset(durationSec);
+        saveSettings({ durationSeconds: durationSec });
+      });
+    });
+
+    highlightActivePreset(durationSec);
+
+    // Quick Chips click opens settings
+    [
+      document.getElementById('quick-bell-chip'),
+      document.getElementById('quick-ambient-chip'),
+      document.getElementById('quick-warmup-chip')
+    ].forEach(chip => {
+      chip?.addEventListener('click', () => openSettingsModal());
+    });
+
+    // Modal Control Functions
+    function openSettingsModal() {
+      // Sync form controls with current state
+      const s = getSettings();
+      (document.getElementById('bell-volume-slider') as HTMLInputElement).value = String(Math.round(s.bellVolume * 100));
+      document.getElementById('bell-vol-label')!.textContent = `${Math.round(s.bellVolume * 100)}%`;
+
+      (document.getElementById('ambient-volume-slider') as HTMLInputElement).value = String(Math.round(s.ambientVolume * 100));
+      document.getElementById('ambient-vol-label')!.textContent = `${Math.round(s.ambientVolume * 100)}%`;
+
+      (document.getElementById('warmup-select') as HTMLSelectElement).value = String(warmupSec);
+      (document.getElementById('interval-select') as HTMLSelectElement).value = String(intervalSec);
+      (document.getElementById('breath-guide-toggle') as HTMLInputElement).checked = s.breathGuideEnabled;
+      (document.getElementById('intention-input') as HTMLInputElement).value = s.presenterMessage || '';
+
+      const ambientVolContainer = document.getElementById('ambient-vol-container')!;
+      if (ambientType !== 'none') {
+        ambientVolContainer.classList.remove('opacity-50', 'pointer-events-none');
+      } else {
+        ambientVolContainer.classList.add('opacity-50', 'pointer-events-none');
+      }
+
+      settingsModal.classList.remove('opacity-0', 'pointer-events-none');
+      settingsModal.querySelector('.transform')?.classList.remove('scale-95');
+    }
+
+    function closeSettingsModal() {
+      settingsModal.classList.add('opacity-0', 'pointer-events-none');
+      settingsModal.querySelector('.transform')?.classList.add('scale-95');
+    }
+
+    openSettingsBtn?.addEventListener('click', openSettingsModal);
+    closeSettingsBtn?.addEventListener('click', closeSettingsModal);
+    settingsBackdrop?.addEventListener('click', closeSettingsModal);
+    saveSettingsBtn?.addEventListener('click', closeSettingsModal);
+
+    // Bell option selection
+    document.querySelectorAll('.bell-option-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const selected = (btn as HTMLElement).dataset.bell as BellType;
+        bellType = selected;
+        timer.updateConfig({ bellType });
+        saveSettings({ bellType });
+        updateQuickChips();
+
+        // Update UI styling
+        document.querySelectorAll('.bell-option-btn').forEach(b => {
+          const check = b.querySelector('.bell-check');
+          if ((b as HTMLElement).dataset.bell === selected) {
+            b.className = 'bell-option-btn px-3 py-2.5 rounded-xl border border-blue-600 bg-blue-50/50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 font-medium text-left flex items-center justify-between transition-colors';
+            check?.classList.remove('hidden');
+          } else {
+            b.className = 'bell-option-btn px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 text-zinc-700 dark:text-zinc-300 text-left flex items-center justify-between transition-colors';
+            check?.classList.add('hidden');
+          }
+        });
+
+        // Audition bell
+        audioEngine.playBell(bellType);
+      });
+    });
+
+    // Preview Bell Button
+    document.getElementById('preview-bell-btn')?.addEventListener('click', () => {
+      audioEngine.playBell(bellType);
+    });
+
+    // Bell Volume Slider
+    document.getElementById('bell-volume-slider')?.addEventListener('input', (e) => {
+      const val = parseInt((e.target as HTMLInputElement).value, 10);
+      document.getElementById('bell-vol-label')!.textContent = `${val}%`;
+      const normalized = val / 100;
+      audioEngine.setBellVolume(normalized);
+      saveSettings({ bellVolume: normalized });
+    });
+
+    // Ambient option selection
+    document.querySelectorAll('.ambient-option-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const selected = (btn as HTMLElement).dataset.ambient as AmbientType;
+        ambientType = selected;
+        timer.updateConfig({ ambientType });
+        saveSettings({ ambientType });
+        updateQuickChips();
+
+        document.querySelectorAll('.ambient-option-btn').forEach(b => {
+          if ((b as HTMLElement).dataset.ambient === selected) {
+            b.className = 'ambient-option-btn px-2.5 py-2 rounded-xl border border-blue-600 bg-blue-50/50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 text-center text-xs font-medium transition-colors';
+          } else {
+            b.className = 'ambient-option-btn px-2.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 text-zinc-700 dark:text-zinc-300 text-center text-xs font-medium transition-colors';
+          }
+        });
+
+        const ambientVolContainer = document.getElementById('ambient-vol-container')!;
+        if (ambientType !== 'none') {
+          ambientVolContainer.classList.remove('opacity-50', 'pointer-events-none');
+          // If timer is currently running, switch ambient stream
+          if (timer.getState() === 'running') {
+            audioEngine.startAmbient(ambientType);
+          }
+        } else {
+          ambientVolContainer.classList.add('opacity-50', 'pointer-events-none');
+          audioEngine.stopAmbient();
+        }
+      });
+    });
+
+    // Ambient Volume Slider
+    document.getElementById('ambient-volume-slider')?.addEventListener('input', (e) => {
+      const val = parseInt((e.target as HTMLInputElement).value, 10);
+      document.getElementById('ambient-vol-label')!.textContent = `${val}%`;
+      const normalized = val / 100;
+      audioEngine.setAmbientVolume(normalized);
+      saveSettings({ ambientVolume: normalized });
+    });
+
+    // Warm-up Select
+    document.getElementById('warmup-select')?.addEventListener('change', (e) => {
+      warmupSec = parseInt((e.target as HTMLSelectElement).value, 10);
+      timer.updateConfig({ warmupSeconds: warmupSec });
+      saveSettings({ warmupSeconds: warmupSec });
+      updateQuickChips();
+    });
+
+    // Interval Select
+    document.getElementById('interval-select')?.addEventListener('change', (e) => {
+      intervalSec = parseInt((e.target as HTMLSelectElement).value, 10);
+      timer.updateConfig({ intervalSeconds: intervalSec });
+      saveSettings({ intervalMinutes: Math.round(intervalSec / 60) });
+    });
+
+    // Breath Guide Toggle
+    document.getElementById('breath-guide-toggle')?.addEventListener('change', (e) => {
+      const checked = (e.target as HTMLInputElement).checked;
+      saveSettings({ breathGuideEnabled: checked });
+      setBreathAnimation(timer.getState() === 'running' || timer.getState() === 'warmup');
+    });
+
+    // Intention / Presenter text input
+    document.getElementById('intention-input')?.addEventListener('input', (e) => {
+      const msg = (e.target as HTMLInputElement).value;
+      saveSettings({ presenterMessage: msg });
+      updatePresenterMessage();
+    });
+
+    // Stats Modal Controls
+    function renderStatsModal() {
+      const stats = getStats();
+      document.getElementById('stat-current-streak')!.textContent = String(stats.currentStreak);
+      document.getElementById('stat-longest-streak')!.textContent = String(stats.longestStreak);
+      document.getElementById('stat-total-sessions')!.textContent = String(stats.totalSessions);
+      document.getElementById('stat-total-minutes')!.textContent = String(stats.totalMinutes);
+
+      // Render 7-day dots
+      const dotsContainer = document.getElementById('week-dots-container')!;
+      dotsContainer.innerHTML = '';
+      const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const today = new Date();
+
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(today.getDate() - i);
+        const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        const hasSession = stats.history.some(rec => rec.dateStr === dateStr);
+        const dayLabel = daysOfWeek[d.getDay()];
+
+        const col = document.createElement('div');
+        col.className = 'flex flex-col items-center gap-1.5';
+        col.innerHTML = `
+          <div class="text-[10px] text-zinc-400 font-medium">${dayLabel}</div>
+          <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs ${hasSession ? 'bg-blue-600 text-white font-semibold' : 'bg-black/[0.04] dark:bg-white/[0.06] text-zinc-400'}">
+            ${hasSession ? '✓' : '·'}
+          </div>
+        `;
+        dotsContainer.appendChild(col);
+      }
+
+      // Render recent sessions list
+      const sessionsList = document.getElementById('recent-sessions-list')!;
+      document.getElementById('sessions-count-label')!.textContent = `${stats.history.length} recorded`;
+
+      if (stats.history.length === 0) {
+        sessionsList.innerHTML = `<div class="text-center py-6 text-zinc-400 text-xs">No completed sessions yet. Start your first practice today!</div>`;
+      } else {
+        sessionsList.innerHTML = stats.history.slice(0, 10).map(rec => {
+          const moodBadge = rec.mood ? `<span class="px-2 py-0.5 rounded-full text-[10px] bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-300 capitalize">${rec.mood}</span>` : '';
+          return `
+            <div class="flex items-center justify-between p-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 border border-black/[0.04] dark:border-white/[0.04] text-xs">
+              <div>
+                <span class="font-medium text-zinc-800 dark:text-zinc-200">${rec.durationMinutes} min session</span>
+                <span class="text-zinc-400 text-[11px] ml-1.5">${rec.dateStr}</span>
+              </div>
+              <div>${moodBadge}</div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    function openStatsModal() {
+      renderStatsModal();
+      statsModal.classList.remove('opacity-0', 'pointer-events-none');
+      statsModal.querySelector('.transform')?.classList.remove('scale-95');
+    }
+
+    function closeStatsModal() {
+      statsModal.classList.add('opacity-0', 'pointer-events-none');
+      statsModal.querySelector('.transform')?.classList.add('scale-95');
+    }
+
+    streakBadgeBtn?.addEventListener('click', openStatsModal);
+    closeStatsBtn?.addEventListener('click', closeStatsModal);
+    dismissStatsBtn?.addEventListener('click', closeStatsModal);
+    statsBackdrop?.addEventListener('click', closeStatsModal);
+
+    // Export JSON
+    document.getElementById('export-data-btn')?.addEventListener('click', () => {
+      const stats = getStats();
+      const blob = new Blob([JSON.stringify(stats, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `meditation-timer-backup-${getTodayDateStr()}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    // Reset Data
+    document.getElementById('clear-data-btn')?.addEventListener('click', () => {
+      if (confirm('Are you sure you want to clear your local meditation stats and streaks?')) {
+        localStorage.removeItem('mto_stats_v1');
+        renderStatsModal();
+        refreshStreakBadge();
+      }
+    });
+
+    // Completion modal actions
+    meditateAgainBtn?.addEventListener('click', () => {
+      completionScreen.classList.add('opacity-0', 'pointer-events-none');
+      completionScreen.querySelector('.transform')?.classList.add('scale-95');
+      timer.reset();
+    });
+
+    viewStatsFromCompletionBtn?.addEventListener('click', () => {
+      completionScreen.classList.add('opacity-0', 'pointer-events-none');
+      completionScreen.querySelector('.transform')?.classList.add('scale-95');
+      timer.reset();
+      openStatsModal();
+    });
+
+    // Reflection mood pills click
+    document.querySelectorAll('.mood-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const mood = (btn as HTMLElement).dataset.mood;
+        // Highlight chosen mood
+        document.querySelectorAll('.mood-btn').forEach(b => {
+          b.className = 'mood-btn px-3 py-1.5 rounded-full text-xs font-medium border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 transition-colors';
+        });
+        btn.className = 'mood-btn px-3 py-1.5 rounded-full text-xs font-medium border border-blue-600 bg-blue-600 text-white transition-colors';
+
+        // Update the last history record with mood
+        const stats = getStats();
+        if (stats.history.length > 0) {
+          stats.history[0].mood = mood;
+          localStorage.setItem('mto_stats_v1', JSON.stringify(stats));
+        }
+      });
+    });
+
+    // Fullscreen Toggle
+    const fullscreenToggleBtn = document.getElementById('fullscreen-toggle-btn')!;
+    const fullscreenEnterIcon = document.getElementById('fullscreen-enter-icon')!;
+    const fullscreenExitIcon = document.getElementById('fullscreen-exit-icon')!;
+
+    fullscreenToggleBtn?.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    });
+
+    document.addEventListener('fullscreenchange', () => {
+      if (document.fullscreenElement) {
+        fullscreenEnterIcon.classList.add('hidden');
+        fullscreenExitIcon.classList.remove('hidden');
+      } else {
+        fullscreenEnterIcon.classList.remove('hidden');
+        fullscreenExitIcon.classList.add('hidden');
+      }
+    });
+
+    // Theme Toggle
+    document.getElementById('theme-toggle-btn')?.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      const meta = document.getElementById('theme-color-meta');
+      if (meta) meta.setAttribute('content', isDark ? '#121214' : '#f5f5f7');
+      saveSettings({ darkMode: isDark });
+    });
+
+    // Keyboard Shortcuts
+    window.addEventListener('keydown', (e) => {
+      // Don't intercept if user is typing in an input
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes((e.target as HTMLElement).tagName)) {
+        return;
+      }
+
+      if (e.code === 'Space') {
+        e.preventDefault();
+        const state = timer.getState();
+        if (state === 'idle' || state === 'paused') {
+          timer.start();
+        } else {
+          timer.pause();
+        }
+      } else if (e.code === 'Escape') {
+        e.preventDefault();
+        closeSettingsModal();
+        closeStatsModal();
+        if (timer.getState() !== 'idle') {
+          timer.reset();
+        }
+      } else if (e.key === 'f' || e.key === 'F') {
+        e.preventDefault();
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+          if (document.exitFullscreen) document.exitFullscreen();
+        }
+      }
+    });
+  });
+</script>

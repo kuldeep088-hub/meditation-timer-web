@@ -1,0 +1,88 @@
+---
+// CompletionView.astro - Mindful session completion screen
+---
+
+<div id="completion-screen" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 opacity-0 pointer-events-none transition-all duration-300">
+  <!-- Backdrop -->
+  <div class="absolute inset-0 bg-black/50 dark:bg-black/80 backdrop-blur-xl"></div>
+
+  <!-- Card -->
+  <div class="relative w-full max-w-md p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#1c1c1e] text-ink dark:text-white shadow-2xl border border-black/10 dark:border-white/10 text-center transform scale-95 transition-transform duration-300">
+    
+    <!-- Zen Bell Icon with subtle glow -->
+    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-50 dark:bg-blue-950/60 flex items-center justify-center text-blue-600 dark:text-blue-400 shadow-inner">
+      <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+      </svg>
+    </div>
+
+    <!-- Title -->
+    <h2 class="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-white mb-1">
+      Meditation Complete
+    </h2>
+    <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-6">
+      Take a deep breath and gently return to your day.
+    </p>
+
+    <!-- Session Stats Highlight -->
+    <div class="grid grid-cols-2 gap-3 mb-6">
+      <div class="bg-zinc-50 dark:bg-zinc-900/60 p-3.5 rounded-2xl border border-black/[0.04] dark:border-white/[0.04]">
+        <div class="text-xs text-zinc-500">Duration</div>
+        <div id="completion-duration-text" class="text-xl font-bold text-zinc-900 dark:text-white tabular-nums mt-0.5">
+          10 mins
+        </div>
+      </div>
+      <div class="bg-zinc-50 dark:bg-zinc-900/60 p-3.5 rounded-2xl border border-black/[0.04] dark:border-white/[0.04]">
+        <div class="text-xs text-zinc-500">Daily Streak</div>
+        <div id="completion-streak-text" class="text-xl font-bold text-orange-500 tabular-nums mt-0.5">
+          🔥 1 Day
+        </div>
+      </div>
+    </div>
+
+    <!-- Reflection Check-In -->
+    <div class="mb-6 text-left">
+      <label class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-2">
+        How do you feel in this moment?
+      </label>
+      <div id="mood-pills-container" class="flex flex-wrap gap-1.5">
+        <button type="button" data-mood="calm" class="mood-btn px-3 py-1.5 rounded-full text-xs font-medium border border-zinc-200 dark:border-zinc-800 hover:border-blue-500 text-zinc-700 dark:text-zinc-300 transition-colors">
+          Calm 🕊️
+        </button>
+        <button type="button" data-mood="grounded" class="mood-btn px-3 py-1.5 rounded-full text-xs font-medium border border-zinc-200 dark:border-zinc-800 hover:border-blue-500 text-zinc-700 dark:text-zinc-300 transition-colors">
+          Grounded 🌿
+        </button>
+        <button type="button" data-mood="clear" class="mood-btn px-3 py-1.5 rounded-full text-xs font-medium border border-zinc-200 dark:border-zinc-800 hover:border-blue-500 text-zinc-700 dark:text-zinc-300 transition-colors">
+          Clear 💡
+        </button>
+        <button type="button" data-mood="relaxed" class="mood-btn px-3 py-1.5 rounded-full text-xs font-medium border border-zinc-200 dark:border-zinc-800 hover:border-blue-500 text-zinc-700 dark:text-zinc-300 transition-colors">
+          Relaxed 🧘
+        </button>
+        <button type="button" data-mood="grateful" class="mood-btn px-3 py-1.5 rounded-full text-xs font-medium border border-zinc-200 dark:border-zinc-800 hover:border-blue-500 text-zinc-700 dark:text-zinc-300 transition-colors">
+          Grateful 🙏
+        </button>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="space-y-2">
+      <button
+        id="meditate-again-btn"
+        type="button"
+        class="w-full py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm transition-colors shadow-sm"
+      >
+        Meditate Again
+      </button>
+
+      <button
+        id="view-stats-from-completion-btn"
+        type="button"
+        class="w-full py-2.5 rounded-full bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 font-medium text-xs transition-colors"
+      >
+        View Weekly Consistency & Log
+      </button>
+    </div>
+
+  </div>
+</div>

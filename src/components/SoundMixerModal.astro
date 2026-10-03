@@ -1,0 +1,237 @@
+---
+// SoundMixerModal.astro - Apple-styled modal dialog for audio, warm-up, intervals & intentions
+---
+
+<div id="settings-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 opacity-0 pointer-events-none transition-all duration-200">
+  <!-- Backdrop -->
+  <div id="settings-backdrop" class="absolute inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-md transition-opacity"></div>
+
+  <!-- Modal Dialog Container -->
+  <div class="relative w-full max-w-lg max-h-[90vh] flex flex-col rounded-3xl bg-white dark:bg-[#1c1c1e] text-ink dark:text-white shadow-2xl border border-black/10 dark:border-white/10 overflow-hidden transform scale-95 transition-transform duration-200">
+    
+    <!-- Modal Header -->
+    <div class="px-6 py-4 flex items-center justify-between border-b border-black/[0.06] dark:border-white/[0.08]">
+      <div>
+        <h2 class="text-lg font-semibold tracking-tight text-zinc-900 dark:text-white">Timer Preferences</h2>
+        <p class="text-xs text-zinc-500 dark:text-zinc-400">Customize bells, soundscapes, warm-up & intervals</p>
+      </div>
+      <button
+        id="close-settings-btn"
+        type="button"
+        class="w-7 h-7 rounded-full bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 flex items-center justify-center text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-white transition-colors"
+        aria-label="Close settings"
+      >
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="px-6 py-5 overflow-y-auto space-y-6 text-sm">
+      
+      <!-- Section 1: Bell Sounds & Volume -->
+      <div>
+        <div class="flex items-center justify-between mb-2.5">
+          <label class="font-medium text-zinc-800 dark:text-zinc-200 flex items-center gap-1.5">
+            <span>Meditation Bell Sound</span>
+          </label>
+          <button
+            id="preview-bell-btn"
+            type="button"
+            class="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 font-medium"
+          >
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+            Audition Sound
+          </button>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 mb-3">
+          <button type="button" data-bell="bowl" class="bell-option-btn px-3 py-2.5 rounded-xl border border-blue-600 bg-blue-50/50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 font-medium text-left flex items-center justify-between transition-colors">
+            <div>
+              <div class="font-semibold text-xs">Tibetan Bowl</div>
+              <div class="text-[11px] opacity-75">Resonant & Singing</div>
+            </div>
+            <span class="bell-check text-blue-600 dark:text-blue-400 font-bold text-xs">✓</span>
+          </button>
+
+          <button type="button" data-bell="zen" class="bell-option-btn px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 text-zinc-700 dark:text-zinc-300 text-left flex items-center justify-between transition-colors">
+            <div>
+              <div class="font-semibold text-xs">Kyoto Zen Bell</div>
+              <div class="text-[11px] text-zinc-500">Pure Temple Bronze</div>
+            </div>
+            <span class="bell-check hidden font-bold text-xs">✓</span>
+          </button>
+
+          <button type="button" data-bell="gong" class="bell-option-btn px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 text-zinc-700 dark:text-zinc-300 text-left flex items-center justify-between transition-colors">
+            <div>
+              <div class="font-semibold text-xs">Deep Gong</div>
+              <div class="text-[11px] text-zinc-500">Grounding & Rich</div>
+            </div>
+            <span class="bell-check hidden font-bold text-xs">✓</span>
+          </button>
+
+          <button type="button" data-bell="tingsha" class="bell-option-btn px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 text-zinc-700 dark:text-zinc-300 text-left flex items-center justify-between transition-colors">
+            <div>
+              <div class="font-semibold text-xs">Ting-Sha Cymbal</div>
+              <div class="text-[11px] text-zinc-500">Crystalline Chime</div>
+            </div>
+            <span class="bell-check hidden font-bold text-xs">✓</span>
+          </button>
+        </div>
+
+        <!-- Bell Volume Slider -->
+        <div class="space-y-1.5 bg-zinc-50 dark:bg-zinc-900/60 p-3 rounded-2xl">
+          <div class="flex justify-between text-xs text-zinc-600 dark:text-zinc-400">
+            <span>Bell Volume</span>
+            <span id="bell-vol-label" class="font-medium">85%</span>
+          </div>
+          <input
+            id="bell-volume-slider"
+            type="range"
+            min="0"
+            max="100"
+            value="85"
+            class="w-full h-2 accent-blue-600 dark:accent-blue-500"
+            aria-label="Bell Volume"
+          />
+        </div>
+      </div>
+
+      <!-- Section 2: Ambient Background Sounds (Free!) -->
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <label class="font-medium text-zinc-800 dark:text-zinc-200">
+            Ambient Nature & Soundscapes <span class="ml-1 text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 font-semibold uppercase">100% Free</span>
+          </label>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2 mb-3">
+          <button type="button" data-ambient="none" class="ambient-option-btn px-2.5 py-2 rounded-xl border border-blue-600 bg-blue-50/50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 text-center text-xs font-medium transition-colors">
+            Pure Silence
+          </button>
+          <button type="button" data-ambient="rain" class="ambient-option-btn px-2.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 text-zinc-700 dark:text-zinc-300 text-center text-xs font-medium transition-colors">
+            Gentle Rain 🌧️
+          </button>
+          <button type="button" data-ambient="stream" class="ambient-option-btn px-2.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 text-zinc-700 dark:text-zinc-300 text-center text-xs font-medium transition-colors">
+            Forest Stream 🌊
+          </button>
+          <button type="button" data-ambient="ocean" class="ambient-option-btn px-2.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 text-zinc-700 dark:text-zinc-300 text-center text-xs font-medium transition-colors">
+            Ocean Tide 🏝️
+          </button>
+          <button type="button" data-ambient="brown" class="ambient-option-btn px-2.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 text-zinc-700 dark:text-zinc-300 text-center text-xs font-medium transition-colors">
+            Brown Noise 🎧
+          </button>
+          <button type="button" data-ambient="white" class="ambient-option-btn px-2.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 text-zinc-700 dark:text-zinc-300 text-center text-xs font-medium transition-colors">
+            Zen Breeze 🍃
+          </button>
+        </div>
+
+        <!-- Ambient Volume Slider -->
+        <div id="ambient-vol-container" class="space-y-1.5 bg-zinc-50 dark:bg-zinc-900/60 p-3 rounded-2xl opacity-50 pointer-events-none transition-opacity">
+          <div class="flex justify-between text-xs text-zinc-600 dark:text-zinc-400">
+            <span>Ambient Sound Volume</span>
+            <span id="ambient-vol-label" class="font-medium">50%</span>
+          </div>
+          <input
+            id="ambient-volume-slider"
+            type="range"
+            min="0"
+            max="100"
+            value="50"
+            class="w-full h-2 accent-blue-600 dark:accent-blue-500"
+            aria-label="Ambient Volume"
+          />
+        </div>
+      </div>
+
+      <!-- Section 3: Warm-up Countdown & Periodic Intervals -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- Warm-up -->
+        <div class="space-y-1.5">
+          <label for="warmup-select" class="block font-medium text-xs text-zinc-700 dark:text-zinc-300">
+            Warm-Up Preparation
+          </label>
+          <select
+            id="warmup-select"
+            class="w-full px-3 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 text-xs focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="0">None (Immediate Start)</option>
+            <option value="5">5 Seconds</option>
+            <option value="10" selected>10 Seconds (Recommended)</option>
+            <option value="15">15 Seconds</option>
+            <option value="30">30 Seconds</option>
+            <option value="60">1 Minute</option>
+          </select>
+          <p class="text-[11px] text-zinc-500">Allows you to settle your posture before time begins.</p>
+        </div>
+
+        <!-- Interval Chime -->
+        <div class="space-y-1.5">
+          <label for="interval-select" class="block font-medium text-xs text-zinc-700 dark:text-zinc-300">
+            Periodic Interval Bell
+          </label>
+          <select
+            id="interval-select"
+            class="w-full px-3 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 text-xs focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="0" selected>Off (Only start & end bell)</option>
+            <option value="60">Every 1 Minute</option>
+            <option value="120">Every 2 Minutes</option>
+            <option value="300">Every 5 Minutes</option>
+            <option value="600">Every 10 Minutes</option>
+            <option value="900">Every 15 Minutes</option>
+            <option value="1200">Every 20 Minutes</option>
+            <option value="1800">Every 30 Minutes</option>
+          </select>
+          <p class="text-[11px] text-zinc-500">Rings gently to gently bring wandering awareness back.</p>
+        </div>
+      </div>
+
+      <!-- Section 4: Visual Breath Guidance & Intention / Presenter Note -->
+      <div class="space-y-3 pt-2 border-t border-black/[0.06] dark:border-white/[0.08]">
+        <!-- Breathing Guide Switch -->
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="font-medium text-xs text-zinc-800 dark:text-zinc-200">Visual Breathing Pacer</div>
+            <div class="text-[11px] text-zinc-500">Smooth expanding ring for 4-second rhythmic breathing</div>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="breath-guide-toggle" class="sr-only peer" checked />
+            <div class="w-10 h-6 bg-zinc-200 peer-focus:outline-hidden rounded-full peer dark:bg-zinc-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-zinc-600 peer-checked:bg-blue-600"></div>
+          </label>
+        </div>
+
+        <!-- Intention / Dyad Presenter Note -->
+        <div class="space-y-1">
+          <label for="intention-input" class="block font-medium text-xs text-zinc-800 dark:text-zinc-200">
+            Intention / Presenter Quote <span class="text-zinc-500 font-normal">(Optional)</span>
+          </label>
+          <input
+            id="intention-input"
+            type="text"
+            maxlength="120"
+            placeholder="e.g. Return to the breath • Peace in every step"
+            class="w-full px-3 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 text-xs placeholder:text-zinc-400 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="px-6 py-3.5 bg-zinc-50 dark:bg-zinc-900 border-t border-black/[0.06] dark:border-white/[0.08] flex justify-end">
+      <button
+        id="save-settings-btn"
+        type="button"
+        class="px-5 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs transition-colors shadow-xs"
+      >
+        Done
+      </button>
+    </div>
+
+  </div>
+</div>

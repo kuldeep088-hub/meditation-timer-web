@@ -1,0 +1,41 @@
+---
+// Footer.astro - Apple-inspired minimal footer with keyboard shortcuts & privacy commitment
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="w-full border-t border-black/[0.06] dark:border-white/[0.08] py-8 text-xs text-zinc-500 dark:text-zinc-400 bg-white/40 dark:bg-black/20">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+    
+    <!-- Left: Branding & Privacy Pledge -->
+    <div class="text-center sm:text-left space-y-1">
+      <div class="font-medium text-zinc-800 dark:text-zinc-200">
+        Meditation Timer Online
+      </div>
+      <p class="text-[11px] text-zinc-400">
+        100% Free · Private browser local storage · No tracking cookies · Screen wake lock enabled
+      </p>
+    </div>
+
+    <!-- Center/Right: Keyboard Shortcuts Legend -->
+    <div class="flex flex-wrap items-center justify-center gap-3 text-[11px]">
+      <span class="inline-flex items-center gap-1">
+        <kbd class="px-1.5 py-0.5 rounded-md bg-black/[0.05] dark:bg-white/[0.08] border border-black/[0.08] dark:border-white/[0.1] font-mono text-[10px]">Space</kbd>
+        Start / Pause
+      </span>
+      <span class="inline-flex items-center gap-1">
+        <kbd class="px-1.5 py-0.5 rounded-md bg-black/[0.05] dark:bg-white/[0.08] border border-black/[0.08] dark:border-white/[0.1] font-mono text-[10px]">Esc</kbd>
+        Reset
+      </span>
+      <span class="inline-flex items-center gap-1">
+        <kbd class="px-1.5 py-0.5 rounded-md bg-black/[0.05] dark:bg-white/[0.08] border border-black/[0.08] dark:border-white/[0.1] font-mono text-[10px]">F</kbd>
+        Fullscreen
+      </span>
+    </div>
+
+    <!-- Right: Year & Domain -->
+    <div class="text-[11px] text-zinc-400 text-center sm:text-right">
+      © {currentYear} freemeditationtimeronline.com
+    </div>
+
+  </div>
+</footer>
