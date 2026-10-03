@@ -6,14 +6,15 @@
     --apple-blue-hover: #0071e3;
     --apple-blue-dark: #2997ff;
     --ink: #1d1d1f;
+    --ink-secondary: #48484a;
     --ink-muted: #86868b;
-    --hairline: rgba(0, 0, 0, 0.08);
-    --hairline-strong: rgba(0, 0, 0, 0.16);
+    --hairline: #e5e5ea;
+    --hairline-strong: #d1d1d6;
     --canvas: #ffffff;
-    --canvas-parchment: #f5f5f7;
-    --surface-pearl: #fafafc;
+    --canvas-parchment: #ffffff;
+    --surface-pearl: #fbfbfd;
     --surface-card: #ffffff;
-    --surface-card-subtle: #fbfbfd;
+    --surface-card-subtle: #f5f5f7;
   }
 
   .dark {
@@ -21,6 +22,7 @@
     --apple-blue-hover: #47a6ff;
     --apple-blue-dark: #64b5f6;
     --ink: #f5f5f7;
+    --ink-secondary: #a1a1a6;
     --ink-muted: #86868b;
     --hairline: rgba(255, 255, 255, 0.1);
     --hairline-strong: rgba(255, 255, 255, 0.2);
@@ -34,7 +36,7 @@
   body {
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     color: var(--ink);
-    background-color: var(--canvas-parchment);
+    background-color: var(--canvas);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;

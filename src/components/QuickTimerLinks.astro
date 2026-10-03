@@ -22,7 +22,7 @@ const quickTimers = [
 ];
 ---
 
-<section class="w-full max-w-5xl mx-auto px-4 sm:px-6 py-12 sm:py-16 border-t border-black/[0.06] dark:border-white/[0.08]">
+<section class="w-full max-w-5xl mx-auto px-4 sm:px-6 py-12 sm:py-16 border-t border-zinc-200/80 dark:border-white/[0.08]">
   
   <!-- Section Heading -->
   <div class="text-center max-w-xl mx-auto mb-10">
@@ -39,7 +39,7 @@ const quickTimers = [
     {quickTimers.map((timer) => (
       <a
         href={lang === 'en' ? `/${timer.slug}` : `/${lang}/${timer.slug}`}
-        class="group p-4 rounded-2xl bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/[0.08] hover:border-blue-500/50 hover:shadow-md transition-all text-center flex flex-col items-center justify-center"
+        class="group p-4 rounded-2xl bg-zinc-50/80 hover:bg-white dark:bg-[#1c1c1e] border border-zinc-200/80 dark:border-white/[0.08] hover:border-blue-500/50 hover:shadow-md transition-all text-center flex flex-col items-center justify-center shadow-2xs"
       >
         <div class="text-lg sm:text-xl font-bold text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors tabular-nums">
           {timer.label}
@@ -52,7 +52,7 @@ const quickTimers = [
   </div>
 
   <!-- Feature Comparison & Value Highlights -->
-  <div class="rounded-3xl bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/[0.08] p-6 sm:p-10 shadow-sm">
+  <div class="rounded-3xl bg-zinc-50/60 dark:bg-[#1c1c1e] border border-zinc-200/80 dark:border-white/[0.08] p-6 sm:p-10 shadow-xs">
     <div class="max-w-2xl mx-auto text-center mb-8">
       <div class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 mb-3">
         {t.valueBadge}

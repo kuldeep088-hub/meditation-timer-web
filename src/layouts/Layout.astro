@@ -67,7 +67,7 @@ const structuredData = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="manifest" href="/site.webmanifest" />
-    <meta name="theme-color" content="#f5f5f7" id="theme-color-meta" />
+    <meta name="theme-color" content="#ffffff" id="theme-color-meta" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Canonical URL -->
@@ -106,7 +106,7 @@ const structuredData = {
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
-    <!-- Theme Init Script (Default Light Theme) -->
+    <!-- Theme Init Script (Default Pure White Theme) -->
     <script is:inline>
       try {
         const localSettings = localStorage.getItem('mto_settings_v1');
@@ -119,14 +119,14 @@ const structuredData = {
         } else {
           document.documentElement.classList.remove('dark');
           const meta = document.getElementById('theme-color-meta');
-          if (meta) meta.setAttribute('content', '#f5f5f7');
+          if (meta) meta.setAttribute('content', '#ffffff');
         }
       } catch (e) {
         document.documentElement.classList.remove('dark');
       }
     </script>
   </head>
-  <body class="min-h-screen flex flex-col bg-[#f5f5f7] dark:bg-[#121214] text-[#1d1d1f] dark:text-[#f5f5f7] selection:bg-blue-500/20 selection:text-blue-900 dark:selection:text-blue-200 transition-colors duration-300">
+  <body class="min-h-screen flex flex-col bg-white dark:bg-[#121214] text-[#1d1d1f] dark:text-[#f5f5f7] selection:bg-blue-500/20 selection:text-blue-900 dark:selection:text-blue-200 transition-colors duration-300">
     <slot />
   </body>
 </html>

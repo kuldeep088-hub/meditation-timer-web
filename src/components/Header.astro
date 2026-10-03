@@ -22,10 +22,10 @@ const langList = (Object.keys(languages) as SupportedLocale[]).map((code) => {
 });
 ---
 
-<header class="sticky top-0 z-40 w-full apple-glass border-b border-black/[0.06] dark:border-white/[0.08] transition-colors">
+<header class="sticky top-0 z-40 w-full apple-glass border-b border-zinc-200/80 dark:border-white/[0.08] transition-colors">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 h-11 flex items-center justify-between">
     <!-- Brand -->
-    <a href={lang === 'en' ? '/' : `/${lang}/`} class="flex items-center gap-2.5 text-ink dark:text-white font-medium text-[15px] tracking-tight hover:opacity-85 transition-opacity">
+    <a href={lang === 'en' ? '/' : `/${lang}/`} class="flex items-center gap-2.5 text-zinc-900 dark:text-white font-medium text-[15px] tracking-tight hover:opacity-85 transition-opacity">
       <span class="w-6 h-6 rounded-full bg-blue-600 dark:bg-blue-500 flex items-center justify-center text-white shadow-xs">
         <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="10"/>
@@ -42,7 +42,7 @@ const langList = (Object.keys(languages) as SupportedLocale[]).map((code) => {
       <div class="relative group">
         <button
           type="button"
-          class="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-white hover:bg-zinc-50 border border-black/[0.08] shadow-xs dark:bg-white/[0.08] dark:border-white/[0.08] dark:hover:bg-white/[0.14] text-zinc-800 dark:text-zinc-200 transition-all uppercase"
+          class="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-zinc-100/90 hover:bg-zinc-200/80 border border-zinc-200/80 shadow-2xs dark:bg-white/[0.08] dark:border-white/[0.08] dark:hover:bg-white/[0.14] text-zinc-800 dark:text-zinc-200 transition-all uppercase"
           aria-label="Select Language"
         >
           <span>{languages[lang].flag}</span>
@@ -53,7 +53,7 @@ const langList = (Object.keys(languages) as SupportedLocale[]).map((code) => {
         </button>
 
         <!-- Dropdown Menu -->
-        <div class="absolute right-0 top-full mt-1.5 w-44 rounded-2xl bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/[0.1] shadow-xl py-1.5 hidden group-hover:block group-focus-within:block z-50">
+        <div class="absolute right-0 top-full mt-1.5 w-44 rounded-2xl bg-white dark:bg-[#1c1c1e] border border-zinc-200/80 dark:border-white/[0.1] shadow-xl py-1.5 hidden group-hover:block group-focus-within:block z-50">
           {langList.map((item) => (
             <a
               href={item.href}
@@ -77,19 +77,19 @@ const langList = (Object.keys(languages) as SupportedLocale[]).map((code) => {
       <button
         id="streak-badge-btn"
         type="button"
-        class="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white hover:bg-zinc-50 border border-black/[0.08] shadow-xs dark:bg-white/[0.08] dark:border-white/[0.08] dark:hover:bg-white/[0.14] text-zinc-800 dark:text-zinc-200 transition-all"
+        class="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-zinc-100/90 hover:bg-zinc-200/80 border border-zinc-200/80 shadow-2xs dark:bg-white/[0.08] dark:border-white/[0.08] dark:hover:bg-white/[0.14] text-zinc-800 dark:text-zinc-200 transition-all"
         title="View Mindful Stats & Streak"
       >
         <span class="text-orange-500 font-bold">🔥</span>
         <span id="header-streak-count">0</span>
-        <span class="hidden sm:inline text-zinc-500 dark:text-zinc-400">day streak</span>
+        <span class="hidden sm:inline text-zinc-500 dark:text-zinc-400">{t.dayStreak}</span>
       </button>
 
       <!-- Settings / Audio Mixer Button -->
       <button
         id="open-settings-btn"
         type="button"
-        class="w-8 h-8 rounded-full flex items-center justify-center text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.08] transition-colors"
+        class="w-8 h-8 rounded-full flex items-center justify-center text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/[0.08] transition-colors"
         title="Audio, Bells & Interval Settings"
         aria-label="Settings"
       >
@@ -103,7 +103,7 @@ const langList = (Object.keys(languages) as SupportedLocale[]).map((code) => {
       <button
         id="fullscreen-toggle-btn"
         type="button"
-        class="w-8 h-8 rounded-full flex items-center justify-center text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.08] transition-colors"
+        class="w-8 h-8 rounded-full flex items-center justify-center text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/[0.08] transition-colors"
         title="Toggle Fullscreen (F)"
         aria-label="Toggle Fullscreen"
       >

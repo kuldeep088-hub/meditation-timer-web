@@ -28,7 +28,7 @@ const {
 <div id="timer-root" class="relative flex-1 flex flex-col items-center justify-center px-4 py-8 sm:py-12 transition-all duration-500 overflow-hidden" data-duration={initialDurationSeconds} data-warmup={initialWarmupSeconds} data-interval={initialIntervalSeconds} data-bell={initialBell} data-ambient={initialAmbient}>
   
   <!-- Intention / Presenter Note Banner -->
-  <div id="presenter-banner" class="opacity-0 -translate-y-2 transition-all duration-500 max-w-lg mx-auto mb-6 px-4 py-1.5 rounded-full bg-white dark:bg-white/[0.06] border border-black/[0.08] dark:border-white/[0.06] shadow-xs text-center">
+  <div id="presenter-banner" class="opacity-0 -translate-y-2 transition-all duration-500 max-w-lg mx-auto mb-6 px-4 py-1.5 rounded-full bg-zinc-50/90 dark:bg-white/[0.06] border border-zinc-200/90 dark:border-white/[0.06] shadow-2xs text-center">
     <p id="presenter-text" class="text-xs sm:text-sm font-medium text-zinc-700 dark:text-zinc-300 tracking-wide"></p>
   </div>
 
@@ -50,7 +50,7 @@ const {
           r="46"
           fill="none"
           stroke="currentColor"
-          class="text-zinc-300/80 dark:text-white/[0.08]"
+          class="text-zinc-200 dark:text-white/[0.08]"
           stroke-width="2"
         />
         <!-- Progress Bar Indicator -->
@@ -103,21 +103,21 @@ const {
       <button
         id="step-down-btn"
         type="button"
-        class="w-8 h-8 rounded-full bg-white hover:bg-zinc-50 border border-black/[0.08] shadow-xs dark:bg-white/[0.06] dark:border-white/[0.08] dark:hover:bg-white/[0.12] text-zinc-800 dark:text-zinc-200 flex items-center justify-center font-bold text-base transition-all"
+        class="w-8 h-8 rounded-full bg-zinc-100/80 hover:bg-zinc-200/70 border border-zinc-200/80 shadow-2xs dark:bg-white/[0.06] dark:border-white/[0.08] dark:hover:bg-white/[0.12] text-zinc-800 dark:text-zinc-200 flex items-center justify-center font-bold text-base transition-all"
         title="Decrease 1 Minute"
         aria-label="Decrease 1 Minute"
       >
         −
       </button>
 
-      <span id="duration-label" class="text-xs font-semibold text-zinc-600 dark:text-zinc-400 w-24 text-center select-none">
+      <span id="duration-label" class="text-xs font-semibold text-zinc-700 dark:text-zinc-300 w-24 text-center select-none">
         10 Minutes
       </span>
 
       <button
         id="step-up-btn"
         type="button"
-        class="w-8 h-8 rounded-full bg-white hover:bg-zinc-50 border border-black/[0.08] shadow-xs dark:bg-white/[0.06] dark:border-white/[0.08] dark:hover:bg-white/[0.12] text-zinc-800 dark:text-zinc-200 flex items-center justify-center font-bold text-base transition-all"
+        class="w-8 h-8 rounded-full bg-zinc-100/80 hover:bg-zinc-200/70 border border-zinc-200/80 shadow-2xs dark:bg-white/[0.06] dark:border-white/[0.08] dark:hover:bg-white/[0.12] text-zinc-800 dark:text-zinc-200 flex items-center justify-center font-bold text-base transition-all"
         title="Increase 1 Minute"
         aria-label="Increase 1 Minute"
       >
@@ -147,7 +147,7 @@ const {
       <button
         id="reset-btn"
         type="button"
-        class="py-3.5 px-5 rounded-full bg-white hover:bg-zinc-50 border border-black/[0.08] shadow-xs dark:bg-white/[0.08] dark:border-transparent dark:hover:bg-white/[0.14] active:scale-[0.98] text-zinc-700 dark:text-zinc-300 font-medium text-sm transition-all duration-200"
+        class="py-3.5 px-5 rounded-full bg-zinc-100/80 hover:bg-zinc-200/70 border border-zinc-200/80 shadow-2xs dark:bg-white/[0.08] dark:border-transparent dark:hover:bg-white/[0.14] active:scale-[0.98] text-zinc-700 dark:text-zinc-300 font-medium text-sm transition-all duration-200"
         title="Reset Timer (Esc)"
       >
         Reset
@@ -160,25 +160,25 @@ const {
         Session Duration
       </div>
       <div class="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
-        <button type="button" data-preset="300" class="preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-blue-500 hover:text-blue-600 shadow-xs transition-all">
+        <button type="button" data-preset="300" class="preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-zinc-200/90 dark:border-white/[0.1] bg-zinc-50 hover:bg-zinc-100/90 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 hover:border-blue-500 hover:text-blue-600 shadow-2xs transition-all">
           5m
         </button>
         <button type="button" data-preset="600" class="preset-pill active-preset px-3 py-1.5 rounded-full text-xs font-medium border border-blue-600 bg-blue-600 text-white shadow-xs transition-all">
           10m
         </button>
-        <button type="button" data-preset="900" class="preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-blue-500 hover:text-blue-600 shadow-xs transition-all">
+        <button type="button" data-preset="900" class="preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-zinc-200/90 dark:border-white/[0.1] bg-zinc-50 hover:bg-zinc-100/90 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 hover:border-blue-500 hover:text-blue-600 shadow-2xs transition-all">
           15m
         </button>
-        <button type="button" data-preset="1200" class="preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-blue-500 hover:text-blue-600 shadow-xs transition-all">
+        <button type="button" data-preset="1200" class="preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-zinc-200/90 dark:border-white/[0.1] bg-zinc-50 hover:bg-zinc-100/90 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 hover:border-blue-500 hover:text-blue-600 shadow-2xs transition-all">
           20m
         </button>
-        <button type="button" data-preset="1800" class="preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-blue-500 hover:text-blue-600 shadow-xs transition-all">
+        <button type="button" data-preset="1800" class="preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-zinc-200/90 dark:border-white/[0.1] bg-zinc-50 hover:bg-zinc-100/90 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 hover:border-blue-500 hover:text-blue-600 shadow-2xs transition-all">
           30m
         </button>
-        <button type="button" data-preset="2700" class="preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-blue-500 hover:text-blue-600 shadow-xs transition-all">
+        <button type="button" data-preset="2700" class="preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-zinc-200/90 dark:border-white/[0.1] bg-zinc-50 hover:bg-zinc-100/90 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 hover:border-blue-500 hover:text-blue-600 shadow-2xs transition-all">
           45m
         </button>
-        <button type="button" data-preset="3600" class="preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-blue-500 hover:text-blue-600 shadow-xs transition-all">
+        <button type="button" data-preset="3600" class="preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-zinc-200/90 dark:border-white/[0.1] bg-zinc-50 hover:bg-zinc-100/90 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 hover:border-blue-500 hover:text-blue-600 shadow-2xs transition-all">
           60m
         </button>
       </div>
@@ -189,7 +189,7 @@ const {
       <button
         id="quick-bell-chip"
         type="button"
-        class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white hover:bg-zinc-50 border border-black/[0.08] shadow-xs dark:bg-white/[0.06] dark:border-white/[0.08] dark:hover:bg-white/[0.1] text-zinc-700 dark:text-zinc-300 transition-all"
+        class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-100/80 hover:bg-zinc-200/70 border border-zinc-200/80 shadow-2xs dark:bg-white/[0.06] dark:border-white/[0.08] dark:hover:bg-white/[0.1] text-zinc-700 dark:text-zinc-300 transition-all"
       >
         <span>🔔</span>
         <span id="quick-bell-label">Tibetan Bowl</span>
@@ -198,7 +198,7 @@ const {
       <button
         id="quick-ambient-chip"
         type="button"
-        class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white hover:bg-zinc-50 border border-black/[0.08] shadow-xs dark:bg-white/[0.06] dark:border-white/[0.08] dark:hover:bg-white/[0.1] text-zinc-700 dark:text-zinc-300 transition-all"
+        class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-100/80 hover:bg-zinc-200/70 border border-zinc-200/80 shadow-2xs dark:bg-white/[0.06] dark:border-white/[0.08] dark:hover:bg-white/[0.1] text-zinc-700 dark:text-zinc-300 transition-all"
       >
         <span>🍃</span>
         <span id="quick-ambient-label">Silence</span>
@@ -207,7 +207,7 @@ const {
       <button
         id="quick-warmup-chip"
         type="button"
-        class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white hover:bg-zinc-50 border border-black/[0.08] shadow-xs dark:bg-white/[0.06] dark:border-white/[0.08] dark:hover:bg-white/[0.1] text-zinc-700 dark:text-zinc-300 transition-all"
+        class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-100/80 hover:bg-zinc-200/70 border border-zinc-200/80 shadow-2xs dark:bg-white/[0.06] dark:border-white/[0.08] dark:hover:bg-white/[0.1] text-zinc-700 dark:text-zinc-300 transition-all"
       >
         <span>⏱️</span>
         <span id="quick-warmup-label">Warm-up: 10s</span>
@@ -553,9 +553,9 @@ const {
       document.querySelectorAll('.preset-pill').forEach(pill => {
         const pSec = parseInt((pill as HTMLElement).dataset.preset || '0', 10);
         if (pSec === sec) {
-          pill.className = 'preset-pill active-preset px-3 py-1.5 rounded-full text-xs font-medium border border-blue-600 bg-blue-600 text-white transition-colors';
+          pill.className = 'preset-pill active-preset px-3 py-1.5 rounded-full text-xs font-medium border border-blue-600 bg-blue-600 text-white transition-colors shadow-xs';
         } else {
-          pill.className = 'preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-blue-500 transition-colors';
+          pill.className = 'preset-pill px-3 py-1.5 rounded-full text-xs font-medium border border-zinc-200/90 dark:border-white/[0.1] bg-zinc-50 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-blue-500 transition-colors shadow-2xs';
         }
       });
     }

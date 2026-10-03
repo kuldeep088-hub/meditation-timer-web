@@ -30,7 +30,7 @@ const faqSchema = {
 };
 ---
 
-<section class="w-full max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16 border-t border-black/[0.06] dark:border-white/[0.08]" aria-labelledby="faq-heading">
+<section class="w-full max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16 border-t border-zinc-200/80 dark:border-white/[0.08]" aria-labelledby="faq-heading">
   
   <!-- Section Title -->
   <div class="text-center max-w-xl mx-auto mb-10">
@@ -48,16 +48,16 @@ const faqSchema = {
   <!-- Accordion List -->
   <div class="space-y-3">
     {faqs.map((item: FAQItem) => (
-      <details class="group rounded-2xl bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/[0.08] shadow-xs transition-all duration-200 open:shadow-sm">
+      <details class="group rounded-2xl bg-zinc-50/70 hover:bg-white dark:bg-[#1c1c1e] border border-zinc-200/80 dark:border-white/[0.08] shadow-2xs transition-all duration-200 open:bg-white open:shadow-xs">
         <summary class="flex items-center justify-between p-4 sm:p-5 text-left font-medium text-sm sm:text-base text-zinc-900 dark:text-white cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden">
           <span class="pr-4 tracking-tight">{item.question}</span>
-          <span class="w-6 h-6 rounded-full bg-black/[0.04] dark:bg-white/[0.08] flex items-center justify-center text-zinc-500 group-open:rotate-180 transition-transform duration-200 shrink-0">
+          <span class="w-6 h-6 rounded-full bg-zinc-200/70 dark:bg-white/[0.08] flex items-center justify-center text-zinc-600 dark:text-zinc-400 group-open:rotate-180 transition-transform duration-200 shrink-0">
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="6 9 12 15 18 9" />
             </svg>
           </span>
         </summary>
-        <div class="px-4 pb-4 sm:px-5 sm:pb-5 pt-0 text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed border-t border-black/[0.04] dark:border-white/[0.04] mt-1 pt-3">
+        <div class="px-4 pb-4 sm:px-5 sm:pb-5 pt-0 text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed border-t border-zinc-200/60 dark:border-white/[0.04] mt-1 pt-3">
           <p>{item.answer}</p>
         </div>
       </details>
