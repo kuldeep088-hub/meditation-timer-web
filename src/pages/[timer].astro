@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import TimerApp from '../components/TimerApp.astro';
 import QuickTimerLinks from '../components/QuickTimerLinks.astro';
+import FAQ from '../components/FAQ.astro';
 import Footer from '../components/Footer.astro';
 
 export function getStaticPaths() {
@@ -145,6 +146,7 @@ const { slug, seconds, title, heading, subheading, tip } = Astro.props;
 
     <!-- Quick access to other durations -->
     <QuickTimerLinks />
+    <FAQ />
   </main>
   <Footer />
 </Layout>
