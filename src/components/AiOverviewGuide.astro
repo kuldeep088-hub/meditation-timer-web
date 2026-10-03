@@ -71,12 +71,12 @@ const aiOverviewSchema = {
 };
 ---
 
-<section class="w-full max-w-5xl mx-auto px-4 sm:px-6 py-12 sm:py-16 border-t border-white/[0.08]" aria-labelledby="ai-overview-title">
+<section class="w-full max-w-5xl mx-auto px-3 sm:px-6 py-10 sm:py-16 border-t border-white/[0.08]" aria-labelledby="ai-overview-title">
   
   <!-- ========================================== -->
   <!-- 1. FEATURED AI OVERVIEW / QUICK ANSWER BOX -->
   <!-- ========================================== -->
-  <div class="relative overflow-hidden rounded-3xl bg-gradient-to-b from-cyan-950/20 via-white/[0.02] to-transparent border border-cyan-500/25 p-6 sm:p-10 mb-16 shadow-[0_8px_32px_rgba(6,182,212,0.08)]">
+  <div class="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-b from-cyan-950/20 via-white/[0.02] to-transparent border border-cyan-500/25 p-4 sm:p-8 md:p-10 mb-12 sm:mb-16 shadow-[0_8px_32px_rgba(6,182,212,0.08)]">
     <!-- Ambient glowing backdrop effect -->
     <div class="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none"></div>
     <div class="absolute -bottom-24 -left-24 w-72 h-72 rounded-full bg-blue-500/10 blur-3xl pointer-events-none"></div>
@@ -84,18 +84,18 @@ const aiOverviewSchema = {
     <div class="relative z-10">
       <!-- AI Overview Header Badge -->
       <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-cyan-500/15 border border-cyan-400/30 text-cyan-300 mb-4 animate-shimmer">
-        <svg class="w-3.5 h-3.5 text-cyan-300" viewBox="0 0 24 24" fill="currentColor">
+        <svg class="w-3.5 h-3.5 text-cyan-300 shrink-0" viewBox="0 0 24 24" fill="currentColor">
           <path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6.4-4.8-6.4 4.8 2.4-7.2-6-4.8h7.6z"/>
         </svg>
-        <span>AI Overview · Quick Reference Guide</span>
+        <span class="truncate">AI Overview · Quick Reference Guide</span>
       </div>
 
-      <h2 id="ai-overview-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-4">
+      <h2 id="ai-overview-title" class="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-white mb-3 sm:mb-4">
         What is an Online Meditation Timer & Why Practice Unguided?
       </h2>
 
       <!-- Concise Answer Paragraph for AI Synthesis & Featured Snippets -->
-      <p class="text-sm sm:text-base text-zinc-300 leading-relaxed font-normal mb-8 max-w-4xl">
+      <p class="text-xs sm:text-sm md:text-base text-zinc-300 leading-relaxed font-normal mb-6 sm:mb-8 max-w-4xl">
         An <strong class="text-white font-semibold">online meditation timer</strong> is a minimalist web utility equipped with authentic acoustic bells (such as Tibetan singing bowls and Kyoto Zen temple gongs) designed to anchor unguided mindfulness practice. Unlike voice-guided meditation apps that demand continuous auditory interpretation, unguided meditation timers cultivate intrinsic attention, quiet the brain’s Default Mode Network (DMN), and stimulate parasympathetic vagal relaxation. Key technical requirements include physical modeling audio synthesis, screen wake lock support, customizable warm-up buffers, periodic interval bells, and zero-ad local privacy.
       </p>
 
@@ -140,8 +140,8 @@ const aiOverviewSchema = {
   <!-- ========================================== -->
   <!-- 2. INTERACTIVE BREATHWORK PACER WIDGET    -->
   <!-- ========================================== -->
-  <div class="rounded-3xl bg-white/[0.02] border border-white/[0.06] p-6 sm:p-10 mb-16">
-    <div class="text-center max-w-xl mx-auto mb-8">
+  <div class="rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/[0.06] p-4 sm:p-8 md:p-10 mb-12 sm:mb-16">
+    <div class="text-center max-w-xl mx-auto mb-6 sm:mb-8">
       <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 mb-2">
         <span>💨</span>
         <span>Interactive Mindfulness Tool</span>
@@ -155,11 +155,11 @@ const aiOverviewSchema = {
     </div>
 
     <!-- Breathwork Mode Selector Tabs -->
-    <div class="flex flex-wrap items-center justify-center gap-2 mb-8">
+    <div class="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 mb-6 sm:mb-8">
       <button
         type="button"
         id="cadence-btn-478"
-        class="cadence-btn active px-4 py-2 min-h-[40px] rounded-xl text-xs font-semibold bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 transition-all"
+        class="cadence-btn active px-3 sm:px-4 py-2 min-h-[40px] rounded-xl text-xs font-semibold bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 transition-all touch-manipulation cursor-pointer"
         data-cadence="4-7-8"
       >
         4-7-8 Relaxing Breath
@@ -167,7 +167,7 @@ const aiOverviewSchema = {
       <button
         type="button"
         id="cadence-btn-box"
-        class="cadence-btn px-4 py-2 min-h-[40px] rounded-xl text-xs font-semibold bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-zinc-300 transition-all"
+        class="cadence-btn px-3 sm:px-4 py-2 min-h-[40px] rounded-xl text-xs font-semibold bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-zinc-300 transition-all touch-manipulation cursor-pointer"
         data-cadence="box"
       >
         Box Breathing (4-4-4-4)
@@ -175,7 +175,7 @@ const aiOverviewSchema = {
       <button
         type="button"
         id="cadence-btn-coherent"
-        class="cadence-btn px-4 py-2 min-h-[40px] rounded-xl text-xs font-semibold bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-zinc-300 transition-all"
+        class="cadence-btn px-3 sm:px-4 py-2 min-h-[40px] rounded-xl text-xs font-semibold bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-zinc-300 transition-all touch-manipulation cursor-pointer"
         data-cadence="coherent"
       >
         Coherent (5.5s / 5.5s)
@@ -183,7 +183,7 @@ const aiOverviewSchema = {
     </div>
 
     <!-- Breath Visualizer Circle Card -->
-    <div class="flex flex-col items-center justify-center text-center p-8 rounded-2xl bg-black/40 border border-white/[0.06] max-w-md mx-auto relative overflow-hidden">
+    <div class="flex flex-col items-center justify-center text-center p-4 sm:p-8 rounded-2xl bg-black/40 border border-white/[0.06] max-w-md mx-auto relative overflow-hidden">
       <!-- Expanding & Contracting Breath Ring -->
       <div class="relative w-44 h-44 sm:w-52 sm:h-52 flex items-center justify-center my-4">
         <!-- Background Halo -->
@@ -209,7 +209,7 @@ const aiOverviewSchema = {
       <button
         type="button"
         id="toggle-interactive-breath-btn"
-        class="mt-6 px-6 py-2.5 min-h-[42px] rounded-full bg-emerald-500/20 hover:bg-emerald-500/30 active:scale-95 border border-emerald-400/40 text-emerald-300 text-xs font-semibold uppercase tracking-wider transition-all"
+        class="mt-6 px-6 py-2.5 min-h-[44px] rounded-full bg-emerald-500/20 hover:bg-emerald-500/30 active:scale-95 border border-emerald-400/40 text-emerald-300 text-xs font-semibold uppercase tracking-wider transition-all touch-manipulation cursor-pointer"
       >
         Pause Exercise
       </button>
@@ -220,8 +220,8 @@ const aiOverviewSchema = {
   <!-- ========================================== -->
   <!-- 3. NEUROSCIENCE & BRAINWAVE MODULATION     -->
   <!-- ========================================== -->
-  <div class="mb-16">
-    <div class="text-center max-w-2xl mx-auto mb-10">
+  <div class="mb-12 sm:mb-16">
+    <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
       <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-white">
         The Neuroscience of Timed Stillness
       </h3>
@@ -230,10 +230,10 @@ const aiOverviewSchema = {
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
       
       <!-- Card 1 -->
-      <div class="p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-cyan-400/30 transition-all">
+      <div class="p-5 sm:p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-cyan-400/30 transition-all">
         <div class="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-400 font-bold flex items-center justify-center text-xs mb-3">
           α
         </div>
@@ -245,7 +245,7 @@ const aiOverviewSchema = {
       </div>
 
       <!-- Card 2 -->
-      <div class="p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-purple-400/30 transition-all">
+      <div class="p-5 sm:p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-purple-400/30 transition-all">
         <div class="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 font-bold flex items-center justify-center text-xs mb-3">
           θ
         </div>
@@ -257,7 +257,7 @@ const aiOverviewSchema = {
       </div>
 
       <!-- Card 3 -->
-      <div class="p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-emerald-400/30 transition-all">
+      <div class="p-5 sm:p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-emerald-400/30 transition-all">
         <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-400 font-bold flex items-center justify-center text-xs mb-3">
           DMN
         </div>
@@ -275,8 +275,8 @@ const aiOverviewSchema = {
   <!-- ========================================== -->
   <!-- 4. MEDITATION DURATION BENCHMARK TABLE    -->
   <!-- ========================================== -->
-  <div class="rounded-3xl bg-white/[0.02] border border-white/[0.06] p-6 sm:p-10 mb-16 overflow-hidden">
-    <div class="max-w-2xl mx-auto text-center mb-8">
+  <div class="rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/[0.06] p-4 sm:p-8 md:p-10 mb-12 sm:mb-16 overflow-hidden">
+    <div class="max-w-2xl mx-auto text-center mb-6 sm:mb-8">
       <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-white">
         Meditation Duration Benchmark Guide
       </h3>
@@ -285,9 +285,9 @@ const aiOverviewSchema = {
       </p>
     </div>
 
-    <!-- Responsive Table -->
-    <div class="overflow-x-auto -mx-2 sm:mx-0">
-      <table class="w-full text-left border-collapse text-xs sm:text-sm">
+    <!-- Responsive Table with horizontal scroll on small devices -->
+    <div class="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+      <table class="w-full min-w-[500px] text-left border-collapse text-xs sm:text-sm">
         <thead>
           <tr class="border-b border-white/[0.08] text-zinc-400 font-medium">
             <th class="py-3 px-3 sm:px-4">Duration</th>
@@ -405,8 +405,8 @@ const aiOverviewSchema = {
   <!-- ========================================== -->
   <!-- 6. 5-STEP UNGUIDED PRACTICE BLUEPRINT     -->
   <!-- ========================================== -->
-  <div class="rounded-3xl bg-white/[0.02] border border-white/[0.06] p-6 sm:p-10">
-    <div class="max-w-2xl mx-auto text-center mb-10">
+  <div class="rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/[0.06] p-4 sm:p-8 md:p-10">
+    <div class="max-w-2xl mx-auto text-center mb-8 sm:mb-10">
       <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-white">
         5-Step Blueprint: Structuring an Unguided Session
       </h3>

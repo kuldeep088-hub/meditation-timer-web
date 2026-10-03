@@ -124,7 +124,7 @@ const structuredData = {
       }
     </script>
   </head>
-  <body class="relative min-h-screen flex flex-col bg-[#121214] text-[#f5f5f7] selection:bg-cyan-500/30 selection:text-white transition-colors duration-300">
+  <body class="relative min-h-screen flex flex-col bg-[#121214] text-[#f5f5f7] selection:bg-cyan-500/30 selection:text-white transition-colors duration-300 overflow-x-hidden antialiased">
     
     <!-- Atmospheric Fullscreen Background Layer (as in meditationtimer.online) -->
     <div id="ambient-bg-layer" class="fixed inset-0 z-0 pointer-events-none overflow-hidden transition-opacity duration-700">
@@ -139,7 +139,7 @@ const structuredData = {
     </div>
 
     <!-- Page Content Container -->
-    <div class="relative z-10 flex flex-col min-h-screen">
+    <div class="relative z-10 flex flex-col min-h-screen w-full overflow-x-hidden">
       <slot />
     </div>
 
