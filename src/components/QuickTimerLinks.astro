@@ -1,5 +1,13 @@
 ---
-// QuickTimerLinks.astro - Apple-style quick access timer cards & mindfulness feature grid
+import { translations, type SupportedLocale } from '../i18n/translations';
+
+interface Props {
+  lang?: SupportedLocale;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = translations[lang] || translations.en;
+
 const quickTimers = [
   { slug: "1-minute-meditation-timer", label: "1 Min", desc: "Mindful Reset", seconds: 60 },
   { slug: "3-minute-meditation-timer", label: "3 Mins", desc: "Quick Breathing", seconds: 180 },
@@ -19,10 +27,10 @@ const quickTimers = [
   <!-- Section Heading -->
   <div class="text-center max-w-xl mx-auto mb-10">
     <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-zinc-900 dark:text-white">
-      Quick Access Meditation Timers
+      {t.quickTimersTitle}
     </h2>
     <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1.5">
-      Instant single-click setups for daily practice, micro-breaks, and extended sits.
+      {t.quickTimersSubtitle}
     </p>
   </div>
 
@@ -30,7 +38,7 @@ const quickTimers = [
   <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-16">
     {quickTimers.map((timer) => (
       <a
-        href={`/${timer.slug}`}
+        href={lang === 'en' ? `/${timer.slug}` : `/${lang}/${timer.slug}`}
         class="group p-4 rounded-2xl bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/[0.08] hover:border-blue-500/50 hover:shadow-md transition-all text-center flex flex-col items-center justify-center"
       >
         <div class="text-lg sm:text-xl font-bold text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors tabular-nums">
@@ -47,13 +55,13 @@ const quickTimers = [
   <div class="rounded-3xl bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/[0.08] p-6 sm:p-10 shadow-sm">
     <div class="max-w-2xl mx-auto text-center mb-8">
       <div class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 mb-3">
-        Pure Mindfulness · 0% Commercial Distractions
+        {t.valueBadge}
       </div>
       <h3 class="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-white">
-        Crafted for Deep Peace & Zero Interruption
+        {t.valueTitle}
       </h3>
       <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-2">
-        Unlike other web timers that lock ambient sounds behind $45 paid plans or push invasive mobile app popups, Meditation Timer Online is dedicated to providing an uncluttered, free experience.
+        {t.valueSubtitle}
       </p>
     </div>
 
@@ -64,9 +72,9 @@ const quickTimers = [
         <div class="w-10 h-10 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-base mx-auto sm:mx-0">
           🔔
         </div>
-        <h4 class="text-sm font-semibold text-zinc-900 dark:text-white">Authentic Bell Synthesizer</h4>
+        <h4 class="text-sm font-semibold text-zinc-900 dark:text-white">{t.feature1Title}</h4>
         <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
-          Physical modeling synthesizes natural Tibetan bowl overtones and Kyoto Zen bells with zero audio buffering, 100% offline.
+          {t.feature1Desc}
         </p>
       </div>
 
@@ -75,9 +83,9 @@ const quickTimers = [
         <div class="w-10 h-10 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-base mx-auto sm:mx-0">
           🌊
         </div>
-        <h4 class="text-sm font-semibold text-zinc-900 dark:text-white">Free Nature Soundscapes</h4>
+        <h4 class="text-sm font-semibold text-zinc-900 dark:text-white">{t.feature2Title}</h4>
         <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
-          Relax with rain, flowing mountain stream, ocean tides, and calming brown noise with independent dual-channel volume mixing.
+          {t.feature2Desc}
         </p>
       </div>
 
@@ -86,9 +94,9 @@ const quickTimers = [
         <div class="w-10 h-10 rounded-2xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold text-base mx-auto sm:mx-0">
           🔒
         </div>
-        <h4 class="text-sm font-semibold text-zinc-900 dark:text-white">100% Private Habit Tracking</h4>
+        <h4 class="text-sm font-semibold text-zinc-900 dark:text-white">{t.feature3Title}</h4>
         <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
-          Track streaks, consistency rhythms, and post-session reflection notes locally in your browser. No account or email required.
+          {t.feature3Desc}
         </p>
       </div>
 

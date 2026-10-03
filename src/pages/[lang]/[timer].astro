@@ -1,0 +1,87 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import TimerApp from '../../components/TimerApp.astro';
+import QuickTimerLinks from '../../components/QuickTimerLinks.astro';
+import FAQ from '../../components/FAQ.astro';
+import Footer from '../../components/Footer.astro';
+import { translations, type SupportedLocale } from '../../i18n/translations';
+
+export function getStaticPaths() {
+  const nonDefaultLocales: SupportedLocale[] = ['es', 'ja', 'fr', 'de', 'pt', 'ko', 'it'];
+
+  const configs = [
+    { slug: "1-minute-meditation-timer", seconds: 60, mins: 1 },
+    { slug: "3-minute-meditation-timer", seconds: 180, mins: 3 },
+    { slug: "5-minute-meditation-timer", seconds: 300, mins: 5 },
+    { slug: "10-minute-meditation-timer", seconds: 600, mins: 10 },
+    { slug: "15-minute-meditation-timer", seconds: 900, mins: 15 },
+    { slug: "20-minute-meditation-timer", seconds: 1200, mins: 20 },
+    { slug: "25-minute-meditation-timer", seconds: 1500, mins: 25 },
+    { slug: "30-minute-meditation-timer", seconds: 1800, mins: 30 },
+    { slug: "45-minute-meditation-timer", seconds: 2700, mins: 45 },
+    { slug: "1-hour-meditation-timer", seconds: 3600, mins: 60 },
+  ];
+
+  const paths: any[] = [];
+  for (const lang of nonDefaultLocales) {
+    for (const cfg of configs) {
+      paths.push({
+        params: { lang, timer: cfg.slug },
+        props: { ...cfg, lang },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { lang, slug, seconds, mins } = Astro.props as {
+  lang: SupportedLocale;
+  slug: string;
+  seconds: number;
+  mins: number;
+};
+
+const t = translations[lang] || translations.en;
+const durationStr = t.minutesLabel(mins);
+const pageHeading = `${durationStr} ${t.brand}`;
+const pageDesc = `${pageHeading}: ${t.metaDescription}`;
+---
+
+<Layout
+  title={`${pageHeading} | freemeditationtimeronline.com`}
+  description={pageDesc}
+  canonicalUrl={`https://freemeditationtimeronline.com/${lang}/${slug}`}
+  lang={lang}
+  cleanPath={`/${slug}`}
+  durationSeconds={seconds}
+>
+  <Header lang={lang} cleanPath={`/${slug}`} />
+  <main class="flex-1 flex flex-col">
+    <!-- Preset Banner -->
+    <div class="w-full max-w-xl mx-auto px-4 pt-6 text-center">
+      <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">
+        {pageHeading}
+      </h1>
+      <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">
+        {t.quickTimersSubtitle}
+      </p>
+    </div>
+
+    <!-- Timer Application -->
+    <TimerApp
+      initialDurationSeconds={seconds}
+      initialWarmupSeconds={10}
+      initialBell="bowl"
+      initialAmbient="none"
+      heading={pageHeading}
+      subheading={t.metaDescription}
+    />
+
+    <!-- Quick access to other durations -->
+    <QuickTimerLinks lang={lang} />
+    <FAQ lang={lang} />
+  </main>
+  <Footer />
+</Layout>

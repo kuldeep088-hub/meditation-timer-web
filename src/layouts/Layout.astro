@@ -1,11 +1,14 @@
 ---
 import '../styles/global.css';
+import { languages, type SupportedLocale } from '../i18n/translations';
 
 interface Props {
   title?: string;
   description?: string;
   canonicalUrl?: string;
   durationSeconds?: number;
+  lang?: SupportedLocale;
+  cleanPath?: string;
 }
 
 const {
@@ -13,7 +16,23 @@ const {
   description = "A free, minimalist online meditation timer with authentic Tibetan singing bowls, customizable warm-up countdown, periodic interval chimes, and ambient nature sounds. No ads, no sign-up, screen wake lock included.",
   canonicalUrl = Astro.url.href,
   durationSeconds = 600,
+  lang = 'en',
+  cleanPath: customCleanPath,
 } = Astro.props;
+
+// Determine clean path without locale prefix for proper hreflang cross-linking
+let cleanPath = customCleanPath;
+if (!cleanPath) {
+  const pathname = Astro.url.pathname;
+  const pathParts = pathname.split('/').filter(Boolean);
+  if (pathParts.length > 0 && ['es', 'ja', 'fr', 'de', 'pt', 'ko', 'it'].includes(pathParts[0])) {
+    cleanPath = '/' + pathParts.slice(1).join('/');
+  } else {
+    cleanPath = pathname;
+  }
+}
+if (!cleanPath.startsWith('/')) cleanPath = '/' + cleanPath;
+if (cleanPath.length > 1 && cleanPath.endsWith('/')) cleanPath = cleanPath.slice(0, -1);
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -21,6 +40,7 @@ const structuredData = {
   "name": "Meditation Timer Online",
   "url": "https://freemeditationtimeronline.com",
   "description": description,
+  "inLanguage": lang,
   "applicationCategory": "HealthApplication",
   "operatingSystem": "Web Browser",
   "offers": {
@@ -41,7 +61,7 @@ const structuredData = {
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang={lang} class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
@@ -52,6 +72,17 @@ const structuredData = {
 
     <!-- Canonical URL -->
     <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Hreflang Alternate Links for Multilingual SEO -->
+    <link rel="alternate" hreflang="x-default" href={`https://freemeditationtimeronline.com${cleanPath === '/' ? '/' : cleanPath}`} />
+    <link rel="alternate" hreflang="en" href={`https://freemeditationtimeronline.com${cleanPath === '/' ? '/' : cleanPath}`} />
+    <link rel="alternate" hreflang="es" href={`https://freemeditationtimeronline.com/es${cleanPath === '/' ? '' : cleanPath}`} />
+    <link rel="alternate" hreflang="ja" href={`https://freemeditationtimeronline.com/ja${cleanPath === '/' ? '' : cleanPath}`} />
+    <link rel="alternate" hreflang="fr" href={`https://freemeditationtimeronline.com/fr${cleanPath === '/' ? '' : cleanPath}`} />
+    <link rel="alternate" hreflang="de" href={`https://freemeditationtimeronline.com/de${cleanPath === '/' ? '' : cleanPath}`} />
+    <link rel="alternate" hreflang="pt" href={`https://freemeditationtimeronline.com/pt${cleanPath === '/' ? '' : cleanPath}`} />
+    <link rel="alternate" hreflang="ko" href={`https://freemeditationtimeronline.com/ko${cleanPath === '/' ? '' : cleanPath}`} />
+    <link rel="alternate" hreflang="it" href={`https://freemeditationtimeronline.com/it${cleanPath === '/' ? '' : cleanPath}`} />
 
     <!-- Primary Meta Tags -->
     <title>{title}</title>

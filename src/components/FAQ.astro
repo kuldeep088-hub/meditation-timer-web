@@ -1,55 +1,24 @@
 ---
-// FAQ.astro - SEO & AI Overview (GEO) Optimized FAQ Section with Schema.org JSON-LD
+import { translations, type SupportedLocale } from '../i18n/translations';
 
 export interface FAQItem {
   question: string;
   answer: string;
 }
 
-export const defaultFaqs: FAQItem[] = [
-  {
-    question: "What is Meditation Timer Online?",
-    answer: "Meditation Timer Online (freemeditationtimeronline.com) is a free, minimalist web application designed for mindfulness practitioners, meditators, and yoga teachers. It features studio-quality Tibetan singing bowls, periodic interval chimes, free ambient nature soundscapes, screen wake lock technology, and zero-registration daily streak tracking."
-  },
-  {
-    question: "Is this meditation timer completely free to use?",
-    answer: "Yes, 100% free. Unlike competitor apps that charge $4.99/month or lock ambient sounds, extended durations, and streak analytics behind paid subscriptions, Meditation Timer Online provides unlimited duration sits, full soundscape mixing, and habit tracking completely free with zero ads."
-  },
-  {
-    question: "Does the timer keep my screen from dimming or falling asleep?",
-    answer: "Yes. The timer integrates the modern Web Screen Wake Lock API. As long as your meditation session is running, your smartphone, tablet, or laptop screen will remain gently awake without going to sleep or dimming automatically."
-  },
-  {
-    question: "What bell sounds and ambient soundscapes are included?",
-    answer: "The audio engine includes four physical-modeling bell instruments: authentic Tibetan Singing Bowl, Kyoto Zen Temple Bell, Deep Resonant Temple Gong, and high-frequency Ting-Sha Cymbals. You can also mix in five free ambient nature soundscapes: Gentle Rain on Leaves, Forest Mountain Stream, Ocean Tide Swells, Deep Brown Noise, and Soft Zen Breeze."
-  },
-  {
-    question: "How does the warm-up preparation countdown work?",
-    answer: "The preparation countdown gives you a customizable buffer (5, 10, 15, 30, or 60 seconds) before your meditation starts. This allows you to close other tabs, adjust your seating posture, soften your gaze, and settle into your breath before the opening chime sounds."
-  },
-  {
-    question: "Can I set periodic interval chimes during meditation?",
-    answer: "Yes. You can configure periodic interval bells to ring at set times (every 1, 2, 5, 10, 15, 20, or 30 minutes). Interval bells are ideal for body scan meditations, partner dyad exchanges, or gentle reminders to bring wandering thoughts back to your breath."
-  },
-  {
-    question: "How is my meditation streak tracked without an account?",
-    answer: "All session history, current streaks, best streaks, and total mindful minutes are stored 100% privately in your web browser using HTML5 LocalStorage. No account creation, email sign-up, or tracking cookies are required, and you can export your data to JSON anytime."
-  },
-  {
-    question: "Can I share a pre-configured timer with students or friends?",
-    answer: "Yes. You can share custom meditation sessions directly via URL parameters. For instance, linking to ?d=900&prep=15&bell=gong automatically configures a 15-minute timer with a 15-second warm-up and deep gong bell for anyone who clicks the link."
-  },
-  {
-    question: "What keyboard shortcuts are supported?",
-    answer: "You can control your practice hands-free: press Spacebar to Start or Pause, Escape to Reset or close menus, and F to enter or exit Fullscreen mode."
-  }
-];
+interface Props {
+  lang?: SupportedLocale;
+  faqs?: FAQItem[];
+}
 
-const { faqs = defaultFaqs } = Astro.props;
+const { lang = 'en', faqs: customFaqs } = Astro.props;
+const t = translations[lang] || translations.en;
+const faqs: FAQItem[] = customFaqs || t.faqs;
 
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
+  "inLanguage": lang,
   "mainEntity": faqs.map((faq: FAQItem) => ({
     "@type": "Question",
     "name": faq.question,
@@ -66,13 +35,13 @@ const faqSchema = {
   <!-- Section Title -->
   <div class="text-center max-w-xl mx-auto mb-10">
     <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 mb-2.5">
-      Frequently Asked Questions
+      {t.faqBadge}
     </div>
     <h2 id="faq-heading" class="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">
-      Everything You Need to Know
+      {t.faqTitle}
     </h2>
     <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">
-      Learn how our minimalist meditation timer enhances your daily mindfulness practice.
+      {t.faqSubtitle}
     </p>
   </div>
 
