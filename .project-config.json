@@ -1,0 +1,7 @@
+{
+  "name": "Meditation Timer Online",
+  "domain": "freemeditationtimeronline.com",
+  "githubUrl": "https://github.com/kuldeep088-hub/meditation-timer-web.git",
+  "defaultBranch": "main",
+  "autoPush": true
+}
