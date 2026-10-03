@@ -22,18 +22,17 @@ const langList = (Object.keys(languages) as SupportedLocale[]).map((code) => {
 });
 ---
 
-<header class="sticky top-0 z-40 w-full apple-glass border-b border-zinc-200/80 dark:border-white/[0.08] transition-colors">
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 h-11 flex items-center justify-between">
+<header class="sticky top-0 z-40 w-full apple-glass border-b border-white/[0.08] transition-colors pt-[env(safe-area-inset-top,0px)]">
+  <div class="max-w-5xl mx-auto px-3 sm:px-6 h-12 sm:h-11 flex items-center justify-between">
     <!-- Brand -->
-    <a href={lang === 'en' ? '/' : `/${lang}/`} class="flex items-center gap-2.5 text-zinc-900 dark:text-white font-medium text-[15px] tracking-tight hover:opacity-85 transition-opacity">
-      <span class="w-6 h-6 rounded-full bg-blue-600 dark:bg-blue-500 flex items-center justify-center text-white shadow-xs">
-        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <a href={lang === 'en' ? '/' : `/${lang}/`} class="flex items-center gap-2 text-zinc-900 dark:text-white font-medium text-sm sm:text-[15px] tracking-tight hover:opacity-85 transition-opacity">
+      <span class="w-7 h-7 sm:w-6 sm:h-6 rounded-full bg-blue-600 dark:bg-blue-500 flex items-center justify-center text-white shadow-xs shrink-0">
+        <svg class="w-4 h-4 sm:w-3.5 sm:h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="10"/>
           <path d="M12 6v6l4 2"/>
         </svg>
       </span>
-      <span class="hidden sm:inline font-semibold">{t.brand}</span>
-      <span class="sm:hidden font-semibold">{t.brand}</span>
+      <span class="font-semibold truncate max-w-[150px] sm:max-w-none">{t.brand}</span>
     </a>
 
     <!-- Top Action Items -->
@@ -42,7 +41,7 @@ const langList = (Object.keys(languages) as SupportedLocale[]).map((code) => {
       <div class="relative group">
         <button
           type="button"
-          class="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-zinc-100/90 hover:bg-zinc-200/80 border border-zinc-200/80 shadow-2xs dark:bg-white/[0.08] dark:border-white/[0.08] dark:hover:bg-white/[0.14] text-zinc-800 dark:text-zinc-200 transition-all uppercase"
+          class="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full text-xs font-semibold bg-white/10 hover:bg-white/15 border border-white/10 shadow-2xs text-zinc-200 transition-all uppercase min-h-[36px]"
           aria-label="Select Language"
         >
           <span>{languages[lang].flag}</span>
@@ -89,7 +88,7 @@ const langList = (Object.keys(languages) as SupportedLocale[]).map((code) => {
       <button
         id="open-bg-modal-btn"
         type="button"
-        class="w-8 h-8 rounded-full flex items-center justify-center text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/[0.08] transition-colors"
+        class="w-9 h-9 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-zinc-300 hover:text-white hover:bg-white/10 transition-colors"
         title="Change Background Wallpaper or Upload Photo"
         aria-label="Change Background"
       >
@@ -104,7 +103,7 @@ const langList = (Object.keys(languages) as SupportedLocale[]).map((code) => {
       <button
         id="open-settings-btn"
         type="button"
-        class="w-8 h-8 rounded-full flex items-center justify-center text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/[0.08] transition-colors"
+        class="w-9 h-9 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-zinc-300 hover:text-white hover:bg-white/10 transition-colors"
         title="Audio, Bells & Interval Settings"
         aria-label="Settings"
       >
@@ -118,7 +117,7 @@ const langList = (Object.keys(languages) as SupportedLocale[]).map((code) => {
       <button
         id="fullscreen-toggle-btn"
         type="button"
-        class="w-8 h-8 rounded-full flex items-center justify-center text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/[0.08] transition-colors"
+        class="w-9 h-9 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-zinc-300 hover:text-white hover:bg-white/10 transition-colors"
         title="Toggle Fullscreen (F)"
         aria-label="Toggle Fullscreen"
       >
