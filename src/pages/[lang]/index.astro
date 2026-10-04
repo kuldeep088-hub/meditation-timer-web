@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import TimerApp from '../../components/TimerApp.astro';
+import BeginnerGuide from '../../components/BeginnerGuide.astro';
 import QuickTimerLinks from '../../components/QuickTimerLinks.astro';
 import AiOverviewGuide from '../../components/AiOverviewGuide.astro';
 import FAQ from '../../components/FAQ.astro';
@@ -37,6 +38,7 @@ const t = translations[lang] || translations.en;
       heading={t.brand}
       subheading={t.metaDescription}
     />
+    <BeginnerGuide lang={lang} />
     <QuickTimerLinks lang={lang} />
     <AiOverviewGuide lang={lang} />
     <FAQ lang={lang} />

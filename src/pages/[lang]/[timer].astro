@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import TimerApp from '../../components/TimerApp.astro';
+import BeginnerGuide from '../../components/BeginnerGuide.astro';
 import QuickTimerLinks from '../../components/QuickTimerLinks.astro';
 import AiOverviewGuide from '../../components/AiOverviewGuide.astro';
 import FAQ from '../../components/FAQ.astro';
@@ -80,6 +81,9 @@ const pageDesc = `${pageHeading}: ${t.metaDescription}`;
       heading={pageHeading}
       subheading={t.metaDescription}
     />
+
+    <!-- Beginner's Guide & Tips -->
+    <BeginnerGuide lang={lang} />
 
     <!-- Quick access to other durations -->
     <QuickTimerLinks lang={lang} />

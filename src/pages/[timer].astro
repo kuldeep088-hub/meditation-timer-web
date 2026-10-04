@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import TimerApp from '../components/TimerApp.astro';
+import BeginnerGuide from '../components/BeginnerGuide.astro';
 import QuickTimerLinks from '../components/QuickTimerLinks.astro';
 import AiOverviewGuide from '../components/AiOverviewGuide.astro';
 import FAQ from '../components/FAQ.astro';
@@ -147,6 +148,9 @@ const { slug, seconds, title, heading, subheading, tip } = Astro.props;
         </div>
       </div>
     </section>
+
+    <!-- Beginner's Guide & Tips -->
+    <BeginnerGuide lang="en" />
 
     <!-- Quick access to other durations -->
     <QuickTimerLinks lang="en" />
