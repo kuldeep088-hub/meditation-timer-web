@@ -73,13 +73,21 @@ const clientI18n = JSON.stringify({
   <!-- New User Simple Guidance Banner -->
   <div id="beginner-quick-tip" class="w-full max-w-xl mx-auto mb-3 sm:mb-4 px-3.5 py-2.5 rounded-2xl bg-cyan-500/10 border border-cyan-500/25 flex items-center justify-between gap-2.5 transition-all text-left">
     <div class="flex items-center gap-2.5 text-xs sm:text-sm text-cyan-200">
-      <span class="text-base shrink-0">🌱</span>
+      <div class="w-7 h-7 rounded-full bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center shrink-0">
+        <svg class="w-3.5 h-3.5 text-cyan-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 16v-4"/>
+          <path d="M12 8h.01"/>
+        </svg>
+      </div>
       <div class="leading-snug">
         <span class="font-bold text-white">First time?</span>
         <span class="text-cyan-100/90 ml-1">Pick a time (3m or 5m is ideal), tap <strong class="text-cyan-300">Begin</strong>, and follow your breath.</span>
       </div>
     </div>
-    <button id="dismiss-beginner-tip" type="button" class="text-white/40 hover:text-white p-1 rounded-full text-xs shrink-0 cursor-pointer touch-manipulation" aria-label="Dismiss helpful tip">✕</button>
+    <button id="dismiss-beginner-tip" type="button" class="text-white/40 hover:text-white p-1 rounded-full shrink-0 cursor-pointer touch-manipulation" aria-label="Dismiss helpful tip">
+      <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
   </div>
 
   <!-- Main Glassmorphic Timer Container (matching meditationtimer.online) -->
@@ -476,7 +484,10 @@ const clientI18n = JSON.stringify({
       type="button"
       class="flex items-center gap-1.5 px-3.5 py-2 min-h-[40px] rounded-full bg-black/60 backdrop-blur-md hover:bg-black/80 active:scale-95 border border-white/10 text-zinc-200 transition-all shadow-2xs touch-manipulation cursor-pointer"
     >
-      <span>🔔</span>
+      <svg class="w-3.5 h-3.5 text-zinc-300 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+        <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+      </svg>
       <span id="quick-bell-label">{t.tibetanBowl}</span>
     </button>
 
@@ -486,7 +497,10 @@ const clientI18n = JSON.stringify({
       type="button"
       class="flex items-center gap-1.5 px-3.5 py-2 min-h-[40px] rounded-full bg-black/60 backdrop-blur-md hover:bg-black/80 active:scale-95 border border-white/10 text-zinc-200 transition-all shadow-2xs touch-manipulation cursor-pointer"
     >
-      <span>🍃</span>
+      <svg class="w-3.5 h-3.5 text-zinc-300 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 12c1.5-2 3.5-3 5.5-3s4 1 5.5 3 3.5 3 5.5 3 4-1 5.5-3"/>
+        <path d="M2 18c1.5-2 3.5-3 5.5-3s4 1 5.5 3 3.5 3 5.5 3 4-1 5.5-3"/>
+      </svg>
       <span id="quick-ambient-label">{t.silence}</span>
       <span id="quick-ambient-waves" class="hidden items-end gap-[3px] h-3.5 px-1 py-0.5">
         <span class="w-[2.5px] bg-emerald-400 rounded-full animate-soundwave-1 inline-block"></span>
@@ -502,7 +516,11 @@ const clientI18n = JSON.stringify({
       class="flex items-center gap-1.5 px-3.5 py-2 min-h-[40px] rounded-full bg-black/60 backdrop-blur-md hover:bg-black/80 active:scale-95 border border-white/10 text-zinc-200 transition-all shadow-2xs touch-manipulation cursor-pointer"
       title="Change Wallpaper or Upload Photo"
     >
-      <span>🌄</span>
+      <svg class="w-3.5 h-3.5 text-zinc-300 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+        <circle cx="9" cy="9" r="2"/>
+        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+      </svg>
       <span>{t.backgroundModalTitle}</span>
     </button>
   </div>
@@ -774,7 +792,7 @@ const clientI18n = JSON.stringify({
         const durText = document.getElementById('completion-duration-text');
         if (durText) durText.textContent = `${mins} min${mins === 1 ? '' : 's'}`;
         const streakText = document.getElementById('completion-streak-text');
-        if (streakText) streakText.textContent = `🔥 ${getStats().currentStreak} Day${getStats().currentStreak === 1 ? '' : 's'}`;
+        if (streakText) streakText.textContent = `${getStats().currentStreak} Day${getStats().currentStreak === 1 ? '' : 's'}`;
 
         // Confetti burst
         try {

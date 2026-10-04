@@ -102,7 +102,12 @@ const aiOverviewSchema = {
       <!-- Key Takeaways Grid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] hover:border-cyan-400/30 transition-all">
-          <div class="text-xl mb-2">🧘</div>
+          <div class="w-8 h-8 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center mb-2.5">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 6v6l4 2"/>
+            </svg>
+          </div>
           <h3 class="text-xs font-semibold text-white uppercase tracking-wider mb-1">Pure Unguided Stillness</h3>
           <p class="text-xs text-zinc-400 leading-relaxed">
             Eliminates narrator voice fatigue. Encourages internal emotional self-reliance and organic present-moment awareness.
@@ -110,7 +115,12 @@ const aiOverviewSchema = {
         </div>
 
         <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] hover:border-cyan-400/30 transition-all">
-          <div class="text-xl mb-2">🔔</div>
+          <div class="w-8 h-8 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mb-2.5">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+            </svg>
+          </div>
           <h3 class="text-xs font-semibold text-white uppercase tracking-wider mb-1">Harmonic Overtones</h3>
           <p class="text-xs text-zinc-400 leading-relaxed">
             Synthesized 216 Hz & 432 Hz resonance transitions brainwaves from high-stress Beta into relaxed Alpha/Theta states.
@@ -118,7 +128,12 @@ const aiOverviewSchema = {
         </div>
 
         <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] hover:border-cyan-400/30 transition-all">
-          <div class="text-xl mb-2">📱</div>
+          <div class="w-8 h-8 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center mb-2.5">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="14" height="20" x="5" y="2" rx="2" ry="2"/>
+              <path d="M12 18h.01"/>
+            </svg>
+          </div>
           <h3 class="text-xs font-semibold text-white uppercase tracking-wider mb-1">Hardware Screen Lock</h3>
           <p class="text-xs text-zinc-400 leading-relaxed">
             Utilizes the HTML5 Screen Wake Lock API to prevent smartphones and laptops from sleeping during prolonged sits.
@@ -126,7 +141,11 @@ const aiOverviewSchema = {
         </div>
 
         <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] hover:border-cyan-400/30 transition-all">
-          <div class="text-xl mb-2">🛡️</div>
+          <div class="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mb-2.5">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
           <h3 class="text-xs font-semibold text-white uppercase tracking-wider mb-1">100% Client Privacy</h3>
           <p class="text-xs text-zinc-400 leading-relaxed">
             Zero telemetry, zero logins, zero database profiling. Habit streaks and reflections remain exclusively on your device.
@@ -143,7 +162,11 @@ const aiOverviewSchema = {
   <div class="rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/[0.06] p-4 sm:p-8 md:p-10 mb-12 sm:mb-16">
     <div class="text-center max-w-xl mx-auto mb-6 sm:mb-8">
       <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 mb-2">
-        <span>💨</span>
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/>
+          <path d="M9.6 4.6A2 2 0 1 1 11 8H2"/>
+          <path d="M12.6 19.4A2 2 0 1 0 14 16H2"/>
+        </svg>
         <span>Interactive Mindfulness Tool</span>
       </div>
       <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-white">
@@ -301,7 +324,7 @@ const aiOverviewSchema = {
           <tr class="hover:bg-white/[0.02] transition-colors">
             <td class="py-3.5 px-3 sm:px-4 font-bold text-white whitespace-nowrap">1–3 Minutes</td>
             <td class="py-3.5 px-3 sm:px-4">Micro-Reset & Reset Breaths</td>
-            <td class="py-3.5 px-3 sm:px-4 text-cyan-400 hidden sm:table-cell">High Beta ➔ Mid Beta</td>
+            <td class="py-3.5 px-3 sm:px-4 text-cyan-400 hidden sm:table-cell">High Beta → Mid Beta</td>
             <td class="py-3.5 px-3 sm:px-4 text-zinc-400">Halts acute cortisol spikes during work sprints</td>
             <td class="py-3.5 px-3 sm:px-4 text-right">
               <a href={lang === 'en' ? "/1-minute-meditation-timer" : `/${lang}/1-minute-meditation-timer`} class="text-xs text-cyan-400 hover:underline">1m Timer →</a>
@@ -364,7 +387,13 @@ const aiOverviewSchema = {
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-amber-400/30 transition-all">
-        <div class="text-xl mb-2">🥣</div>
+        <div class="w-8 h-8 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mb-2.5">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 10a8 8 0 0 0 16 0H4Z"/>
+            <path d="M12 18v3"/>
+            <path d="M8 21h8"/>
+          </svg>
+        </div>
         <h4 class="text-sm font-semibold text-white mb-1">Tibetan Singing Bowl</h4>
         <div class="text-[11px] text-amber-400 font-mono mb-2">216 Hz Fundamental</div>
         <p class="text-xs text-zinc-400 leading-relaxed">
@@ -373,7 +402,12 @@ const aiOverviewSchema = {
       </div>
 
       <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-cyan-400/30 transition-all">
-        <div class="text-xl mb-2">🏯</div>
+        <div class="w-8 h-8 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center mb-2.5">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+            <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+          </svg>
+        </div>
         <h4 class="text-sm font-semibold text-white mb-1">Kyoto Zen Bell</h4>
         <div class="text-[11px] text-cyan-400 font-mono mb-2">587 Hz (Keisu)</div>
         <p class="text-xs text-zinc-400 leading-relaxed">
@@ -382,7 +416,12 @@ const aiOverviewSchema = {
       </div>
 
       <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-blue-400/30 transition-all">
-        <div class="text-xl mb-2">🥁</div>
+        <div class="w-8 h-8 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-2.5">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </div>
         <h4 class="text-sm font-semibold text-white mb-1">Deep Temple Gong</h4>
         <div class="text-[11px] text-blue-400 font-mono mb-2">108 Hz Sub-Bass</div>
         <p class="text-xs text-zinc-400 leading-relaxed">
@@ -391,7 +430,11 @@ const aiOverviewSchema = {
       </div>
 
       <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-rose-400/30 transition-all">
-        <div class="text-xl mb-2">✨</div>
+        <div class="w-8 h-8 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center mb-2.5">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3z"/>
+          </svg>
+        </div>
         <h4 class="text-sm font-semibold text-white mb-1">Ting-Sha Cymbals</h4>
         <div class="text-[11px] text-rose-400 font-mono mb-2">2048 Hz High Ring</div>
         <p class="text-xs text-zinc-400 leading-relaxed">

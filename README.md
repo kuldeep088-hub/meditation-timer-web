@@ -6,7 +6,7 @@ Live site: [freemeditationtimeronline.com](https://freemeditationtimeronline.com
 
 ---
 
-## ✨ Features
+## Features
 
 - **Apple-Inspired Zen Simplicity**: 44px frosted glass navigation, clean tabular digits that don't jitter, and distraction-free dark/light themes.
 - **Auto-Fading Zen Mode**: Peripheral controls smoothly fade out to 0% opacity after 3.5 seconds of meditation, keeping focus purely on your breath.
@@ -30,7 +30,7 @@ Live site: [freemeditationtimeronline.com](https://freemeditationtimeronline.com
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -63,6 +63,6 @@ Generates a static build inside the `dist/` directory ready for deployment on Cl
 
 ---
 
-## 📄 License
+## License
 
 MIT
