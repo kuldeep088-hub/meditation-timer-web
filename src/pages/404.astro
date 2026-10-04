@@ -1,0 +1,52 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Page Not Found | Meditation Timer Online"
+  description="The page you are looking for does not exist. Take a breath and return to your meditation practice."
+  canonicalUrl="https://freemeditationtimeronline.com/404"
+  lang="en"
+  cleanPath="/404"
+>
+  <Header lang="en" cleanPath="/404" />
+  
+  <main class="flex-1 flex flex-col items-center justify-center px-4 py-16 sm:py-24 text-center">
+    <div class="timer-glass w-full max-w-lg mx-auto rounded-3xl p-8 sm:p-12 shadow-2xl flex flex-col items-center">
+      
+      <!-- Zen Chime Icon -->
+      <div class="w-20 h-20 rounded-full bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-6 shadow-lg shadow-cyan-500/10">
+        <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 6v6l4 2" />
+        </svg>
+      </div>
+
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold uppercase tracking-wider mb-3">
+        404 · Lost in Thought
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mb-3">
+        Return to Stillness
+      </h1>
+
+      <p class="text-sm sm:text-base text-zinc-300 max-w-sm mb-8 leading-relaxed">
+        The moment you notice your mind has wandered, you have already returned to the present. Let this pause be your cue to take a mindful breath.
+      </p>
+
+      <a
+        href="/"
+        class="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-cyan-500 hover:bg-cyan-400 active:bg-cyan-600 text-black font-semibold text-sm transition-all shadow-lg shadow-cyan-500/20 hover:scale-[1.02] active:scale-95 touch-manipulation cursor-pointer"
+      >
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+        <span>Begin Meditation</span>
+      </a>
+    </div>
+  </main>
+
+  <Footer lang="en" />
+</Layout>

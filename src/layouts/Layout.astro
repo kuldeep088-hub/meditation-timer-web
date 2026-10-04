@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { languages, type SupportedLocale } from '../i18n/translations';
+import type { SupportedLocale } from '../i18n/translations';
 
 interface Props {
   title?: string;
@@ -43,6 +43,7 @@ const structuredData = {
   "inLanguage": lang,
   "applicationCategory": "HealthApplication",
   "operatingSystem": "Web Browser",
+  "timeRequired": `PT${Math.round(durationSeconds / 60)}M`,
   "offers": {
     "@type": "Offer",
     "price": "0",
@@ -70,6 +71,7 @@ const structuredData = {
     <meta name="mobile-web-app-capable" content="yes" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="manifest" href="/site.webmanifest" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="theme-color" content="#121214" id="theme-color-meta" />
     <meta name="generator" content={Astro.generator} />
 

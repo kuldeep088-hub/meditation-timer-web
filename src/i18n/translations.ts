@@ -123,6 +123,23 @@ export interface LocaleContent {
   shortcutFullscreen: string;
   tipForSession: string;
   sessionTips: Record<number, string>;
+  countdownOn: string;
+  countdownOff: string;
+  beginMeditationAfter: string;
+  seconds: string;
+  moveSliderToSetCountdown: string;
+  adjustSeconds: string;
+  ringEvery: string;
+  intervalBellOn: string;
+  optionalLabel: string;
+  bowlSubtitle: string;
+  zenSubtitle: string;
+  gongSubtitle: string;
+  tingshaSubtitle: string;
+  recordedLabel: string;
+  noSessionsYet: string;
+  minSession: string;
+  noLoginTelemetry: string;
   faqs: Array<{ question: string; answer: string }>;
 }
 
@@ -248,6 +265,23 @@ export const translations: Record<SupportedLocale, LocaleContent> = {
       45: "Surrender effort. When sitting for 45 minutes, meditation ceases to be a task and becomes a natural state of being.",
       60: "Ground yourself periodically in physical contact points — sit bones on the cushion, hands in your lap."
     },
+    countdownOn: "Countdown On",
+    countdownOff: "Countdown Off",
+    beginMeditationAfter: "Begin meditation after:",
+    seconds: "Seconds",
+    moveSliderToSetCountdown: "Move the slider to set the count down",
+    adjustSeconds: "Adjust seconds",
+    ringEvery: "Ring every:",
+    intervalBellOn: "Interval Bell On",
+    optionalLabel: "Optional",
+    bowlSubtitle: "Resonant & Singing",
+    zenSubtitle: "Pure Temple Bronze",
+    gongSubtitle: "Grounding & Rich",
+    tingshaSubtitle: "Crystalline Chime",
+    recordedLabel: "recorded",
+    noSessionsYet: "No completed sessions yet. Start your first practice today!",
+    minSession: "min session",
+    noLoginTelemetry: "No login required · No telemetry",
     faqs: [
       {
         question: "What is Meditation Timer Online?",
@@ -405,6 +439,23 @@ export const translations: Record<SupportedLocale, LocaleContent> = {
       45: "Abandona el esfuerzo. En una sesión de 45 minutos, la meditación deja de ser una tarea y se convierte en un estado natural.",
       60: "Conéctate periódicamente con los puntos de contacto físico: los huesos al sentarte y tus manos reposando sobre el regazo."
     },
+    countdownOn: "Cuenta atrás activada",
+    countdownOff: "Cuenta atrás desactivada",
+    beginMeditationAfter: "Comenzar meditación tras:",
+    seconds: "Segundos",
+    moveSliderToSetCountdown: "Mueve el deslizador para fijar la cuenta atrás",
+    adjustSeconds: "Ajustar segundos",
+    ringEvery: "Sonar cada:",
+    intervalBellOn: "Campana de intervalo activada",
+    optionalLabel: "Opcional",
+    bowlSubtitle: "Resonante y envolvente",
+    zenSubtitle: "Bronce puro de templo",
+    gongSubtitle: "Profundo y sereno",
+    tingshaSubtitle: "Campana cristalina",
+    recordedLabel: "registradas",
+    noSessionsYet: "Aún no hay sesiones registradas. ¡Comienza tu primera práctica hoy!",
+    minSession: "min de sesión",
+    noLoginTelemetry: "Sin registro requerido · Cero telemetría",
     faqs: [
       {
         question: "¿Qué es este temporizador de meditación online?",
@@ -546,6 +597,23 @@ export const translations: Record<SupportedLocale, LocaleContent> = {
       45: "努力を手放しましょう。45分座ると、瞑想は「行うこと」から「自然な在り方」へと変化します。",
       60: "座面に触れているお尻や、膝の上にある手の感覚など、身体の接地感に定期的に意識を戻しましょう。"
     },
+    countdownOn: "カウントダウンON",
+    countdownOff: "カウントダウンOFF",
+    beginMeditationAfter: "瞑想開始までの時間:",
+    seconds: "秒",
+    moveSliderToSetCountdown: "スライダーを動かしてカウントダウンを設定",
+    adjustSeconds: "秒数を調整",
+    ringEvery: "ベルの間隔:",
+    intervalBellOn: "インターバルベルON",
+    optionalLabel: "任意",
+    bowlSubtitle: "豊かに響くシンギングボウル",
+    zenSubtitle: "澄んだ京都の禅寺の鐘",
+    gongSubtitle: "深く響く重厚な銅鑼",
+    tingshaSubtitle: "高音で澄んだティンシャの鐘",
+    recordedLabel: "回記録",
+    noSessionsYet: "まだセッション履歴がありません。今日から始めましょう！",
+    minSession: "分のセッション",
+    noLoginTelemetry: "ログイン不要 · 個人データ送信なし",
     faqs: [
       {
         question: "瞑想タイマーオンラインとは何ですか？",
@@ -683,6 +751,23 @@ export const translations: Record<SupportedLocale, LocaleContent> = {
       45: "Abandonnez l'effort. Après 45 minutes, la méditation cesse d'être un exercice pour devenir un état naturel d'être.",
       60: "Ancrez-vous régulièrement dans vos sensations physiques : le contact avec le coussin, les mains posées sur les genoux."
     },
+    countdownOn: "Compte à rebours activé",
+    countdownOff: "Compte à rebours désactivé",
+    beginMeditationAfter: "Commencer la méditation après :",
+    seconds: "Secondes",
+    moveSliderToSetCountdown: "Déplacez le curseur pour régler le compte à rebours",
+    adjustSeconds: "Ajuster les secondes",
+    ringEvery: "Sonner toutes les :",
+    intervalBellOn: "Cloche d'intervalle activée",
+    optionalLabel: "Optionnel",
+    bowlSubtitle: "Résonance chantante tibétaine",
+    zenSubtitle: "Bronze pur de temple zen",
+    gongSubtitle: "Gong profond et apaisant",
+    tingshaSubtitle: "Cymbale cristalline",
+    recordedLabel: "enregistrées",
+    noSessionsYet: "Aucune séance enregistrée pour l'instant. Commencez dès aujourd'hui !",
+    minSession: "min de séance",
+    noLoginTelemetry: "Aucune connexion requise · Zéro télémétrie",
     faqs: [
       {
         question: "Qu'est-ce que ce minuteur de méditation en ligne ?",
@@ -820,6 +905,23 @@ export const translations: Record<SupportedLocale, LocaleContent> = {
       45: "Gib jede Anstrengung auf. Nach 45 Minuten wird Meditation vom Tun zum natürlichen Zustand des Seins.",
       60: "Verankere dich immer wieder in den physischen Kontaktpunkten: Sitzbeinhöcker auf dem Kissen, Hände im Schoß."
     },
+    countdownOn: "Countdown Ein",
+    countdownOff: "Countdown Aus",
+    beginMeditationAfter: "Meditation beginnen nach:",
+    seconds: "Sekunden",
+    moveSliderToSetCountdown: "Schieberegler bewegen, um Countdown einzustellen",
+    adjustSeconds: "Sekunden anpassen",
+    ringEvery: "Klingeln alle:",
+    intervalBellOn: "Intervallglocke Ein",
+    optionalLabel: "Optional",
+    bowlSubtitle: "Resonant & Singend",
+    zenSubtitle: "Reine Zen-Tempelbronze",
+    gongSubtitle: "Tief & Erdend",
+    tingshaSubtitle: "Kristalline Zimbel",
+    recordedLabel: "aufgezeichnet",
+    noSessionsYet: "Noch keine Sitzungen abgeschlossen. Starte heute deine erste Praxis!",
+    minSession: "Min. Sitzung",
+    noLoginTelemetry: "Keine Anmeldung erforderlich · Keine Telemetrie",
     faqs: [
       {
         question: "Was ist die Meditationsuhr Online?",
@@ -957,6 +1059,23 @@ export const translations: Record<SupportedLocale, LocaleContent> = {
       45: "Abandone o esforço. Em 45 minutos, a meditação deixa de ser um dever e passa a ser um estado natural de ser.",
       60: "Ancore-se periodicamente nos pontos de contacto físico: os ísquios na almofada e as mãos no colo."
     },
+    countdownOn: "Contagem regressiva ativada",
+    countdownOff: "Contagem regressiva desativada",
+    beginMeditationAfter: "Iniciar meditação após:",
+    seconds: "Segundos",
+    moveSliderToSetCountdown: "Mova o controle deslizante para ajustar a contagem",
+    adjustSeconds: "Ajustar segundos",
+    ringEvery: "Tocar a cada:",
+    intervalBellOn: "Sino de intervalo ativado",
+    optionalLabel: "Opcional",
+    bowlSubtitle: "Ressonante e envolvente",
+    zenSubtitle: "Bronze puro de templo zen",
+    gongSubtitle: "Gongo profundo e sereno",
+    tingshaSubtitle: "Prato cristalino",
+    recordedLabel: "registradas",
+    noSessionsYet: "Nenhuma sessão registrada ainda. Comece sua prática hoje!",
+    minSession: "min de sessão",
+    noLoginTelemetry: "Sem necessidade de cadastro · Zero telemetria",
     faqs: [
       {
         question: "O que é o Temporizador de Meditação Online?",
@@ -1094,6 +1213,23 @@ export const translations: Record<SupportedLocale, LocaleContent> = {
       45: "애쓰기를 내려놓으세요. 45분간 앉아있으면 명상은 무언가를 하는 행위가 아니라 자연스러운 존재 상태가 됩니다.",
       60: "방석에 닿는 엉덩이의 감각, 무릎 위에 얹은 손 등 신체 접촉 부위에 주기적으로 주의를 두어 몸을 그라운딩하세요."
     },
+    countdownOn: "카운트다운 켜짐",
+    countdownOff: "카운트다운 꺼짐",
+    beginMeditationAfter: "명상 시작 대기 시간:",
+    seconds: "초",
+    moveSliderToSetCountdown: "슬라이더를 움직여 카운트다운을 설정하세요",
+    adjustSeconds: "초 조절",
+    ringEvery: "종소리 간격:",
+    intervalBellOn: "인터벌 벨 켜짐",
+    optionalLabel: "선택사항",
+    bowlSubtitle: "맑고 은은한 티베트 싱잉볼",
+    zenSubtitle: "청아한 교토 사찰의 청동 종",
+    gongSubtitle: "깊고 울림이 큰 사찰 징",
+    tingshaSubtitle: "맑은 고음의 팅샤 차임",
+    recordedLabel: "회 기록됨",
+    noSessionsYet: "아직 완료된 세션이 없습니다. 오늘 첫 명상을 시작해 보세요!",
+    minSession: "분 세션",
+    noLoginTelemetry: "로그인 불필요 · 개인 데이터 수집 없음",
     faqs: [
       {
         question: "온라인 명상 타이머는 어떤 도구인가요?",
@@ -1231,6 +1367,23 @@ export const translations: Record<SupportedLocale, LocaleContent> = {
       45: "Abbandona ogni sforzo. In una seduta di 45 minuti, la meditazione smette di essere un dovere e diventa il tuo stato naturale.",
       60: "Radicati periodicamente nei punti di contatto: il bacino sul cuscino, le mani rilassate sulle gambe."
     },
+    countdownOn: "Conto alla rovescia attivo",
+    countdownOff: "Conto alla rovescia disattivato",
+    beginMeditationAfter: "Inizia la meditazione dopo:",
+    seconds: "Secondi",
+    moveSliderToSetCountdown: "Muovi il cursore per impostare il conto alla rovescia",
+    adjustSeconds: "Regola i secondi",
+    ringEvery: "Suona ogni:",
+    intervalBellOn: "Campana a intervalli attiva",
+    optionalLabel: "Opzionale",
+    bowlSubtitle: "Risonante e avvolgente",
+    zenSubtitle: "Bronzo puro di tempio zen",
+    gongSubtitle: "Gong profondo e pacificante",
+    tingshaSubtitle: "Campanella cristallina",
+    recordedLabel: "registrate",
+    noSessionsYet: "Nessuna sessione registrata. Inizia la tua prima pratica oggi!",
+    minSession: "min di sessione",
+    noLoginTelemetry: "Nessun accesso richiesto · Nessuna telemetria",
     faqs: [
       {
         question: "Cos'è il Timer Meditazione Online?",

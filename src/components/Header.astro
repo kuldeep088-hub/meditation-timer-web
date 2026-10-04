@@ -161,27 +161,29 @@ const langList = (Object.keys(languages) as SupportedLocale[]).map((code) => {
     const container = document.getElementById('lang-switcher-container');
 
     if (!btn || !menu) return;
+    const buttonEl = btn;
+    const menuEl = menu;
 
     // Prevent duplicate event listener registration across Astro navigations
-    if (btn.dataset.initialized === 'true') return;
-    btn.dataset.initialized = 'true';
+    if (buttonEl.dataset.initialized === 'true') return;
+    buttonEl.dataset.initialized = 'true';
 
     function openMenu() {
-      menu.classList.remove('hidden');
-      btn.setAttribute('aria-expanded', 'true');
+      menuEl.classList.remove('hidden');
+      buttonEl.setAttribute('aria-expanded', 'true');
       arrow?.classList.add('rotate-180');
     }
 
     function closeMenu() {
-      menu.classList.add('hidden');
-      btn.setAttribute('aria-expanded', 'false');
+      menuEl.classList.add('hidden');
+      buttonEl.setAttribute('aria-expanded', 'false');
       arrow?.classList.remove('rotate-180');
     }
 
-    btn.addEventListener('click', (e) => {
+    buttonEl.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      const isClosed = menu.classList.contains('hidden');
+      const isClosed = menuEl.classList.contains('hidden');
       if (isClosed) {
         openMenu();
       } else {
@@ -190,7 +192,7 @@ const langList = (Object.keys(languages) as SupportedLocale[]).map((code) => {
     });
 
     // Close immediately when clicking any language option
-    menu.querySelectorAll('a').forEach((link) => {
+    menuEl.querySelectorAll('a').forEach((link) => {
       link.addEventListener('click', () => {
         closeMenu();
       });

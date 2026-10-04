@@ -66,7 +66,7 @@ const t = translations[lang] || translations.en;
           <button type="button" data-bell="bowl" class="bell-option-btn px-3 py-2.5 rounded-xl border border-cyan-500 bg-cyan-500/20 text-cyan-300 font-medium text-left flex items-center justify-between transition-colors">
             <div>
               <div class="font-semibold text-xs">{t.tibetanBowl}</div>
-              <div class="text-[11px] opacity-75">Resonant & Singing</div>
+              <div class="text-[11px] opacity-75">{t.bowlSubtitle}</div>
             </div>
             <span class="bell-check text-cyan-400 font-bold text-xs">✓</span>
           </button>
@@ -74,7 +74,7 @@ const t = translations[lang] || translations.en;
           <button type="button" data-bell="zen" class="bell-option-btn px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 text-zinc-700 dark:text-zinc-300 text-left flex items-center justify-between transition-colors">
             <div>
               <div class="font-semibold text-xs">{t.kyotoZen}</div>
-              <div class="text-[11px] text-zinc-500">Pure Temple Bronze</div>
+              <div class="text-[11px] text-zinc-500">{t.zenSubtitle}</div>
             </div>
             <span class="bell-check hidden font-bold text-xs">✓</span>
           </button>
@@ -82,7 +82,7 @@ const t = translations[lang] || translations.en;
           <button type="button" data-bell="gong" class="bell-option-btn px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 text-zinc-700 dark:text-zinc-300 text-left flex items-center justify-between transition-colors">
             <div>
               <div class="font-semibold text-xs">{t.deepGong}</div>
-              <div class="text-[11px] text-zinc-500">Grounding & Rich</div>
+              <div class="text-[11px] text-zinc-500">{t.gongSubtitle}</div>
             </div>
             <span class="bell-check hidden font-bold text-xs">✓</span>
           </button>
@@ -90,7 +90,7 @@ const t = translations[lang] || translations.en;
           <button type="button" data-bell="tingsha" class="bell-option-btn px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 text-zinc-700 dark:text-zinc-300 text-left flex items-center justify-between transition-colors">
             <div>
               <div class="font-semibold text-xs">{t.tingsha}</div>
-              <div class="text-[11px] text-zinc-500">Crystalline Chime</div>
+              <div class="text-[11px] text-zinc-500">{t.tingshaSubtitle}</div>
             </div>
             <span class="bell-check hidden font-bold text-xs">✓</span>
           </button>
@@ -221,7 +221,7 @@ const t = translations[lang] || translations.en;
         <!-- Intention / Dyad Presenter Note -->
         <div class="space-y-1">
           <label for="intention-input" class="block font-medium text-xs text-zinc-800 dark:text-zinc-200">
-            {t.intentionLabel} <span class="text-zinc-500 font-normal">(Optional)</span>
+            {t.intentionLabel} <span class="text-zinc-500 font-normal">({t.optionalLabel})</span>
           </label>
           <input
             id="intention-input"
