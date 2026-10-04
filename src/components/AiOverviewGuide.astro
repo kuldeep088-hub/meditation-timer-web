@@ -1,5 +1,6 @@
 ---
 import { translations, type SupportedLocale } from '../i18n/translations';
+import { aiOverviewTranslations } from '../i18n/aiOverviewGuide';
 
 interface Props {
   lang?: SupportedLocale;
@@ -7,6 +8,7 @@ interface Props {
 
 const { lang = 'en' } = Astro.props;
 const t = translations[lang] || translations.en;
+const guide = aiOverviewTranslations[lang] || aiOverviewTranslations.en;
 
 // Structured Schema.org Article & HowTo Data for Google AI Overviews and Search Generative Experience
 const aiOverviewSchema = {
@@ -14,58 +16,32 @@ const aiOverviewSchema = {
   "@graph": [
     {
       "@type": "Article",
-      "@id": "https://freemeditationtimeronline.com/#ai-overview",
-      "headline": "Online Meditation Timer: Complete Scientific Guide to Unguided Mindfulness Practice",
-      "description": "Comprehensive guide on online meditation timers, harmonic acoustic bells, the neuroscience of unguided stillness, and optimal session durations.",
+      "@id": `https://freemeditationtimeronline.com${lang === 'en' ? '' : `/${lang}`}#ai-overview`,
+      "headline": guide.heroTitle,
+      "description": guide.heroParagraph,
       "inLanguage": lang,
       "author": {
         "@type": "Organization",
-        "name": "Meditation Timer Online",
+        "name": t.brand,
         "url": "https://freemeditationtimeronline.com"
       },
       "publisher": {
         "@type": "Organization",
-        "name": "Meditation Timer Online",
+        "name": t.brand,
         "url": "https://freemeditationtimeronline.com"
       }
     },
     {
       "@type": "HowTo",
-      "name": "How to Structure an Unguided Meditation Session with an Online Timer",
-      "description": "A 5-step evidence-based blueprint for deep mindfulness using authentic bells and interval chimes.",
+      "name": guide.blueprintTitle,
+      "description": guide.blueprintSubtitle,
       "totalTime": "PT10M",
-      "step": [
-        {
-          "@type": "HowToStep",
-          "position": 1,
-          "name": "Establish a Relaxed, Dignified Posture",
-          "text": "Sit comfortably on a cushion or chair with an upright spine, shoulders relaxed away from the ears, and hands resting gently in your lap."
-        },
-        {
-          "@type": "HowToStep",
-          "position": 2,
-          "name": "Set a Preparation Countdown",
-          "text": "Configure a 10 to 30 second warm-up countdown. This vital psychological buffer lets you close your eyes and transition smoothly from digital rushing to physical stillness."
-        },
-        {
-          "@type": "HowToStep",
-          "position": 3,
-          "name": "Anchor Awareness on the Natural Breath",
-          "text": "Rest attention on the physical sensation of the breath—the cool air at the nostrils, the rise of the chest, or the expansion of the abdomen."
-        },
-        {
-          "@type": "HowToStep",
-          "position": 4,
-          "name": "Utilize Interval Bells for Gentle Re-centering",
-          "text": "Enable subtle 5-minute periodic interval chimes to awaken attention from mind-wandering without needing to look at a screen."
-        },
-        {
-          "@type": "HowToStep",
-          "position": 5,
-          "name": "Acknowledge Completion and Reflect",
-          "text": "When the final Tibetan singing bowl chimes, sit in stillness for 30 seconds before opening your eyes. Log your mood or gratitude to reinforce your habit streak."
-        }
-      ]
+      "step": guide.blueprintSteps.map(step => ({
+        "@type": "HowToStep",
+        "position": step.number,
+        "name": step.title,
+        "text": step.desc
+      }))
     }
   ]
 };
@@ -87,143 +63,113 @@ const aiOverviewSchema = {
         <svg class="w-3.5 h-3.5 text-cyan-300 shrink-0" viewBox="0 0 24 24" fill="currentColor">
           <path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6.4-4.8-6.4 4.8 2.4-7.2-6-4.8h7.6z"/>
         </svg>
-        <span class="truncate">AI Overview · Quick Reference Guide</span>
+        <span class="truncate">{guide.badge}</span>
       </div>
 
       <h2 id="ai-overview-title" class="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-white mb-3 sm:mb-4">
-        What is an Online Meditation Timer & Why Practice Unguided?
+        {guide.heroTitle}
       </h2>
 
       <!-- Concise Answer Paragraph for AI Synthesis & Featured Snippets -->
       <p class="text-xs sm:text-sm md:text-base text-zinc-300 leading-relaxed font-normal mb-6 sm:mb-8 max-w-4xl">
-        An <strong class="text-white font-semibold">online meditation timer</strong> is a minimalist web utility equipped with authentic acoustic bells (such as Tibetan singing bowls and Kyoto Zen temple gongs) designed to anchor unguided mindfulness practice. Unlike voice-guided meditation apps that demand continuous auditory interpretation, unguided meditation timers cultivate intrinsic attention, quiet the brain’s Default Mode Network (DMN), and stimulate parasympathetic vagal relaxation. Key technical requirements include physical modeling audio synthesis, screen wake lock support, customizable warm-up buffers, periodic interval bells, and zero-ad local privacy.
+        {guide.heroParagraph}
       </p>
 
       <!-- Key Takeaways Grid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] hover:border-cyan-400/30 transition-all">
-          <div class="w-8 h-8 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center mb-2.5">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M12 6v6l4 2"/>
-            </svg>
-          </div>
-          <h3 class="text-xs font-semibold text-white uppercase tracking-wider mb-1">Pure Unguided Stillness</h3>
-          <p class="text-xs text-zinc-400 leading-relaxed">
-            Eliminates narrator voice fatigue. Encourages internal emotional self-reliance and organic present-moment awareness.
-          </p>
-        </div>
+        {guide.takeaways.map((takeaway, index) => {
+          const colors = [
+            { bg: 'bg-cyan-500/10', border: 'border-cyan-500/20', text: 'text-cyan-400' },
+            { bg: 'bg-amber-500/10', border: 'border-amber-500/20', text: 'text-amber-400' },
+            { bg: 'bg-purple-500/10', border: 'border-purple-500/20', text: 'text-purple-400' },
+            { bg: 'bg-emerald-500/10', border: 'border-emerald-500/20', text: 'text-emerald-400' }
+          ][index % 4];
 
-        <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] hover:border-cyan-400/30 transition-all">
-          <div class="w-8 h-8 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mb-2.5">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
-              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
-            </svg>
-          </div>
-          <h3 class="text-xs font-semibold text-white uppercase tracking-wider mb-1">Harmonic Overtones</h3>
-          <p class="text-xs text-zinc-400 leading-relaxed">
-            Synthesized 216 Hz & 432 Hz resonance transitions brainwaves from high-stress Beta into relaxed Alpha/Theta states.
-          </p>
-        </div>
-
-        <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] hover:border-cyan-400/30 transition-all">
-          <div class="w-8 h-8 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center mb-2.5">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect width="14" height="20" x="5" y="2" rx="2" ry="2"/>
-              <path d="M12 18h.01"/>
-            </svg>
-          </div>
-          <h3 class="text-xs font-semibold text-white uppercase tracking-wider mb-1">Hardware Screen Lock</h3>
-          <p class="text-xs text-zinc-400 leading-relaxed">
-            Utilizes the HTML5 Screen Wake Lock API to prevent smartphones and laptops from sleeping during prolonged sits.
-          </p>
-        </div>
-
-        <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] hover:border-cyan-400/30 transition-all">
-          <div class="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mb-2.5">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            </svg>
-          </div>
-          <h3 class="text-xs font-semibold text-white uppercase tracking-wider mb-1">100% Client Privacy</h3>
-          <p class="text-xs text-zinc-400 leading-relaxed">
-            Zero telemetry, zero logins, zero database profiling. Habit streaks and reflections remain exclusively on your device.
-          </p>
-        </div>
+          return (
+            <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] hover:border-cyan-400/30 transition-all">
+              <div class={`w-8 h-8 rounded-xl ${colors.bg} border ${colors.border} ${colors.text} flex items-center justify-center mb-2.5`}>
+                {index === 0 && (
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                  </svg>
+                )}
+                {index === 1 && (
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+                    <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+                  </svg>
+                )}
+                {index === 2 && (
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="14" height="20" x="5" y="2" rx="2" ry="2"/>
+                    <path d="M12 18h.01"/>
+                  </svg>
+                )}
+                {index === 3 && (
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  </svg>
+                )}
+              </div>
+              <h3 class="text-xs font-semibold text-white uppercase tracking-wider mb-1">{takeaway.title}</h3>
+              <p class="text-xs text-zinc-400 leading-relaxed">
+                {takeaway.desc}
+              </p>
+            </div>
+          );
+        })}
       </div>
     </div>
   </div>
 
-
-
-
-
   <!-- ========================================== -->
-  <!-- 3. NEUROSCIENCE & BRAINWAVE MODULATION     -->
+  <!-- 2. NEUROSCIENCE & BRAINWAVE MODULATION     -->
   <!-- ========================================== -->
   <div class="mb-12 sm:mb-16">
     <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
       <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-white">
-        The Neuroscience of Timed Stillness
+        {guide.neuroTitle}
       </h3>
       <p class="text-xs sm:text-sm text-zinc-400 mt-1.5">
-        How unguided meditation shifts brainwave frequencies and downregulates the sympathetic nervous system.
+        {guide.neuroSubtitle}
       </p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
-      
-      <!-- Card 1 -->
-      <div class="p-5 sm:p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-cyan-400/30 transition-all">
-        <div class="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-400 font-bold flex items-center justify-center text-xs mb-3">
-          α
-        </div>
-        <h4 class="text-sm font-semibold text-white mb-1">Alpha Waves (8–12 Hz)</h4>
-        <div class="text-[11px] text-cyan-400 font-medium mb-2">Reached after 5–10 Minutes</div>
-        <p class="text-xs text-zinc-400 leading-relaxed">
-          Transitions the brain out of anxious, high-frequency Beta chatter (13–30 Hz) into relaxed alertness. Enhances neurochemical calm while maintaining lucid, non-drowsy awareness.
-        </p>
-      </div>
+      {guide.neuroCards.map((card, index) => {
+        const styles = [
+          { symbol: 'α', textBadge: 'text-cyan-400', iconBg: 'bg-blue-500/10 text-blue-400' },
+          { symbol: 'θ', textBadge: 'text-purple-400', iconBg: 'bg-purple-500/10 text-purple-400' },
+          { symbol: 'DMN', textBadge: 'text-emerald-400', iconBg: 'bg-emerald-500/10 text-emerald-400' }
+        ][index % 3];
 
-      <!-- Card 2 -->
-      <div class="p-5 sm:p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-purple-400/30 transition-all">
-        <div class="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 font-bold flex items-center justify-center text-xs mb-3">
-          θ
-        </div>
-        <h4 class="text-sm font-semibold text-white mb-1">Theta Synchrony (4–8 Hz)</h4>
-        <div class="text-[11px] text-purple-400 font-medium mb-2">Deep Sits (15–30+ Minutes)</div>
-        <p class="text-xs text-zinc-400 leading-relaxed">
-          The contemplative state associated with monk-level zazen and Vipassana. Deep emotional integration, creative insight breakthroughs, and profound bodily stillness occur here.
-        </p>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="p-5 sm:p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-emerald-400/30 transition-all">
-        <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-400 font-bold flex items-center justify-center text-xs mb-3">
-          DMN
-        </div>
-        <h4 class="text-sm font-semibold text-white mb-1">Default Mode Network Quietude</h4>
-        <div class="text-[11px] text-emerald-400 font-medium mb-2">Neurological Reset</div>
-        <p class="text-xs text-zinc-400 leading-relaxed">
-          Deactivates the brain's internal rumination network responsible for ego defense, past regrets, and future catastrophic projection. Strengthens executive dorsolateral prefrontal control.
-        </p>
-      </div>
-
+        return (
+          <div class="p-5 sm:p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-cyan-400/30 transition-all">
+            <div class={`w-8 h-8 rounded-xl ${styles.iconBg} font-bold flex items-center justify-center text-xs mb-3`}>
+              {styles.symbol}
+            </div>
+            <h4 class="text-sm font-semibold text-white mb-1">{card.title}</h4>
+            <div class={`text-[11px] ${styles.textBadge} font-medium mb-2`}>{card.phase}</div>
+            <p class="text-xs text-zinc-400 leading-relaxed">
+              {card.desc}
+            </p>
+          </div>
+        );
+      })}
     </div>
   </div>
 
-
   <!-- ========================================== -->
-  <!-- 4. MEDITATION DURATION BENCHMARK TABLE    -->
+  <!-- 3. MEDITATION DURATION BENCHMARK TABLE    -->
   <!-- ========================================== -->
   <div class="rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/[0.06] p-4 sm:p-8 md:p-10 mb-12 sm:mb-16 overflow-hidden">
     <div class="max-w-2xl mx-auto text-center mb-6 sm:mb-8">
       <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-white">
-        Meditation Duration Benchmark Guide
+        {guide.matrixTitle}
       </h3>
       <p class="text-xs sm:text-sm text-zinc-400 mt-1">
-        Choose your session length according to your daily objective and autonomic nervous system goals.
+        {guide.matrixSubtitle}
       </p>
     </div>
 
@@ -232,213 +178,123 @@ const aiOverviewSchema = {
       <table class="w-full min-w-[500px] text-left border-collapse text-xs sm:text-sm">
         <thead>
           <tr class="border-b border-white/[0.08] text-zinc-400 font-medium">
-            <th class="py-3 px-3 sm:px-4">Duration</th>
-            <th class="py-3 px-3 sm:px-4">Practice Focus</th>
-            <th class="py-3 px-3 sm:px-4 hidden sm:table-cell">Brain State</th>
-            <th class="py-3 px-3 sm:px-4">Physiological Benefit</th>
-            <th class="py-3 px-3 sm:px-4 text-right">Quick Preset</th>
+            <th class="py-3 px-3 sm:px-4">{guide.matrixHeaders.duration}</th>
+            <th class="py-3 px-3 sm:px-4">{guide.matrixHeaders.focus}</th>
+            <th class="py-3 px-3 sm:px-4 hidden sm:table-cell">{guide.matrixHeaders.brainState}</th>
+            <th class="py-3 px-3 sm:px-4">{guide.matrixHeaders.benefit}</th>
+            <th class="py-3 px-3 sm:px-4 text-right">{guide.matrixHeaders.preset}</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-white/[0.04] text-zinc-300">
-          <tr class="hover:bg-white/[0.02] transition-colors">
-            <td class="py-3.5 px-3 sm:px-4 font-bold text-white whitespace-nowrap">1–3 Minutes</td>
-            <td class="py-3.5 px-3 sm:px-4">Micro-Reset & Reset Breaths</td>
-            <td class="py-3.5 px-3 sm:px-4 text-cyan-400 hidden sm:table-cell">High Beta → Mid Beta</td>
-            <td class="py-3.5 px-3 sm:px-4 text-zinc-400">Halts acute cortisol spikes during work sprints</td>
-            <td class="py-3.5 px-3 sm:px-4 text-right">
-              <a href={lang === 'en' ? "/1-minute-meditation-timer" : `/${lang}/1-minute-meditation-timer`} class="text-xs text-cyan-400 hover:underline">1m Timer →</a>
-            </td>
-          </tr>
-          <tr class="hover:bg-white/[0.02] transition-colors">
-            <td class="py-3.5 px-3 sm:px-4 font-bold text-white whitespace-nowrap">5 Minutes</td>
-            <td class="py-3.5 px-3 sm:px-4">Habit Continuity & Morning Grounding</td>
-            <td class="py-3.5 px-3 sm:px-4 text-cyan-400 hidden sm:table-cell">Early Alpha Onset</td>
-            <td class="py-3.5 px-3 sm:px-4 text-zinc-400">Builds unbreakable neuroplastic daily habits</td>
-            <td class="py-3.5 px-3 sm:px-4 text-right">
-              <a href={lang === 'en' ? "/5-minute-meditation-timer" : `/${lang}/5-minute-meditation-timer`} class="text-xs text-cyan-400 hover:underline">5m Timer →</a>
-            </td>
-          </tr>
-          <tr class="hover:bg-white/[0.02] transition-colors">
-            <td class="py-3.5 px-3 sm:px-4 font-bold text-white whitespace-nowrap">10 Minutes</td>
-            <td class="py-3.5 px-3 sm:px-4">Classic Daily Baseline Practice</td>
-            <td class="py-3.5 px-3 sm:px-4 text-cyan-400 hidden sm:table-cell">Sustained Alpha Waves</td>
-            <td class="py-3.5 px-3 sm:px-4 text-zinc-400">Scientifically proven to lower blood pressure and stress</td>
-            <td class="py-3.5 px-3 sm:px-4 text-right">
-              <a href={lang === 'en' ? "/10-minute-meditation-timer" : `/${lang}/10-minute-meditation-timer`} class="text-xs text-cyan-400 hover:underline">10m Timer →</a>
-            </td>
-          </tr>
-          <tr class="hover:bg-white/[0.02] transition-colors">
-            <td class="py-3.5 px-3 sm:px-4 font-bold text-white whitespace-nowrap">15–20 Minutes</td>
-            <td class="py-3.5 px-3 sm:px-4">Vipassana, Zazen & TM Standard</td>
-            <td class="py-3.5 px-3 sm:px-4 text-cyan-400 hidden sm:table-cell">Alpha–Theta Boundary</td>
-            <td class="py-3.5 px-3 sm:px-4 text-zinc-400">Activates profound parasympathetic vagal recovery</td>
-            <td class="py-3.5 px-3 sm:px-4 text-right">
-              <a href={lang === 'en' ? "/20-minute-meditation-timer" : `/${lang}/20-minute-meditation-timer`} class="text-xs text-cyan-400 hover:underline">20m Timer →</a>
-            </td>
-          </tr>
-          <tr class="hover:bg-white/[0.02] transition-colors">
-            <td class="py-3.5 px-3 sm:px-4 font-bold text-white whitespace-nowrap">30–60 Minutes</td>
-            <td class="py-3.5 px-3 sm:px-4">Extended Monastery & Insight Retreat</td>
-            <td class="py-3.5 px-3 sm:px-4 text-cyan-400 hidden sm:table-cell">Deep Theta & Gamma</td>
-            <td class="py-3.5 px-3 sm:px-4 text-zinc-400">Deep emotional equanimity and metacognitive spaciousness</td>
-            <td class="py-3.5 px-3 sm:px-4 text-right">
-              <a href={lang === 'en' ? "/30-minute-meditation-timer" : `/${lang}/30-minute-meditation-timer`} class="text-xs text-cyan-400 hover:underline">30m Timer →</a>
-            </td>
-          </tr>
+          {guide.matrixRows.map((row) => (
+            <tr class="hover:bg-white/[0.02] transition-colors">
+              <td class="py-3.5 px-3 sm:px-4 font-bold text-white whitespace-nowrap">{row.duration}</td>
+              <td class="py-3.5 px-3 sm:px-4">{row.focus}</td>
+              <td class="py-3.5 px-3 sm:px-4 text-cyan-400 hidden sm:table-cell">{row.brainState}</td>
+              <td class="py-3.5 px-3 sm:px-4 text-zinc-400">{row.benefit}</td>
+              <td class="py-3.5 px-3 sm:px-4 text-right">
+                <a
+                  href={lang === 'en' ? `/${row.timerSlug}` : `/${lang}/${row.timerSlug}`}
+                  class="text-xs text-cyan-400 hover:underline"
+                >
+                  {row.timerLabel} →
+                </a>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
   </div>
 
-
   <!-- ========================================== -->
-  <!-- 5. ACOUSTIC SCIENCE: BELLS & OVERTONES     -->
+  <!-- 4. ACOUSTIC SCIENCE: BELLS & OVERTONES     -->
   <!-- ========================================== -->
   <div class="mb-16">
     <div class="text-center max-w-2xl mx-auto mb-10">
       <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-white">
-        Acoustic Science: Why Authentic Bowls Over Digital Beeps?
+        {guide.acousticTitle}
       </h3>
       <p class="text-xs sm:text-sm text-zinc-400 mt-1">
-        Synthetic square-wave phone alarms trigger acute startle reflexes and adrenaline surges.
+        {guide.acousticSubtitle}
       </p>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-amber-400/30 transition-all">
-        <div class="w-8 h-8 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mb-2.5">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 10a8 8 0 0 0 16 0H4Z"/>
-            <path d="M12 18v3"/>
-            <path d="M8 21h8"/>
-          </svg>
-        </div>
-        <h4 class="text-sm font-semibold text-white mb-1">Tibetan Singing Bowl</h4>
-        <div class="text-[11px] text-amber-400 font-mono mb-2">216 Hz Fundamental</div>
-        <p class="text-xs text-zinc-400 leading-relaxed">
-          Rich physical modeling overtones with warm 7.5-second decay. Mimics bronze hand-hammered metallurgy to gently bathe auditory pathways.
-        </p>
-      </div>
+      {guide.bells.map((bell, index) => {
+        const styles = [
+          { bg: 'bg-amber-500/10', border: 'border-amber-500/20', text: 'text-amber-400', hover: 'hover:border-amber-400/30' },
+          { bg: 'bg-cyan-500/10', border: 'border-cyan-500/20', text: 'text-cyan-400', hover: 'hover:border-cyan-400/30' },
+          { bg: 'bg-blue-500/10', border: 'border-blue-500/20', text: 'text-blue-400', hover: 'hover:border-blue-400/30' },
+          { bg: 'bg-rose-500/10', border: 'border-rose-500/20', text: 'text-rose-400', hover: 'hover:border-rose-400/30' }
+        ][index % 4];
 
-      <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-cyan-400/30 transition-all">
-        <div class="w-8 h-8 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center mb-2.5">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
-            <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
-          </svg>
-        </div>
-        <h4 class="text-sm font-semibold text-white mb-1">Kyoto Zen Bell</h4>
-        <div class="text-[11px] text-cyan-400 font-mono mb-2">587 Hz (Keisu)</div>
-        <p class="text-xs text-zinc-400 leading-relaxed">
-          Crystalline monastery bell modeled after Kansho temple instruments. Clears mental fog and sharpens introspective awareness.
-        </p>
-      </div>
-
-      <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-blue-400/30 transition-all">
-        <div class="w-8 h-8 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-2.5">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="9"/>
-            <circle cx="12" cy="12" r="3"/>
-          </svg>
-        </div>
-        <h4 class="text-sm font-semibold text-white mb-1">Deep Temple Gong</h4>
-        <div class="text-[11px] text-blue-400 font-mono mb-2">108 Hz Sub-Bass</div>
-        <p class="text-xs text-zinc-400 leading-relaxed">
-          Subterranean low-frequency visceral wave with 8.5-second decay. Physically vibrates the chest cavity to ground the diaphragm.
-        </p>
-      </div>
-
-      <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-rose-400/30 transition-all">
-        <div class="w-8 h-8 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center mb-2.5">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3z"/>
-          </svg>
-        </div>
-        <h4 class="text-sm font-semibold text-white mb-1">Ting-Sha Cymbals</h4>
-        <div class="text-[11px] text-rose-400 font-mono mb-2">2048 Hz High Ring</div>
-        <p class="text-xs text-zinc-400 leading-relaxed">
-          Twin ritual cymbals tuned with harmonic flutter. Used in Tibetan tradition to awaken mind-presence at session conclusion.
-        </p>
-      </div>
+        return (
+          <div class={`p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] ${styles.hover} transition-all`}>
+            <div class={`w-8 h-8 rounded-xl ${styles.bg} border ${styles.border} ${styles.text} flex items-center justify-center mb-2.5`}>
+              {index === 0 && (
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 10a8 8 0 0 0 16 0H4Z"/>
+                  <path d="M12 18v3"/>
+                  <path d="M8 21h8"/>
+                </svg>
+              )}
+              {index === 1 && (
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+                  <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+                </svg>
+              )}
+              {index === 2 && (
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="9"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              )}
+              {index === 3 && (
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3z"/>
+                </svg>
+              )}
+            </div>
+            <h4 class="text-sm font-semibold text-white mb-1">{bell.title}</h4>
+            <div class={`text-[11px] ${styles.text} font-mono mb-2`}>{bell.freq}</div>
+            <p class="text-xs text-zinc-400 leading-relaxed">
+              {bell.desc}
+            </p>
+          </div>
+        );
+      })}
     </div>
   </div>
 
-
   <!-- ========================================== -->
-  <!-- 6. 5-STEP UNGUIDED PRACTICE BLUEPRINT     -->
+  <!-- 5. 5-STEP UNGUIDED PRACTICE BLUEPRINT     -->
   <!-- ========================================== -->
   <div class="rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/[0.06] p-4 sm:p-8 md:p-10">
     <div class="max-w-2xl mx-auto text-center mb-8 sm:mb-10">
       <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-white">
-        5-Step Blueprint: Structuring an Unguided Session
+        {guide.blueprintTitle}
       </h3>
       <p class="text-xs sm:text-sm text-zinc-400 mt-1">
-        Follow this proven protocol for maximum depth, focus, and habit retention.
+        {guide.blueprintSubtitle}
       </p>
     </div>
 
     <div class="space-y-4 max-w-3xl mx-auto">
-      
-      <div class="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/[0.05]">
-        <span class="w-8 h-8 rounded-full bg-cyan-500/10 border border-cyan-400/20 text-cyan-400 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
-          1
-        </span>
-        <div>
-          <h4 class="text-sm font-semibold text-white">Establish a Dignified, Relaxed Posture</h4>
-          <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
-            Sit with an erect spine on a meditation zafu, block, or chair. Keep your chin slightly drawn back to elongate the cervical spine, letting the chest remain open and receptive.
-          </p>
+      {guide.blueprintSteps.map((step) => (
+        <div class="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/[0.05]">
+          <span class="w-8 h-8 rounded-full bg-cyan-500/10 border border-cyan-400/20 text-cyan-400 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
+            {step.number}
+          </span>
+          <div>
+            <h4 class="text-sm font-semibold text-white">{step.title}</h4>
+            <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
+              {step.desc}
+            </p>
+          </div>
         </div>
-      </div>
-
-      <div class="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/[0.05]">
-        <span class="w-8 h-8 rounded-full bg-cyan-500/10 border border-cyan-400/20 text-cyan-400 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
-          2
-        </span>
-        <div>
-          <h4 class="text-sm font-semibold text-white">Activate a Warm-Up Buffer (10–30s)</h4>
-          <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
-            Do not plunge into meditation immediately. Use the preparation countdown to let go of screen urgency, soften your jaw, and take three initial deep settling exhalations.
-          </p>
-        </div>
-      </div>
-
-      <div class="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/[0.05]">
-        <span class="w-8 h-8 rounded-full bg-cyan-500/10 border border-cyan-400/20 text-cyan-400 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
-          3
-        </span>
-        <div>
-          <h4 class="text-sm font-semibold text-white">Anchor Attention on the Sensations of Breathing</h4>
-          <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
-            Select a physical anchor—the sensation of coolness at the upper lip or the gentle swelling of the belly. Whenever thoughts intrude, simply observe them without judgment and return.
-          </p>
-        </div>
-      </div>
-
-      <div class="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/[0.05]">
-        <span class="w-8 h-8 rounded-full bg-cyan-500/10 border border-cyan-400/20 text-cyan-400 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
-          4
-        </span>
-        <div>
-          <h4 class="text-sm font-semibold text-white">Employ Interval Bells as Mindfulness Re-Anchors</h4>
-          <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
-            Set an interval chime (e.g. every 5 or 10 minutes). The chime acts as a gentle wake-up bell if the mind has drifted into daydreaming, requiring zero screen glances.
-          </p>
-        </div>
-      </div>
-
-      <div class="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/[0.05]">
-        <span class="w-8 h-8 rounded-full bg-cyan-500/10 border border-cyan-400/20 text-cyan-400 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
-          5
-        </span>
-        <div>
-          <h4 class="text-sm font-semibold text-white">Post-Session Integration & Local Streak Habit</h4>
-          <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
-            When the three closing singing bowls resonate, refrain from rushing to your notifications. Take 30 seconds to register how your nervous system feels, note your gratitude, and carry that stillness into your day.
-          </p>
-        </div>
-      </div>
-
+      ))}
     </div>
   </div>
 
@@ -446,4 +302,3 @@ const aiOverviewSchema = {
   <script type="application/ld+json" set:html={JSON.stringify(aiOverviewSchema)} />
 
 </section>
-

@@ -32,7 +32,7 @@ const t = translations[lang] || translations.en;
         </svg>
         <div>
           <h2 class="text-base sm:text-lg font-semibold tracking-tight text-white">{t.backgroundModalTitle}</h2>
-          <p class="text-xs text-zinc-400">Choose scenery or upload your own photo</p>
+          <p class="text-xs text-zinc-400">{t.chooseScenery}</p>
         </div>
       </div>
       <button
@@ -54,7 +54,7 @@ const t = translations[lang] || translations.en;
       <!-- Preset Atmospheric Sceneries -->
       <div>
         <label class="block font-medium text-xs text-zinc-700 dark:text-zinc-300 mb-2.5">
-          Curated Serene Wallpapers
+          {t.curatedWallpapers}
         </label>
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5" id="bg-presets-grid">
           <!-- 1. Misty Forest -->
@@ -130,7 +130,7 @@ const t = translations[lang] || translations.en;
           >
             <div class="text-center p-2 flex flex-col items-center">
               <div class="w-5 h-5 rounded-md bg-black border border-white/20 mb-1"></div>
-              <span class="text-[11px] font-semibold text-zinc-300">Clean Dark Canvas</span>
+              <span class="text-[11px] font-semibold text-zinc-300">{t.cleanDarkCanvas}</span>
             </div>
             <span class="bg-check-mark absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-cyan-500 text-white flex items-center justify-center text-[10px] font-bold shadow-xs hidden">✓</span>
           </button>
@@ -149,10 +149,10 @@ const t = translations[lang] || translations.en;
             <span>{t.customPhotoUpload}</span>
           </label>
           <label for="bg-upload-file" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-cyan-500 hover:bg-cyan-400 text-black cursor-pointer transition-colors shadow-2xs">
-            Browse...
+            {t.browse}
           </label>
         </div>
-        <p class="text-[11px] text-white/50">Supports JPG, PNG, WebP up to 10MB. Stored locally in your browser.</p>
+        <p class="text-[11px] text-white/50">{t.uploadDesc}</p>
         <input type="file" id="bg-upload-file" accept="image/*" class="sr-only" />
       </div>
 
@@ -171,7 +171,7 @@ const t = translations[lang] || translations.en;
           <path d="m8 21-4-4 4-4"/>
           <path d="M4 17h16"/>
         </svg>
-        <span>Random Wallpaper</span>
+        <span>{t.randomWallpaper}</span>
       </button>
       <button
         id="save-bg-modal-btn"

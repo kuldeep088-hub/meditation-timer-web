@@ -1,5 +1,13 @@
 ---
 // Footer.astro - Apple-inspired minimal footer with keyboard shortcuts & privacy commitment
+import { translations, type SupportedLocale } from '../i18n/translations';
+
+interface Props {
+  lang?: SupportedLocale;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = translations[lang] || translations.en;
 const currentYear = new Date().getFullYear();
 ---
 
@@ -9,10 +17,10 @@ const currentYear = new Date().getFullYear();
     <!-- Left: Branding & Privacy Pledge -->
     <div class="text-center sm:text-left space-y-1">
       <div class="font-medium text-zinc-800 dark:text-zinc-200">
-        Meditation Timer Online
+        {t.brand}
       </div>
       <p class="text-[11px] text-zinc-400">
-        100% Free · Private browser local storage · No tracking cookies · Screen wake lock enabled
+        {t.footerPledge}
       </p>
     </div>
 
@@ -20,15 +28,15 @@ const currentYear = new Date().getFullYear();
     <div class="hidden sm:flex flex-wrap items-center justify-center gap-3 text-[11px]">
       <span class="inline-flex items-center gap-1">
         <kbd class="px-1.5 py-0.5 rounded-md bg-zinc-100 dark:bg-white/[0.08] border border-zinc-200/90 dark:border-white/[0.1] font-mono text-[10px] text-zinc-700 dark:text-zinc-300">Space</kbd>
-        Start / Pause
+        {t.shortcutSpace}
       </span>
       <span class="inline-flex items-center gap-1">
         <kbd class="px-1.5 py-0.5 rounded-md bg-zinc-100 dark:bg-white/[0.08] border border-zinc-200/90 dark:border-white/[0.1] font-mono text-[10px] text-zinc-700 dark:text-zinc-300">Esc</kbd>
-        Reset
+        {t.shortcutEsc}
       </span>
       <span class="inline-flex items-center gap-1">
         <kbd class="px-1.5 py-0.5 rounded-md bg-zinc-100 dark:bg-white/[0.08] border border-zinc-200/90 dark:border-white/[0.1] font-mono text-[10px] text-zinc-700 dark:text-zinc-300">F</kbd>
-        Fullscreen
+        {t.shortcutFullscreen}
       </span>
     </div>
 

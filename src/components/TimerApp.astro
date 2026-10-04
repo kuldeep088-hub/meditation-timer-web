@@ -81,8 +81,8 @@ const clientI18n = JSON.stringify({
         </svg>
       </div>
       <div class="leading-snug">
-        <span class="font-bold text-white">First time?</span>
-        <span class="text-cyan-100/90 ml-1">Pick a time (3m or 5m is ideal), tap <strong class="text-cyan-300">Begin</strong>, and follow your breath.</span>
+        <span class="font-bold text-white">{t.firstTimeBadge}</span>
+        <span class="text-cyan-100/90 ml-1">{t.firstTimeTip}</span>
       </div>
     </div>
     <button id="dismiss-beginner-tip" type="button" class="text-white/40 hover:text-white p-1 rounded-full shrink-0 cursor-pointer touch-manipulation" aria-label="Dismiss helpful tip">
@@ -345,15 +345,15 @@ const clientI18n = JSON.stringify({
             </button>
             <button type="button" data-preset="180" class="preset-pill px-3 py-1.5 min-h-[36px] rounded-full text-xs font-medium border border-white/10 bg-white/10 hover:border-cyan-500 transition-all flex items-center justify-center gap-1.5">
               <span>3m</span>
-              <span class="text-[10px] text-cyan-300 font-semibold bg-cyan-500/20 px-1.5 py-0.5 rounded-full">Starter</span>
+              <span class="text-[10px] text-cyan-300 font-semibold bg-cyan-500/20 px-1.5 py-0.5 rounded-full">{t.starterBadge}</span>
             </button>
             <button type="button" data-preset="300" class="preset-pill px-3 py-1.5 min-h-[36px] rounded-full text-xs font-medium border border-white/10 bg-white/10 hover:border-cyan-500 transition-all flex items-center justify-center gap-1.5">
               <span>5m</span>
-              <span class="text-[10px] text-emerald-300 font-semibold bg-emerald-500/20 px-1.5 py-0.5 rounded-full">Daily</span>
+              <span class="text-[10px] text-emerald-300 font-semibold bg-emerald-500/20 px-1.5 py-0.5 rounded-full">{t.dailyBadge}</span>
             </button>
             <button type="button" data-preset="600" class="preset-pill active-preset px-3 py-1.5 min-h-[36px] rounded-full text-xs font-semibold border border-cyan-500 bg-cyan-500 text-white shadow-xs transition-all flex items-center justify-center gap-1">
               <span>10m</span>
-              <span class="text-[10px] text-white/80 font-normal">Classic</span>
+              <span class="text-[10px] text-white/80 font-normal">{t.classicBadge}</span>
             </button>
             <button type="button" data-preset="900" class="preset-pill px-2.5 py-1.5 min-h-[36px] rounded-full text-xs font-medium border border-white/10 bg-white/10 hover:border-cyan-500 transition-all flex items-center justify-center">
               15m
@@ -514,7 +514,7 @@ const clientI18n = JSON.stringify({
       id="quick-bg-chip"
       type="button"
       class="flex items-center gap-1.5 px-3.5 py-2 min-h-[40px] rounded-full bg-black/60 backdrop-blur-md hover:bg-black/80 active:scale-95 border border-white/10 text-zinc-200 transition-all shadow-2xs touch-manipulation cursor-pointer"
-      title="Change Wallpaper or Upload Photo"
+      title={t.chooseScenery}
     >
       <svg class="w-3.5 h-3.5 text-zinc-300 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>

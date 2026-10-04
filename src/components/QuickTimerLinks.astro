@@ -8,18 +8,125 @@ interface Props {
 const { lang = 'en' } = Astro.props;
 const t = translations[lang] || translations.en;
 
-const quickTimers = [
-  { slug: "1-minute-meditation-timer", label: "1 Min", desc: "Mindful Reset", seconds: 60 },
-  { slug: "3-minute-meditation-timer", label: "3 Mins", desc: "Quick Breathing", seconds: 180 },
-  { slug: "5-minute-meditation-timer", label: "5 Mins", desc: "Daily Clarity", seconds: 300 },
-  { slug: "10-minute-meditation-timer", label: "10 Mins", desc: "Classic Session", seconds: 600 },
-  { slug: "15-minute-meditation-timer", label: "15 Mins", desc: "Stress Relief", seconds: 900 },
-  { slug: "20-minute-meditation-timer", label: "20 Mins", desc: "Deep Stillness", seconds: 1200 },
-  { slug: "25-minute-meditation-timer", label: "25 Mins", desc: "Zen Focus", seconds: 1500 },
-  { slug: "30-minute-meditation-timer", label: "30 Mins", desc: "Vipassana Sit", seconds: 1800 },
-  { slug: "45-minute-meditation-timer", label: "45 Mins", desc: "Extended Sit", seconds: 2700 },
-  { slug: "1-hour-meditation-timer", label: "1 Hour", desc: "Retreat Depth", seconds: 3600 },
-];
+const timerDescs: Record<SupportedLocale, Record<string, { label: string; desc: string }>> = {
+  en: {
+    "1-minute-meditation-timer": { label: "1 Min", desc: "Mindful Reset" },
+    "3-minute-meditation-timer": { label: "3 Mins", desc: "Quick Breathing" },
+    "5-minute-meditation-timer": { label: "5 Mins", desc: "Daily Clarity" },
+    "10-minute-meditation-timer": { label: "10 Mins", desc: "Classic Session" },
+    "15-minute-meditation-timer": { label: "15 Mins", desc: "Stress Relief" },
+    "20-minute-meditation-timer": { label: "20 Mins", desc: "Deep Stillness" },
+    "25-minute-meditation-timer": { label: "25 Mins", desc: "Zen Focus" },
+    "30-minute-meditation-timer": { label: "30 Mins", desc: "Vipassana Sit" },
+    "45-minute-meditation-timer": { label: "45 Mins", desc: "Extended Sit" },
+    "1-hour-meditation-timer": { label: "1 Hour", desc: "Retreat Depth" },
+  },
+  es: {
+    "1-minute-meditation-timer": { label: "1 Min", desc: "Pausa Consciente" },
+    "3-minute-meditation-timer": { label: "3 Mins", desc: "Respiración Rápida" },
+    "5-minute-meditation-timer": { label: "5 Mins", desc: "Claridad Diaria" },
+    "10-minute-meditation-timer": { label: "10 Mins", desc: "Sesión Clásica" },
+    "15-minute-meditation-timer": { label: "15 Mins", desc: "Alivio del Estrés" },
+    "20-minute-meditation-timer": { label: "20 Mins", desc: "Quietud Profunda" },
+    "25-minute-meditation-timer": { label: "25 Mins", desc: "Enfoque Zen" },
+    "30-minute-meditation-timer": { label: "30 Mins", desc: "Práctica Vipassana" },
+    "45-minute-meditation-timer": { label: "45 Mins", desc: "Sesión Extendida" },
+    "1-hour-meditation-timer": { label: "1 Hora", desc: "Profundidad Retiro" },
+  },
+  ja: {
+    "1-minute-meditation-timer": { label: "1分", desc: "マインドフルリセット" },
+    "3-minute-meditation-timer": { label: "3分", desc: "クイック呼吸" },
+    "5-minute-meditation-timer": { label: "5分", desc: "毎日の習慣" },
+    "10-minute-meditation-timer": { label: "10分", desc: "定番セッション" },
+    "15-minute-meditation-timer": { label: "15分", desc: "ストレス解消" },
+    "20-minute-meditation-timer": { label: "20分", desc: "深い静寂" },
+    "25-minute-meditation-timer": { label: "25分", desc: "禅の集中" },
+    "30-minute-meditation-timer": { label: "30分", desc: "ヴィパッサナー" },
+    "45-minute-meditation-timer": { label: "45分", desc: "長時間の座禅" },
+    "1-hour-meditation-timer": { label: "1時間", desc: "リトリート瞑想" },
+  },
+  fr: {
+    "1-minute-meditation-timer": { label: "1 Min", desc: "Pause Conscience" },
+    "3-minute-meditation-timer": { label: "3 Mins", desc: "Respiration Rapide" },
+    "5-minute-meditation-timer": { label: "5 Mins", desc: "Clarté Quotidienne" },
+    "10-minute-meditation-timer": { label: "10 Mins", desc: "Séance Classique" },
+    "15-minute-meditation-timer": { label: "15 Mins", desc: "Anti-Stress" },
+    "20-minute-meditation-timer": { label: "20 Mins", desc: "Calme Profond" },
+    "25-minute-meditation-timer": { label: "25 Mins", desc: "Focus Zen" },
+    "30-minute-meditation-timer": { label: "30 Mins", desc: "Assise Vipassana" },
+    "45-minute-meditation-timer": { label: "45 Mins", desc: "Pratique Prolongée" },
+    "1-hour-meditation-timer": { label: "1 Heure", desc: "Profondeur Retraite" },
+  },
+  de: {
+    "1-minute-meditation-timer": { label: "1 Min", desc: "Achtsamer Reset" },
+    "3-minute-meditation-timer": { label: "3 Min", desc: "Kurze Atempause" },
+    "5-minute-meditation-timer": { label: "5 Min", desc: "Tägliche Klarheit" },
+    "10-minute-meditation-timer": { label: "10 Min", desc: "Klassische Sitzung" },
+    "15-minute-meditation-timer": { label: "15 Min", desc: "Stressabbau" },
+    "20-minute-meditation-timer": { label: "20 Min", desc: "Tiefe Stille" },
+    "25-minute-meditation-timer": { label: "25 Min", desc: "Zen-Fokus" },
+    "30-minute-meditation-timer": { label: "30 Min", desc: "Vipassana-Sitzung" },
+    "45-minute-meditation-timer": { label: "45 Min", desc: "Erweiterte Sitzung" },
+    "1-hour-meditation-timer": { label: "1 Std", desc: "Retreat-Tiefe" },
+  },
+  pt: {
+    "1-minute-meditation-timer": { label: "1 Min", desc: "Pausa Consciente" },
+    "3-minute-meditation-timer": { label: "3 Mins", desc: "Respiração Rápida" },
+    "5-minute-meditation-timer": { label: "5 Mins", desc: "Clareza Diária" },
+    "10-minute-meditation-timer": { label: "10 Mins", desc: "Sessão Clássica" },
+    "15-minute-meditation-timer": { label: "15 Mins", desc: "Alívio do Estresse" },
+    "20-minute-meditation-timer": { label: "20 Mins", desc: "Quietude Profunda" },
+    "25-minute-meditation-timer": { label: "25 Mins", desc: "Foco Zen" },
+    "30-minute-meditation-timer": { label: "30 Mins", desc: "Prática Vipassana" },
+    "45-minute-meditation-timer": { label: "45 Mins", desc: "Sessão Prolongada" },
+    "1-hour-meditation-timer": { label: "1 Hora", desc: "Profundidade Retiro" },
+  },
+  ko: {
+    "1-minute-meditation-timer": { label: "1분", desc: "마인드풀 리셋" },
+    "3-minute-meditation-timer": { label: "3분", desc: "빠른 호흡 조절" },
+    "5-minute-meditation-timer": { label: "5분", desc: "데일리 명상" },
+    "10-minute-meditation-timer": { label: "10분", desc: "클래식 세션" },
+    "15-minute-meditation-timer": { label: "15분", desc: "스트레스 완화" },
+    "20-minute-meditation-timer": { label: "20분", desc: "깊은 고요함" },
+    "25-minute-meditation-timer": { label: "25분", desc: "젠 집중" },
+    "30-minute-meditation-timer": { label: "30분", desc: "위빠사나 수련" },
+    "45-minute-meditation-timer": { label: "45분", desc: "장시간 좌선" },
+    "1-hour-meditation-timer": { label: "1시간", desc: "리트릿 몰입" },
+  },
+  it: {
+    "1-minute-meditation-timer": { label: "1 Min", desc: "Pausa Consapevole" },
+    "3-minute-meditation-timer": { label: "3 Min", desc: "Respiro Rapido" },
+    "5-minute-meditation-timer": { label: "5 Min", desc: "Chiarezza Quotidiana" },
+    "10-minute-meditation-timer": { label: "10 Min", desc: "Sessione Classica" },
+    "15-minute-meditation-timer": { label: "15 Min", desc: "Sollievo dallo Stress" },
+    "20-minute-meditation-timer": { label: "20 Min", desc: "Quiete Profonda" },
+    "25-minute-meditation-timer": { label: "25 Min", desc: "Focus Zen" },
+    "30-minute-meditation-timer": { label: "30 Min", desc: "Seduta Vipassana" },
+    "45-minute-meditation-timer": { label: "45 Min", desc: "Pratica Prolungata" },
+    "1-hour-meditation-timer": { label: "1 Ora", desc: "Profondità Ritiro" },
+  },
+};
+
+const localizedQuickTimers = [
+  { slug: "1-minute-meditation-timer", seconds: 60 },
+  { slug: "3-minute-meditation-timer", seconds: 180 },
+  { slug: "5-minute-meditation-timer", seconds: 300 },
+  { slug: "10-minute-meditation-timer", seconds: 600 },
+  { slug: "15-minute-meditation-timer", seconds: 900 },
+  { slug: "20-minute-meditation-timer", seconds: 1200 },
+  { slug: "25-minute-meditation-timer", seconds: 1500 },
+  { slug: "30-minute-meditation-timer", seconds: 1800 },
+  { slug: "45-minute-meditation-timer", seconds: 2700 },
+  { slug: "1-hour-meditation-timer", seconds: 3600 },
+].map(timer => {
+  const dict = timerDescs[lang] || timerDescs.en;
+  const meta = dict[timer.slug] || timerDescs.en[timer.slug];
+  return {
+    ...timer,
+    label: meta.label,
+    desc: meta.desc,
+  };
+});
 ---
 
 <section class="w-full max-w-5xl mx-auto px-4 sm:px-6 py-12 sm:py-16 border-t border-white/[0.08]">
@@ -36,7 +143,7 @@ const quickTimers = [
 
   <!-- Quick Timers Grid -->
   <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-16">
-    {quickTimers.map((timer) => (
+    {localizedQuickTimers.map((timer) => (
       <a
         href={lang === 'en' ? `/${timer.slug}` : `/${lang}/${timer.slug}`}
         class="group min-h-[68px] p-4 rounded-2xl bg-white/[0.03] hover:bg-white/[0.07] hover:-translate-y-1 hover:shadow-[0_8px_25px_rgba(6,182,212,0.16)] active:scale-[0.98] border border-white/[0.06] hover:border-cyan-400/40 transition-all duration-300 text-center flex flex-col items-center justify-center relative overflow-hidden"

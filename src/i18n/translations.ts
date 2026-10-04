@@ -106,6 +106,23 @@ export interface LocaleContent {
   backgroundModalTitle: string;
   customPhotoUpload: string;
   removePhoto: string;
+  firstTimeBadge: string;
+  firstTimeTip: string;
+  starterBadge: string;
+  dailyBadge: string;
+  classicBadge: string;
+  chooseScenery: string;
+  curatedWallpapers: string;
+  cleanDarkCanvas: string;
+  uploadDesc: string;
+  browse: string;
+  randomWallpaper: string;
+  footerPledge: string;
+  shortcutSpace: string;
+  shortcutEsc: string;
+  shortcutFullscreen: string;
+  tipForSession: string;
+  sessionTips: Record<number, string>;
   faqs: Array<{ question: string; answer: string }>;
 }
 
@@ -203,6 +220,34 @@ export const translations: Record<SupportedLocale, LocaleContent> = {
     backgroundModalTitle: "Atmosphere & Wallpaper",
     customPhotoUpload: "Upload Custom Photo",
     removePhoto: "Remove Custom Photo",
+    firstTimeBadge: "First time?",
+    firstTimeTip: "Pick a time (3m or 5m is ideal), tap Begin, and follow your breath.",
+    starterBadge: "Starter",
+    dailyBadge: "Daily",
+    classicBadge: "Classic",
+    chooseScenery: "Choose scenery or upload your own photo",
+    curatedWallpapers: "Curated Serene Wallpapers",
+    cleanDarkCanvas: "Clean Dark Canvas",
+    uploadDesc: "Supports JPG, PNG, WebP up to 10MB. Stored locally in your browser.",
+    browse: "Browse...",
+    randomWallpaper: "Random Wallpaper",
+    footerPledge: "100% Free · Private browser local storage · No tracking cookies · Screen wake lock enabled",
+    shortcutSpace: "Start / Pause",
+    shortcutEsc: "Reset",
+    shortcutFullscreen: "Fullscreen",
+    tipForSession: "Mindfulness Tip for this Session",
+    sessionTips: {
+      1: "Take three slow, conscious breaths. Inhale for 4 seconds, exhale for 4 seconds. Notice the immediate drop in cortisol.",
+      3: "Focus entirely on the physical sensations at the tip of your nostrils or the rising and falling of your abdomen.",
+      5: "Don't judge wandering thoughts. Each time you notice your mind drifting and gently return, you strengthen attentional circuits.",
+      10: "Allow your posture to be upright yet relaxed. Keep your chin slightly tucked and let your shoulders melt away from your ears.",
+      15: "Use the periodic interval bell in the settings if you like a gentle chime halfway through to refresh your presence.",
+      20: "Observe sensations without reacting. Whatever arises — an itch, restlessness, warmth — simply welcome it with curiosity.",
+      25: "Treat the first 5 minutes as an invitation to arrive, the middle 15 as stabilization, and the final 5 as radiant stillness.",
+      30: "Pay attention to the space between thoughts. In that silence lies profound clarity.",
+      45: "Surrender effort. When sitting for 45 minutes, meditation ceases to be a task and becomes a natural state of being.",
+      60: "Ground yourself periodically in physical contact points — sit bones on the cushion, hands in your lap."
+    },
     faqs: [
       {
         question: "What is Meditation Timer Online?",
@@ -332,6 +377,34 @@ export const translations: Record<SupportedLocale, LocaleContent> = {
     backgroundModalTitle: "Atmósfera y Fondo",
     customPhotoUpload: "Subir Foto Propia",
     removePhoto: "Eliminar Foto",
+    firstTimeBadge: "¿Primera vez?",
+    firstTimeTip: "Elige un tiempo (3m o 5m es ideal), pulsa Iniciar y sigue tu respiración.",
+    starterBadge: "Principiante",
+    dailyBadge: "Diario",
+    classicBadge: "Clásico",
+    chooseScenery: "Elige un paisaje o sube tu propia foto",
+    curatedWallpapers: "Fondos serenos seleccionados",
+    cleanDarkCanvas: "Lienzo oscuro minimalista",
+    uploadDesc: "Admite JPG, PNG, WebP hasta 10 MB. Guardado localmente en tu navegador.",
+    browse: "Examinar...",
+    randomWallpaper: "Fondo aleatorio",
+    footerPledge: "100% Gratuito · Almacenamiento local privado en navegador · Sin cookies de rastreo · Bloqueo de suspensión de pantalla activo",
+    shortcutSpace: "Iniciar / Pausa",
+    shortcutEsc: "Reiniciar",
+    shortcutFullscreen: "Pantalla completa",
+    tipForSession: "Consejo de atención plena para esta sesión",
+    sessionTips: {
+      1: "Toma tres respiraciones lentas y conscientes. Inhala durante 4 segundos, exhala durante 4 segundos. Siente la reducción inmediata del estrés.",
+      3: "Concéntrate plenamente en las sensaciones físicas en la punta de tu nariz o en el movimiento suave de tu abdomen.",
+      5: "No juzgues los pensamientos errantes. Cada vez que notas la distracción y regresas con amabilidad, fortaleces tu mente.",
+      10: "Mantén una postura erguida pero relajada. Suaviza los hombros y permite que tu respiración fluya de forma natural.",
+      15: "Usa la campana de intervalos en los ajustes si deseas un suave toque a mitad de sesión para refrescar tu presencia.",
+      20: "Observa las sensaciones sin reaccionar. Sea lo que sea que surja (tensión, inquietud o calma), acógelo con curiosidad.",
+      25: "Dedica los primeros 5 minutos a asentarte, los siguientes 15 a la estabilización y los últimos 5 a la quietud serena.",
+      30: "Presta atención al espacio silencioso entre pensamientos. En ese silencio reside una profunda claridad.",
+      45: "Abandona el esfuerzo. En una sesión de 45 minutos, la meditación deja de ser una tarea y se convierte en un estado natural.",
+      60: "Conéctate periódicamente con los puntos de contacto físico: los huesos al sentarte y tus manos reposando sobre el regazo."
+    },
     faqs: [
       {
         question: "¿Qué es este temporizador de meditación online?",
@@ -445,6 +518,34 @@ export const translations: Record<SupportedLocale, LocaleContent> = {
     backgroundModalTitle: "背景と雰囲気",
     customPhotoUpload: "写真をアップロード",
     removePhoto: "写真を削除",
+    firstTimeBadge: "初めてですか？",
+    firstTimeTip: "時間（3分または5分がおすすめ）を選び、「開始」をタップして自然な呼吸に意識を向けましょう。",
+    starterBadge: "入門",
+    dailyBadge: "デイリー",
+    classicBadge: "定番",
+    chooseScenery: "風景を選択するか、お好みの写真をアップロード",
+    curatedWallpapers: "厳選された穏やかな背景",
+    cleanDarkCanvas: "クリーンなダークキャンバス",
+    uploadDesc: "JPG、PNG、WebP（最大10MB）に対応。ブラウザ内にローカル保存されます。",
+    browse: "参照...",
+    randomWallpaper: "ランダムな背景",
+    footerPledge: "完全無料 · ブラウザローカル保存でプライバシー保護 · 追跡クッキーなし · 画面スリープ防止対応",
+    shortcutSpace: "開始 / 一時停止",
+    shortcutEsc: "リセット",
+    shortcutFullscreen: "全画面表示",
+    tipForSession: "このセッションの瞑想のヒント",
+    sessionTips: {
+      1: "3回ゆっくり深呼吸をしましょう。4秒吸って4秒吐きます。コルチゾールがすっと下がるのを感じてください。",
+      3: "鼻先の空気の出入りや、お腹が自然に膨らみへこむ身体の感覚に意識を集中します。",
+      5: "雑念が浮かんでも自分を責めないでください。気が散ったと気づいて呼吸に戻るたびに、集中力の脳回路が鍛えられます。",
+      10: "背筋を自然に伸ばし、肩の力を抜きましょう。あごを軽く引いてリラックスした姿勢を保ちます。",
+      15: "中盤で意識をリフレッシュしたい場合は、設定から中間インターバルベルをお使いください。",
+      20: "湧き上がる感覚に反応せず、ただ観察しましょう。かゆみや落ち着かなさも好奇心を持って受け止めます。",
+      25: "最初の5分で心を落ち着かせ、中盤の15分で安定させ、最後の5分で静寂を味わいます。",
+      30: "思考と思考の間の静寂に耳を傾けてみてください。その隙間に澄み切った明晰さがあります。",
+      45: "努力を手放しましょう。45分座ると、瞑想は「行うこと」から「自然な在り方」へと変化します。",
+      60: "座面に触れているお尻や、膝の上にある手の感覚など、身体の接地感に定期的に意識を戻しましょう。"
+    },
     faqs: [
       {
         question: "瞑想タイマーオンラインとは何ですか？",
@@ -554,6 +655,34 @@ export const translations: Record<SupportedLocale, LocaleContent> = {
     backgroundModalTitle: "Ambiance & Fond d'écran",
     customPhotoUpload: "Télécharger une photo",
     removePhoto: "Supprimer la photo",
+    firstTimeBadge: "Première fois ?",
+    firstTimeTip: "Choisissez une durée (3 min ou 5 min sont idéales), appuyez sur Commencer et suivez votre souffle.",
+    starterBadge: "Débutant",
+    dailyBadge: "Quotidien",
+    classicBadge: "Classique",
+    chooseScenery: "Choisissez un décor ou téléversez votre photo",
+    curatedWallpapers: "Fonds d'écran sereins sélectionnés",
+    cleanDarkCanvas: "Toile sombre épurée",
+    uploadDesc: "Prend en charge JPG, PNG, WebP jusqu'à 10 Mo. Stocké localement dans votre navigateur.",
+    browse: "Parcourir...",
+    randomWallpaper: "Fond d'écran aléatoire",
+    footerPledge: "100% Gratuit · Stockage local privé dans le navigateur · Aucun cookie de suivi · Maintien de l'écran allumé actif",
+    shortcutSpace: "Démarrer / Pause",
+    shortcutEsc: "Réinitialiser",
+    shortcutFullscreen: "Plein écran",
+    tipForSession: "Conseil de pleine conscience pour cette session",
+    sessionTips: {
+      1: "Prenez trois respirations lentes et conscientes. Inspirez 4 secondes, expirez 4 secondes. Constatez la détente immédiate.",
+      3: "Portez votre attention sur la sensation de l'air au bord des narines ou sur le va-et-vient de votre ventre.",
+      5: "Ne jugez pas vos pensées vagabondes. Chaque retour bienveillant au souffle renforce vos circuits d'attention.",
+      10: "Adoptez une posture droite mais détendue. Baissez légèrement le menton et relâchez vos épaules.",
+      15: "Activez le carillon d'intervalle dans les paramètres pour vous recentrer doucement à mi-parcours.",
+      20: "Observez les sensations sans réagir. Quoi qu'il arrive (démangeaison, agitation), accueillez-le avec bienveillance.",
+      25: "Prenez 5 minutes pour vous installer, 15 minutes pour vous stabiliser et 5 minutes de quiétude rayonnante.",
+      30: "Soyez attentif à l'espace entre deux pensées. Dans ce silence réside une profonde clarté.",
+      45: "Abandonnez l'effort. Après 45 minutes, la méditation cesse d'être un exercice pour devenir un état naturel d'être.",
+      60: "Ancrez-vous régulièrement dans vos sensations physiques : le contact avec le coussin, les mains posées sur les genoux."
+    },
     faqs: [
       {
         question: "Qu'est-ce que ce minuteur de méditation en ligne ?",
@@ -663,6 +792,34 @@ export const translations: Record<SupportedLocale, LocaleContent> = {
     backgroundModalTitle: "Atmosphäre & Hintergrund",
     customPhotoUpload: "Eigenes Foto hochladen",
     removePhoto: "Foto entfernen",
+    firstTimeBadge: "Zum ersten Mal hier?",
+    firstTimeTip: "Wähle eine Zeit (3 oder 5 Min. sind ideal), tippe auf Starten und folge deinem Atem.",
+    starterBadge: "Einsteiger",
+    dailyBadge: "Täglich",
+    classicBadge: "Klassisch",
+    chooseScenery: "Hintergrund wählen oder eigenes Foto hochladen",
+    curatedWallpapers: "Ausgewählte ruhige Hintergrundbilder",
+    cleanDarkCanvas: "Minimalistische dunkle Leinwand",
+    uploadDesc: "Unterstützt JPG, PNG, WebP bis zu 10 MB. Lokal in deinem Browser gespeichert.",
+    browse: "Durchsuchen...",
+    randomWallpaper: "Zufälliger Hintergrund",
+    footerPledge: "100% Kostenlos · Privater lokaler Browserspeicher · Keine Tracking-Cookies · Bildschirm-Wachhaltefunktion aktiv",
+    shortcutSpace: "Start / Pause",
+    shortcutEsc: "Zurücksetzen",
+    shortcutFullscreen: "Vollbild",
+    tipForSession: "Achtsamkeits-Tipp für diese Sitzung",
+    sessionTips: {
+      1: "Nimm drei langsame, bewusste Atemzüge. 4 Sekunden einatmen, 4 Sekunden ausatmen. Spüre die sofortige Entlastung.",
+      3: "Konzentriere dich ganz auf die physischen Empfindungen an deinen Nasenflügeln oder das Heben und Senken deiner Bauchdecke.",
+      5: "Urteile nicht über abschweifende Gedanken. Jedes sanfte Zurückkehren zum Atem stärkt deine neuronalen Aufmerksamkeitsnetzwerke.",
+      10: "Halte eine aufrechte, aber entspannte Haltung. Ziehe das Kinn leicht an und lasse deine Schultern sinken.",
+      15: "Nutze die Intervallglocke in den Einstellungen, um dich zur Halbzeit sanft an die Gegenwärtigkeit zu erinnern.",
+      20: "Beobachte Empfindungen, ohne darauf zu reagieren. Nimm alles, was auftaucht, mit ruhiger Neugier wahr.",
+      25: "Nutze die ersten 5 Minuten zum Ankommen, die mittleren 15 zur Stabilisierung und die letzten 5 für strahlende Stille.",
+      30: "Achte auf den Raum zwischen den Gedanken. In dieser Stille liegt vollkommene Klarheit.",
+      45: "Gib jede Anstrengung auf. Nach 45 Minuten wird Meditation vom Tun zum natürlichen Zustand des Seins.",
+      60: "Verankere dich immer wieder in den physischen Kontaktpunkten: Sitzbeinhöcker auf dem Kissen, Hände im Schoß."
+    },
     faqs: [
       {
         question: "Was ist die Meditationsuhr Online?",
@@ -772,6 +929,34 @@ export const translations: Record<SupportedLocale, LocaleContent> = {
     backgroundModalTitle: "Atmosfera e Fundo",
     customPhotoUpload: "Enviar Foto Própria",
     removePhoto: "Remover Foto",
+    firstTimeBadge: "Primeira vez?",
+    firstTimeTip: "Escolha um tempo (3m ou 5m é ideal), toque em Iniciar e acompanhe a sua respiração.",
+    starterBadge: "Iniciante",
+    dailyBadge: "Diário",
+    classicBadge: "Clássico",
+    chooseScenery: "Escolha um cenário ou envie a sua própria foto",
+    curatedWallpapers: "Papéis de parede serenos selecionados",
+    cleanDarkCanvas: "Fundo escuro minimalista",
+    uploadDesc: "Suporta JPG, PNG, WebP até 10MB. Armazenado localmente no seu navegador.",
+    browse: "Procurar...",
+    randomWallpaper: "Papel de parede aleatório",
+    footerPledge: "100% Gratuito · Armazenamento local privado no navegador · Sem cookies de rastreio · Bloqueio de suspensão de ecrã ativo",
+    shortcutSpace: "Iniciar / Pausa",
+    shortcutEsc: "Reiniciar",
+    shortcutFullscreen: "Ecrã inteiro",
+    tipForSession: "Dica de atenção plena para esta sessão",
+    sessionTips: {
+      1: "Dê três respirações lentas e conscientes. Inspire por 4 segundos, expire por 4 segundos. Sinta o alívio imediato do cortisol.",
+      3: "Concentre-se totalmente nas sensações físicas na ponta do nariz ou no subir e descer suave do abdómen.",
+      5: "Não julgue pensamentos passageiros. Cada vez que percebe a distração e retorna com gentileza, fortalece a sua atenção.",
+      10: "Mantenha a postura ereta mas relaxada. Recolha suavemente o queixo e deixe os ombros descerem confortavelmente.",
+      15: "Ative o sino de intervalo nas definições caso deseje um toque suave a meio da sessão para renovar a presença.",
+      20: "Observe as sensações sem reagir. O que quer que surja (desconforto, agitação ou calma), receba com curiosidade.",
+      25: "Dedique os primeiros 5 minutos a assentar-se, os 15 seguintes à estabilização e os 5 finais à quietude pura.",
+      30: "Preste atenção ao espaço de silêncio entre os pensamentos. Nessa pausa reside uma clareza profunda.",
+      45: "Abandone o esforço. Em 45 minutos, a meditação deixa de ser um dever e passa a ser um estado natural de ser.",
+      60: "Ancore-se periodicamente nos pontos de contacto físico: os ísquios na almofada e as mãos no colo."
+    },
     faqs: [
       {
         question: "O que é o Temporizador de Meditação Online?",
@@ -881,6 +1066,34 @@ export const translations: Record<SupportedLocale, LocaleContent> = {
     backgroundModalTitle: "분위기 및 배경화면",
     customPhotoUpload: "사진 업로드",
     removePhoto: "사진 삭제",
+    firstTimeBadge: "처음이신가요?",
+    firstTimeTip: "시간(3분 또는 5분 권장)을 선택하고 '시작'을 누른 뒤 자연스러운 호흡에 집중해 보세요.",
+    starterBadge: "입문",
+    dailyBadge: "데일리",
+    classicBadge: "클래식",
+    chooseScenery: "배경 풍경을 선택하거나 나만의 사진 업로드",
+    curatedWallpapers: "엄선된 고요한 배경화면",
+    cleanDarkCanvas: "깔끔한 다크 캔버스",
+    uploadDesc: "JPG, PNG, WebP 최대 10MB 지원. 브라우저 로컬에 안전하게 저장됩니다.",
+    browse: "찾아보기...",
+    randomWallpaper: "랜덤 배경",
+    footerPledge: "100% 무료 · 브라우저 로컬 저장으로 철저한 개인정보 보호 · 추적 쿠키 없음 · 화면 꺼짐 방지 지원",
+    shortcutSpace: "시작 / 일시정지",
+    shortcutEsc: "초기화",
+    shortcutFullscreen: "전체화면",
+    tipForSession: "이번 세션을 위한 마음챙김 팁",
+    sessionTips: {
+      1: "천천히 깊게 세 번 숨을 들이쉬고 내쉬어 보세요. 4초 들이쉬고 4초 내쉬며 긴장이 풀리는 것을 느껴봅니다.",
+      3: "코끝을 스치는 공기의 감촉이나 배가 오르내리는 자연스러운 움직임에 주의를 기울입니다.",
+      5: "잡념이 떠올라도 자책하지 마세요. 딴생각을 알아차리고 부드럽게 호흡으로 돌아올 때 뇌의 집중 회로가 강화됩니다.",
+      10: "허리를 편안히 곧게 펴고 어깨의 긴장을 풀어줍니다. 턱을 살짝 당기고 자연스러운 호흡을 유지하세요.",
+      15: "중간에 집중을 새롭게 환기하고 싶다면 설정에서 주기적인 간격 차임을 활용해 보세요.",
+      20: "몸에 일어나는 감각을 반응하지 않고 그저 바라보세요. 가려움이나 조급함도 호기심을 가지고 온화하게 수용합니다.",
+      25: "첫 5분은 편안한 정돈, 중간 15분은 안정된 몰입, 마지막 5분은 맑은 고요함을 음미합니다.",
+      30: "생각과 생각 사이의 고요한 빈 공간에 주목해 보세요. 그 침묵 속에 깊은 명료함이 깃들어 있습니다.",
+      45: "애쓰기를 내려놓으세요. 45분간 앉아있으면 명상은 무언가를 하는 행위가 아니라 자연스러운 존재 상태가 됩니다.",
+      60: "방석에 닿는 엉덩이의 감각, 무릎 위에 얹은 손 등 신체 접촉 부위에 주기적으로 주의를 두어 몸을 그라운딩하세요."
+    },
     faqs: [
       {
         question: "온라인 명상 타이머는 어떤 도구인가요?",
@@ -990,6 +1203,34 @@ export const translations: Record<SupportedLocale, LocaleContent> = {
     backgroundModalTitle: "Atmosfera e Sfondo",
     customPhotoUpload: "Carica Foto",
     removePhoto: "Rimuovi Foto",
+    firstTimeBadge: "Prima volta?",
+    firstTimeTip: "Scegli un tempo (3 o 5 min sono ideali), tocca Inizia e segui il ritmo naturale del tuo respiro.",
+    starterBadge: "Principiante",
+    dailyBadge: "Giornaliero",
+    classicBadge: "Classico",
+    chooseScenery: "Scegli uno sfondo o carica una tua foto",
+    curatedWallpapers: "Sfondi rilassanti selezionati",
+    cleanDarkCanvas: "Sfondo scuro minimale",
+    uploadDesc: "Supporta JPG, PNG, WebP fino a 10 MB. Salvato localmente nel tuo browser.",
+    browse: "Sfoglia...",
+    randomWallpaper: "Sfondo casuale",
+    footerPledge: "100% Gratuito · Archiviazione locale privata nel browser · Nessun cookie di tracciamento · Blocco sospensione schermo attivo",
+    shortcutSpace: "Inizia / Pausa",
+    shortcutEsc: "Reimposta",
+    shortcutFullscreen: "Schermo intero",
+    tipForSession: "Consiglio di presenza per questa sessione",
+    sessionTips: {
+      1: "Fai tre respiri lenti e consapevoli. Inspira per 4 secondi, espira per 4 secondi. Nota la distensione immediata.",
+      3: "Concentrati sulle sensazioni fisiche sulla punta del naso o sul movimento fluido dell'addome.",
+      5: "Non giudicare i pensieri vaganti. Ogni volta che noti la distrazione e torni con dolcezza al respiro, rinforzi la tua attenzione.",
+      10: "Mantieni una postura eretta ma rilassata. Rientra leggermente il mento e lascia cadere le spalle dolcemente.",
+      15: "Attiva la campana a intervalli nelle impostazioni se desideri un tocco a metà sessione per ravvivare la presenza.",
+      20: "Osserva le sensazioni senza reagire. Qualsiasi cosa emerga (inquietudine, calore, tensione), accoglila con curiosità.",
+      25: "Dedica i primi 5 minuti ad arrivare, i successivi 15 alla stabilizzazione e gli ultimi 5 alla quiete radiosa.",
+      30: "Porta l'attenzione allo spazio tra un pensiero e l'altro. In quel silenzio risiede una profonda chiarezza.",
+      45: "Abbandona ogni sforzo. In una seduta di 45 minuti, la meditazione smette di essere un dovere e diventa il tuo stato naturale.",
+      60: "Radicati periodicamente nei punti di contatto: il bacino sul cuscino, le mani rilassate sulle gambe."
+    },
     faqs: [
       {
         question: "Cos'è il Timer Meditazione Online?",
